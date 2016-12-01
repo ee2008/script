@@ -2,23 +2,40 @@
 # plot base content and Q30 along reads
 # @wxian2016Aug10
 
+# fix X11
+options(bitmapType='cairo') 
+
 argv <- commandArgs(TRUE)
 if (length(argv) < 6) {
   cat (
-    "Usage: Rscript $0 <sample_fqstat.txt> <sample_fq.txt> <sample_depth.txt> <sample_chr.txt> <sample_name> <out_dir>\n")
+    "Usage: Rscript $0 <sample_filterstat.txt> <sample_fqstat.txt> <sample_fq.txt> <sample_depth.txt> <sample_chr.txt> <sample_name> <out_dir>\n")
   q()
 }
 
-base_data <- as.character(argv[1])
-q_data <- as.character(argv[2])
-d_data <- as.character(argv[3])
-c_data <- as.character(argv[4])
-sample_name <- as.character(argv[5])
-out_dir <- as.character(argv[6])
+raw_data <- as.character(argv[1])
+base_data <- as.character(argv[2])
+q_data <- as.character(argv[3])
+d_data <- as.character(argv[4])
+c_data <- as.character(argv[5])
+sample_name <- as.character(argv[6])
+out_dir <- as.character(argv[7])
 library("ggplot2")
 library("reshape2")
 library("grid")
 library("gtable")
+
+
+# plot raw data content
+raw_reads <- read.table(raw_data, sep = "\t", stringsAsFactors =T)
+data <- c(raw_reads[1,9]/raw_reads[1,2] * 100, raw_reads[1,6], raw_reads[1,8], raw_reads[1,5])
+data_percentage <- round(data, 2)
+df = data.frame(percentage = data_percentage, type = c('Clean Reads', 'Adapter Filter', 'Duplicated Filter', 'Low Quality Filter'))
+myLabel <- as.vector(df$type)
+myLabel <- paste(myLabel, '(', df$percentage,'%)', sep = "")
+png(paste0(out_dir, '/', sample_name, "_raw_reads_composition.png"))
+pie <- ggplot(df, aes(x = '', y = percentage, fill = type)) + geom_bar(stat = 'identity', width = 1) + coord_polar('y') + theme_bw() + labs(x = "", y = "", title = paste0("Classification of Raw Reads(", sample_name, ")")) + theme(text = element_text(family = "Arial"), plot.title = element_text(size = 16, face = "bold"), axis.ticks = element_blank(), axis.text.x = element_blank(), legend.title = element_blank(), legend.key = element_rect(linetype = 0)) + scale_fill_discrete(breaks = df$type, labels = myLabel) + theme(panel.grid = element_blank()) + theme(panel.border = element_blank()) 
+print (pie)
+dev.off()
 
 
 # plot base content
@@ -83,7 +100,7 @@ data_c= read.table(c_data, sep = "\t", header = T, stringsAsFactors = T)
 chr=data_c[,1]
 data_c$Chr <- ordered(data_c$Chr,chr)
 #data_c[order(data_c$Chr),]
-p1 <- ggplot(data_c) + geom_bar(aes(x = Chr, y = Depth),fill="red", stat = 'identity', colour = "red", width=0.5) + theme_bw() + ylab("Mean depth") + theme(panel.grid.major = element_line(colour = NA), panel.background = element_rect(fill = "grey90", colour = "black")) + ggtitle("每条染色体的平均覆盖深度柱状图（左）和覆盖率折线图（右）") 
+p1 <- ggplot(data_c) + geom_bar(aes(x = Chr, y = Depth),fill="red", stat = 'identity', colour = "red", width=0.5) + scale_y_continuous(limits = c(0, 100)) +  theme_bw() + ylab("Mean depth") + theme(panel.grid.major = element_line(colour = NA), panel.background = element_rect(fill = "grey90", colour = "black")) + ggtitle("每条染色体的平均覆盖深度柱状图（左）和覆盖率折线图（右）") 
 
 p2 <- ggplot(data_c, aes(x = Chr, y = Cov, group = 1)) + geom_line(aes(y = Cov),colour="blue", size=1) + scale_y_continuous(limits = c(0, 100)) + theme_bw() %+replace% theme(panel.background = element_rect(fill = NA)) + ylab("Proportion of covered bases") + theme(panel.grid.minor = element_line(colour = NA))
 

@@ -8,7 +8,12 @@ OUT_dir="$3"
 perl_scr="$(dirname $0)/QC_plot_data.pl"
 R_scr="$(dirname $0)/QC_plot.R"
 
+[[ ! -d $OUT_dir ]] && mkdir -pv $OUT_dir
+
 echo "> START $0 @$(date)"
+
+#get the raw data content
+out_raw=$IN_dir/qc/filter/${sample_name}_filterstat.txt
 
 #get the base content data and output file
 base_r1=$IN_dir/qc/raw/${sample_name}_R1_fqstat.txt
@@ -38,7 +43,8 @@ sed -n '2,25p' $chr_data | awk '{print $1"\t"$2"\t"$3}' >> $out_chr
 rm -r $OUT_dir/${sample_name}_R1_fastqc $OUT_dir/${sample_name}_R2_fastqc
 
 # plot in Rscript
-/nfs2/pipe/Re/Software/miniconda/bin/Rscript $R_scr $out_base $out_quality $out_depth $out_chr $sample_name $OUT_dir 
+/nfs/pipe/Re/Software/bin/Rscript $R_scr $out_raw $out_base $out_quality $out_depth $out_chr $sample_name $OUT_dir
+#/nfs2/pipe/Re/Software/miniconda/bin/Rscript $R_scr $out_raw $out_base $out_quality $out_depth $out_chr $sample_name $OUT_dir 
 rm $out_base $out_quality $out_depth $out_chr
 
 echo "> DONE $0 @$(date)"

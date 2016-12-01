@@ -4,6 +4,8 @@
 
 library("pheatmap")
 library ("ggplot2")
+# fix X11
+options(bitmapType='cairo')
 
 argv <- commandArgs(TRUE)
 if (length(argv) < 3) {
