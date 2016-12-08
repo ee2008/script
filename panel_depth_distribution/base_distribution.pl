@@ -5,12 +5,16 @@
 use FindBin qw($Bin);
 use Getopt::Long;
 use strict;
-use Env;
-my $dir="/nfs2/pipe/Re/Software/miniconda/lib:";
-my @LD_LIBRARY_PATH;
-push @LD_LIBRARY_PATH, $dir;
+#use Env;
 
+$ENV{'LD_LIBRARY_PATH'} = "/nfs2/pipe/Re/Software/miniconda/lib:".$ENV{'LD_LIBRARY_PATH'};
 my $plot_base_distribution=$Bin."/plot_base_distribution.R";
+
+#print $ENV{'LD_LIBRARY_PATH'};
+#my $dir="/nfs2/pipe/Re/Software/miniconda/lib:";
+#my @LD_LIBRARY_PATH;
+#push @LD_LIBRARY_PATH, $dir;
+#`echo $LD_LIBRARY_PATH`;
 
 die "Usage: perl $0 
 	-p <project_dir> 
@@ -37,6 +41,7 @@ GetOptions(
 	'v_min=i' =>\$v_min,
 	'v_max=i' =>\$v_max,
 	'po=i' =>\$po,
+#	'l=i' =>\$lpanel,
 );
 
 

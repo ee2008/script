@@ -5,7 +5,7 @@
 argv <- commandArgs(TRUE)
 if (length(argv) < 3) {
   cat (
-    "Usage: Rscript $0 <sample_samtools_depth_bed.txt> <panel.bed> <out_dir>\n")
+    "Usage: /PATH/chr_mean_depth.R <sample_samtools_depth_bed.txt> <panel.bed> <out_dir>\n")
   q()
 }
 
