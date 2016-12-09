@@ -96,8 +96,8 @@ data$GROUP=ordered(data$GROUP,levels=group)
 t <- Sys.time()
 print (paste0(">> PLOTTING ",t))
 
-png(paste0(out_dir, "/", sample,"_panel_depth_distribution.png"),width=1000,height=1000,units="px")
-p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Distribution (", sample, ")")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=6,angle=60,color="blue"),title=element_text(family="myFont2",face="bold",size=20),legend.title=element_text(family="myFont2",face="bold",size=10)) + facet_grid(data$GROUP~.)
+png(paste0(out_dir, "/", sample,"_panel_depth_boxplot.png"),width=1000,height=1000,units="px")
+p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Boxplot (", sample, ")")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=6,angle=60,color="blue"),title=element_text(family="myFont2",face="bold",size=20),legend.title=element_text(family="myFont2",face="bold",size=10)) + facet_grid(data$GROUP~.)
 print (p)
 dev.off()
 
