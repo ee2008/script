@@ -43,6 +43,7 @@ data_nrow <- nrow(data)
 int_n <- ceiling(panel_nrow/100)
 panel_no <- rep(1:100,int_n)
 panel$no <- panel_no[1:panel_nrow]
+panel$length=panel$end-panel$start+1
 
 # data_t <- readLines(in_data)
 # group <- sapply(data_t, function(x) {
@@ -61,26 +62,27 @@ p <- 1
 g <- 100
 NO <- rep(NULL,data_nrow)
 GROUP <- rep(NULL,data_nrow)
+LENGTH <- rep(NULL,data_nrow)
 for (i in (1:data_nrow)) {
   chr <- as.character(data[i,1])
-#  chr_p <- as.character(panel[p,1])
   po <- data[i,2]
   if ((chr == panel[p,1]) & (po >= panel[p,2]) & (po <= panel[p,3])) {
     NO[i] <- panel[p,4]
+    LENGTH[i] <- panel[p,5]
   } else {
     p <- p+1
     if ((chr == panel[p,1]) & (po >= panel[p,2]) & (po <= panel[p,3])) {
       NO[i] <- panel[p,4]
+      LENGTH[i] <- panel[p,5]
     }
   }
-#  NO <- c(NO,NO_chr)
   if (g < p) {
     g <- g+100
   }
   GROUP[i] <- paste0(g-99," ~ ",g)
-#  GROUP <- c(GROUP,group)
+
 }
-data <- cbind(data,NO,GROUP)
+data <- cbind(data,NO,GROUP,LENGTH)
 group <- rep(NULL,int_n)
 for (i in (1:int_n)) {
   group_n <- paste0((i-1)*100+1," ~ ",i*100)
@@ -93,8 +95,9 @@ data$GROUP=ordered(data$GROUP,levels=group)
 ## plot time
 t <- Sys.time()
 print (paste0(">> PLOTTING ",t))
+
 png(paste0(out_dir, "/", sample,"_panel_depth_distribution.png"),width=1000,height=1000,units="px")
-p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot() + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Distribution (", sample, ")")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=6,angle=60,color="blue"),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$GROUP~.)
+p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Distribution (", sample, ")")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=6,angle=60,color="blue"),title=element_text(family="myFont2",face="bold",size=20),legend.title=element_text(family="myFont2",face="bold",size=10)) + facet_grid(data$GROUP~.)
 print (p)
 dev.off()
 
