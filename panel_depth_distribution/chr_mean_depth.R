@@ -15,6 +15,10 @@ library("ggplot2")
 library("grid")
 library("gtable")
 
+t <- Sys.time()
+print (paste0(">> START ",t))
+
+
 in_data <- as.character(argv[1])
 in_panel_data <- as.character(argv[2])
 out_dir <- as.character(argv[3])
@@ -78,10 +82,12 @@ g <- gtable_add_cols(g, g2$widths[g2$layout[ia,]$l], length(g$widths) - 1)
 g <- gtable_add_grob(g, ga, pp$t, length(g$widths) - 1, pp$b)
 # draw it
 
-#pdf (paste0(out_dir, "/", sample, "_depth_coverage.pdf"))
-#grid.draw(g)
-#dev.off()
+pdf (paste0(out_dir, "/", sample, "_depth_coverage.pdf"))
+grid.draw(g)
+dev.off()
 
 
+t <- Sys.time()
+print (paste0(">> DONE ",t))
 
 
