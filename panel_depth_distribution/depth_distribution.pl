@@ -95,14 +95,24 @@ print ">  INPUT: $panel_po\n";
 
 my %hash;
 open (PANEL, '<', $panel_po);
-while (<PANEL>) {
-	chomp;
-	my $line=$_;
-	my @line=split(/\t/,$line);
-	if ($tools eq "bedtools") {
-		my $key=join("\t",@line[3,5]);
-		$hash{$key}=$line[6];
-	} else {
+if ($tools eq "bedtools") {
+	while (<PANEL>) {
+		chomp;
+		my $line=$_;
+		my @line=split(/\t/,$line);
+		my $d=$line[@line-1];
+		while ($d >= 1) {
+			my $po_d=$line[@line-4]+$d;
+			my $key=join("\t",$line[@line-5],$po_d);
+			$hash{$key}=$line[@line-2];
+			$d=$d-1;
+		}
+	}
+} else {
+	while (<PANEL>) {
+		chomp;
+		my $line=$_;
+		my @line=split(/\t/,$line);
 		my $key=join("\t",@line[0..1]);
 		$hash{$key}=$line[2];
 	}
