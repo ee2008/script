@@ -32,7 +32,7 @@ data_percentage <- round(data, 2)
 df = data.frame(percentage = data_percentage, type = c('Clean Reads', 'Adapter Filter', 'Duplicated Filter', 'Low Quality Filter'))
 myLabel <- as.vector(df$type)
 myLabel <- paste(myLabel, '(', df$percentage,'%)', sep = "")
-png(paste0(out_dir, '/', sample_name, "_raw_reads_composition.png"))
+png(paste0(out_dir, '/', sample_name, ".raw_reads_composition.png"))
 pie <- ggplot(df, aes(x = '', y = percentage, fill = type)) + geom_bar(stat = 'identity', width = 1) + coord_polar('y') + theme_bw() + labs(x = "", y = "", title = paste0("Classification of Raw Reads(", sample_name, ")")) + theme(text = element_text(family = "Arial"), plot.title = element_text(size = 16, face = "bold"), axis.ticks = element_blank(), axis.text.x = element_blank(), legend.title = element_blank(), legend.key = element_rect(linetype = 0)) + scale_fill_discrete(breaks = df$type, labels = myLabel) + theme(panel.grid = element_blank()) + theme(panel.border = element_blank()) 
 print (pie)
 dev.off()
@@ -42,7 +42,7 @@ dev.off()
 # base_data="/lustre/project/og04/wangxian/snake_test/LYT-2B_fqstat.txt"
 data_base <- read.table(base_data, sep = "\t", header = T, stringsAsFactors = T)
 data_base1 <- melt(data_base, id.vars = "Posi")
-png(paste0(out_dir, "/", sample_name, "_base_content.png"))
+png(paste0(out_dir, "/", sample_name, ".base_content.png"))
 p <- ggplot(data_base1, aes(Posi, value)) +
   geom_line(aes(colour = variable), size = 0.75) +
   scale_y_continuous(limits = c(0, 50)) + scale_x_continuous(limits = c(0, 300), breaks = c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300)) + 
@@ -57,7 +57,7 @@ dev.off()
 # plot the distribution of Quality
 #q_data="/lustre/project/og04/wangxian/snake_test/LYT-2B_fastqc.txt"
 data_q <- read.table(q_data, sep = "\t", header = T, stringsAsFactors = T)
-png(paste0(out_dir, "/", sample_name, "_Quality_score.png"))
+png(paste0(out_dir, "/", sample_name, ".Quality_score.png"))
 p <- ggplot(data_q, aes(Base, Quality)) +
   geom_line(colour = "blue", size = 1) + scale_y_continuous(limits =c(0, 50)) + 
   scale_x_continuous(limits = c(0, 300), breaks = c(0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200, 220, 240, 260, 280, 300)) +
@@ -73,7 +73,7 @@ dev.off()
 #d_data="/lustre/project/og04/wangxian/snake_test/LYT-2B_depth.txt"
 data_d <- read.table(d_data, sep = "\t", header = T, stringsAsFactors = T)
 max_y <- ceiling(max(data_d["Percent"]))
-png(paste0(out_dir, "/", sample_name, "_Depth_distribution.png"))
+png(paste0(out_dir, "/", sample_name, ".Depth_distribution.png"))
 p <- ggplot(data_d, aes(Depth, Percent)) +
   geom_point(colour = "blue", size = 1) + scale_y_continuous(limits = c(0, max_y)) + 
   ylab("Fraction of bases(%)") + xlab("sequence depth") +
@@ -84,7 +84,7 @@ dev.off()
 
 
 ## plot the cumulative depth distribution
-png(paste0(out_dir, "/", sample_name, "_Cumulative_depth_distribution.png"))
+png(paste0(out_dir, "/", sample_name, ".Cumulative_depth_distribution.png"))
 p <- ggplot(data_d, aes(Depth, Accumulate_percent)) +
 geom_line(colour = "blue", size = 1) + scale_y_continuous(limits = c(0, 100)) + 
   ylab("Fraction of bases(%)") + xlab("ccumulative sequence depth") +
@@ -127,6 +127,6 @@ ga$rot <- 270
 g <- gtable_add_cols(g, g2$widths[g2$layout[ia,]$l], length(g$widths) - 1)
 g <- gtable_add_grob(g, ga, pp$t, length(g$widths) - 1, pp$b)
 # draw it
-png (paste0(out_dir, "/", sample_name, "_Coverage.png"))
+png (paste0(out_dir, "/", sample_name, ".Coverage.png"))
 grid.draw(g)
 dev.off()

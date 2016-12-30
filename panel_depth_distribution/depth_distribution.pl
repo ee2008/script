@@ -55,17 +55,18 @@ if (!-e $out_dir) {
 	mkdir $out_dir;
 }
 
+if (!$tools) {
+	$tools="bedtools"
+}
+
 if (!$name) {
-	$name=$sample."_depth_distribution";
+	$name=$sample.".".$tools."_depth_distribution";
 }
 
 if (!$type) {
 	$type="png";
 }
 
-if (!$tools) {
-	$tools="bedtools"
-}
 
 if (!$depth) {
 	$depth=100;
@@ -94,6 +95,7 @@ print ">> START $mon $day $ht $year\n";
 print ">  INPUT: $panel_po\n";
 
 my %hash;
+my $po_d;
 open (PANEL, '<', $panel_po);
 if ($tools eq "bedtools") {
 	while (<PANEL>) {
@@ -102,7 +104,13 @@ if ($tools eq "bedtools") {
 		my @line=split(/\t/,$line);
 		my $d=$line[@line-1];
 		while ($d >= 1) {
-			my $po_d=$line[@line-4]+$d;
+			if ($line[@line-4] < $line[1]) {
+				$po_d=$line[1]+$d;
+			} elsif ($line[@line-3] > $line[2]) {
+				$po_d=$line[2]-$d+1;
+			} else {
+				$po_d=$line[@line-4]+$d;
+			}
 			my $key=join("\t",$line[@line-5],$po_d);
 			$hash{$key}=$line[@line-2];
 			$d=$d-1;
@@ -131,7 +139,7 @@ foreach my $id (@chr) {
 }
 
 my ($v_line1,$v_line2);
-my $out=$out_dir."/".$sample.".depth".$depth."_".$tools."_depth.txt";
+my $out=$out_dir."/".$sample.".".$tools."_depth".$depth."_depth.txt";
 open (OUT, '>', $out);
 print OUT "NO\tCHR\tPO\tDEPTH\tPANEL\n";
 

@@ -21,9 +21,9 @@ path <- strsplit(in_data,'/')[[1]]
 file_name <- strsplit(path[length(path)],"\\.")[[1]]
 sample <- file_name[1]
 software <- file_name[2] 
+tools <- substr(software,1,8)
 
-
-if (substr(software,1,8) == "bedtools") {
+if (tools == "bedtools") {
   out <- as.character(argv[2])
 } else {
   in_panel <- as.character(argv[2])
@@ -35,7 +35,7 @@ if (substr(software,1,8) == "bedtools") {
 out_t <- substr(out,nchar(out),nchar(out))
 if (out_t == "/") {
 	out_dir <- out
-	output_name <- paste0(sample,"_panel_depth_boxplot") 
+	output_name <- paste0(sample,".",tools,"_panel_depth_boxplot") 
 } else {
 	out_dirs <- strsplit(out,'/')[[1]]	
 	out_dir <- substr(out,1,nchar(out)-nchar(out_dirs[length(out_dirs)]))
@@ -45,9 +45,9 @@ if (!file.exists(out_dir) ) {
   dir.create(out_dir)
 }
 
-if ((substr(software,1,8) == "bedtools") & (length(argv) == 3))  {
+if ((tools == "bedtools") & (length(argv) == 3))  {
   type_plot <- as.character(argv[4])
-} else if ((substr(software,1,8) == "samtools") & (length(argv) == 4))  {
+} else if ((tools == "samtools") & (length(argv) == 4))  {
   type_plot <- as.character(argv[4])
 } else {
   type_plot <- "png"
@@ -58,7 +58,7 @@ t <- Sys.time()
 print (paste0(">> START ",t))
 print (paste0(">  INPUT: ",in_data))
 
-if (substr(software,1,8) == "bedtools") {
+if (tools == "bedtools") {
 	print (">  DATA from bedtools")
 	data_bedtools <- read.table(in_data)
 	data_bedtools[,1]=ordered(data_bedtools[,1],levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
@@ -109,7 +109,7 @@ if (substr(software,1,8) == "bedtools") {
 	data <- data.frame(CHR,DEPTH,NO,GROUP,LENGTH)
 	rm(data_origin)
 } else {
-  print (paste0(">  PANEL: ",in_panel))
+    print (paste0(">  PANEL: ",in_panel))
 	print (">  DATA from samtools")
 	data=read.table(in_data)
 	colnames(data)=c("CHR","PO","DEPTH")
@@ -180,7 +180,7 @@ if (type_plot == "png") {
 	output_path <- paste0(type_plot,"(\"",out_dir,"/",output_name,".",type_plot,"\")")
 	eval(parse(text = output_path))
 }
-p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Boxplot (", sample, ")")) + scale_fill_continuous(low = "darkgreen", high = "red", space = "rgb") + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=8,angle=90,color="blue"),title=element_text(family="myFont2",face="bold",size=20),legend.title=element_text(family="myFont2",face="bold",size=10)) + facet_grid(data$GROUP~.)
+p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Boxplot_",tools," (", sample, ")")) + scale_fill_continuous(low = "darkgreen", high = "red", space = "rgb") + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=8,angle=90,color="blue"),title=element_text(family="myFont2",face="bold",size=20),legend.title=element_text(family="myFont2",face="bold",size=10)) + facet_grid(data$GROUP~.)
 print (p)
 dev.off()
 
