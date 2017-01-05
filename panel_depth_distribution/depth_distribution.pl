@@ -103,6 +103,7 @@ if ($tools eq "bedtools") {
 		my $line=$_;
 		my @line=split(/\t/,$line);
 		my $d=$line[@line-1];
+		next if ($line[@line-2] == 0);
 		while ($d >= 1) {
 			if ($line[@line-4] < $line[1]) {
 				$po_d=$line[1]+$d;
