@@ -33,13 +33,13 @@ sample=file_name[1]
 #in_data="/p299/user/og04/wangxian/CA-PM/CA-PM-20161108_v5/qc/panel/OG165740011T1LEUD.samtools_depth_bed.txt"
 #in_panel_data="/lustre/project/og04/pub/database/panel_ca_pm/panel.bed"
 
-data <- read.table(in_data,header=F)
+data <- read.table(in_data,sep="\t",header=F)
 colnames(data) <- c("chr","po","depth")
 depth_chr <- tapply(data$depth,data$chr,sum)
 no_chr <- table(data$chr)
 mean_depth <- depth_chr/no_chr
 
-panel_data <- read.table(in_panel_data,header=F)[,1:3]
+panel_data <- read.table(in_panel_data,sep="\t",header=F)[,1:3]
 colnames(panel_data) <- c("chr","start","end")
 panel_data$count <- panel_data$end-panel_data$start+1
 range_panel <- tapply(panel_data$count,panel_data$chr,sum)

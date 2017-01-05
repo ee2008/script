@@ -5,27 +5,53 @@
 argv <- commandArgs(TRUE)
 if (length(argv) < 2) {
   cat (
-    "Usage: /PATH/panel_depth_distribution.R <sample.samtools_depth_bed.txt/sample.bedtools_intersect.txt> <tools> <out_file> <pic_type> <pic_chr> <panel.bed>\n")
+    "Usage: /PATH/panel_depth_distribution.R <sample.samtools_depth_bed.txt/sample.bedtools_intersect.txt> [panel.bed | if input samtools] <out_dir/output> [png/svg/pdf/... | png]\n")
   q()
 }
 
+#Sys.setenv("LD_LIBRARY_PATH"="/nfs2/pipe/Re/Software/miniconda/lib")
 .libPaths("/lustre/project/og04/pub/biosoft/R_Packages")
 options(bitmapType='cairo')
 library("ggplot2")
 
 in_data <- as.character(argv[1])
-#in_data <- "/lustre/project/og04/wangxian/pipeline_script/panel_depth_distribution/test2/OG165711119T1CFD.chr3.txt"
-tools <- as.character(argv[2])
-output <- as.character(argv[3])
-type_plot <- as.character(argv[4])
-pic_chr <- as.character(argv[5])
-in_panel <- as.character(argv[6])
-#in_panel <- "/lustre/project/og04/wangxian/pipeline_script/panel_depth_distribution/test2/panel.chr3.bed"
-
+#in_data <- "/p299/project/og04/shenzhongji2/CA-PM/CA-PM-thyroid_cancer_161228/qc/panel/OG165711121N1LEUD.bedtools_intersect.txt"
+#in_data <- "/lustre/project/og04/pub/test/sm_demo/qc/panel/LEU02.bedtools_intersect.txt"
 path <- strsplit(in_data,'/')[[1]]
 file_name <- strsplit(path[length(path)],"\\.")[[1]]
 sample <- file_name[1]
+software <- file_name[2] 
+tools <- substr(software,1,8)
 
+if (tools == "bedtools") {
+  out <- as.character(argv[2])
+} else {
+  in_panel <- as.character(argv[2])
+  #in_panel <- "/lustre/project/og04/pub/database/panel_ca_pm/panel.bed"
+  out <- as.character(argv[3])
+  #out <- "/p299/user/og04/wangxian/plot_example/"
+}
+
+out_t <- substr(out,nchar(out),nchar(out))
+if (out_t == "/") {
+	out_dir <- out
+	output_name <- paste0(sample,".",tools,"_panel_depth_boxplot") 
+} else {
+	out_dirs <- strsplit(out,'/')[[1]]	
+	out_dir <- substr(out,1,nchar(out)-nchar(out_dirs[length(out_dirs)]))
+	output_name <- out_dirs[length(out_dirs)]
+}
+if (!file.exists(out_dir) ) {
+  dir.create(out_dir)
+}
+
+if ((tools == "bedtools") & (length(argv) == 3))  {
+  type_plot <- as.character(argv[4])
+} else if ((tools == "samtools") & (length(argv) == 4))  {
+  type_plot <- as.character(argv[4])
+} else {
+  type_plot <- "png"
+}
   
 ## start time
 t <- Sys.time()
@@ -34,39 +60,70 @@ print (paste0(">  INPUT: ",in_data))
 
 if (tools == "bedtools") {
 	print (">  DATA from bedtools")
-	data_origin <- read.table(in_data,sep="\t")
-	#bedtools_ncol <- ncol(data_bedtools)	
-	data_origin[,1]=ordered(data_origin[,1],levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
-	#data_bedtools[,bedtools_ncol-4]=ordered(data_bedtools[,1],levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
-	#data_origin=data_bedtools[c(1,2,3,bedtools_ncol-1,bedtools_ncol)]
+	data_bedtools <- read.table(in_data,sep="\t")
+	print (">  Finishing reading data")
+	bedtools_ncol <- ncol(data_bedtools)	
+	data_bedtools[,1]=ordered(data_bedtools[,1],levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
+	data_bedtools[,bedtools_ncol-4]=ordered(data_bedtools[,1],levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
+	data_origin=data_bedtools[c(1,2,3,bedtools_ncol-4,bedtools_ncol-3,bedtools_ncol-2,bedtools_ncol-1,bedtools_ncol)]
+	#key <- paste0(data_origin[,1],data_origin[,2])
+	#no_key <- table(key)
+	#data_origin$no <- rep(1:length(no_key),no_key)
+	#data_origin$group <-
 	data_origin$length <- data_origin[,3]-data_origin[,2]
-	panel=read.table(in_panel,sep=" ")
-	row_panel <- nrow(panel)
-	max_n <- ceiling(row_panel/100)
-	panel$no <- rep(1:100,max_n)[1:row_panel]
-	panel$g <- rep(c(1:max_n),rep(100,max_n))[1:row_panel]
-	panel$group <-  paste0((panel$g)*100-99," ~ ",(panel$g)*100)
-	data_origin$no <- rep(panel$no,panel$V1)
-	data_origin$group <- rep(panel$group,panel$V1)
-	data_origin <- data_origin[,c(-2,-3)]
+	print (">  Finishing data_origin")
+	n <- 0
+	chr <- 0
+	po <- 0
+	data_origin_nrow <- nrow(data_origin)
+	no <- rep(NULL,data_origin_nrow)
+	group <- rep(NULL,data_origin_nrow)
+	print (">  grouping")
+	for (i in (1:data_origin_nrow)) {
+	  if ((data_origin[i,1] == chr) & (data_origin[i,2] == po)) {
+	    no[i] <- n%%100
+	  } else {
+	    n=n+1
+	    no[i] <- n%%100
+	  }
+	  if (no[i]==0) {
+	    no[i] <- 100
+	  }
+	  print (no[i])
+	  chr <- data_origin[i,1]
+	  po <- data_origin[i,2]
+	  g <- floor((n-1)/100)
+	  group[i] <- paste0((g+1)*100-99," ~ ",(g+1)*100)
+	}
+	print (">  finishing grouping")
+	data_origin <- cbind(data_origin,no,group)
+	print (">  1")
+	data_origin <- data_origin[,c(-1,-2,-3,-5,-6)]
+	print (">  2")
 	colnames(data_origin)=c("chr","depth","len","length","no","group")
+	rm (data_bedtools)
 	group_factor=c()
-	for (i in (1:max_n)) {
+	for (i in (1:(g+1))) {
 	  group_n <- paste0((i-1)*100+1," ~ ",i*100)
 	  group_factor <- c(group_factor,group_n)
 	}
-	CHR <- rep(data_origin$chr,data_origin$len)
-	DEPTH <- rep(data_origin$depth,data_origin$len)
-	LENGTH <- rep(data_origin$length,data_origin$len)
-	NO <- rep(data_origin$no,data_origin$len)
-	GROUP <- rep(data_origin$group,data_origin$len)
+	print (">  3")
+	data_origin$GROUP=ordered(data_origin$group,levels=group_factor)
+	print (">  4")
+	CHR <- rep(data_origin[,1],data_origin[,3])
+	DEPTH <- rep(data_origin[,2],data_origin[,3])
+	LENGTH <- rep(data_origin[,4],data_origin[,3])
+	NO <- rep(data_origin[,5],data_origin[,3])
+	GROUP <- rep(data_origin[,6],data_origin[,3])
+	print (">  5")
 	data <- data.frame(CHR,DEPTH,NO,GROUP,LENGTH)
-	data$GROUP=ordered(data$GROUP,levels=group_factor)
+	print (">  6")
 	rm(data_origin)
 } else {
-  print (paste0(">  PANEL: ",in_panel))
+    print (paste0(">  PANEL: ",in_panel))
 	print (">  DATA from samtools")
 	data=read.table(in_data,sep="\t")
+	print (">  Finishing reading data")
 	colnames(data)=c("CHR","PO","DEPTH")
 	data$CHR=ordered(data$CHR,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
 	panel=read.table(in_panel,sep="\t")[,1:3]
@@ -126,23 +183,16 @@ if (tools == "bedtools") {
 ## plot time
 t <- Sys.time()
 print (paste0(">> PLOTTING ",t))
-print (paste0(">  OUTPUT: ",output))
+print (paste0(">  OUTPUT: ",out_dir,"/",output_name,".",type_plot))
 
 
 if (type_plot == "png") {
-	png(output,width=1000,height=1000,units="px")
+	png(paste0(out_dir, "/", output_name, ".png"),width=1000,height=1000,units="px")
 } else {
-	output_path <- paste0(type_plot,"(\"",output,"\",width=20,height=20)")
+	output_path <- paste0(type_plot,"(\"",out_dir,"/",output_name,".",type_plot,"\")")
 	eval(parse(text = output_path))
 }
-
-if (pic_chr == "all") {
-	plot_title <- paste0("Panel_Depth_Boxplot_",tools," (", sample, ")")
-} else {
-	plot_title <- paste0("Panel_Depth_Boxplot_",tools," (", sample,": chr",pic_chr, ")")
-}
-
-p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(plot_title) + scale_fill_continuous(low = "darkgreen", high = "red", space = "rgb") + theme(axis.title.y=element_text(face="bold",size=15),axis.text.y=element_text(face="bold",size=10,color="blue"),axis.text.x=element_text(face="bold",size=8,angle=90,color="blue"),title=element_text(face="bold",size=20),legend.title=element_text(face="bold",size=10)) + facet_grid(data$GROUP~.)
+p <- ggplot(data, aes(x=factor(NO), y=DEPTH)) + geom_boxplot(aes(fill=LENGTH)) + ylab("Depth") + xlab("") + ggtitle(paste0("Panel_Depth_Boxplot_",tools," (", sample, ")")) + scale_fill_continuous(low = "darkgreen", high = "red", space = "rgb") + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),axis.text.y=element_text(family="myFont2",face="bold",size=10,color="blue"),axis.text.x=element_text(family="myFont2",face="bold",size=8,angle=90,color="blue"),title=element_text(family="myFont2",face="bold",size=20),legend.title=element_text(family="myFont2",face="bold",size=10)) + facet_grid(data$GROUP~.)
 print (p)
 dev.off()
 

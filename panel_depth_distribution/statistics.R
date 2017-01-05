@@ -1,5 +1,5 @@
 data_path="/p299/user/og04/wangxian/CA-PM/depth_plot/all.abnormal_bedtools.bed"
-data=read.table(data_path)
+data=read.table(data_path,sep="\t")
 colnames(data) <- c("project","project_id","sample","sample_id","chr","start","end")
 data$chr=ordered(data$chr,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
 
