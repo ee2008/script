@@ -1,0 +1,11 @@
+B = C or G or T
+D = A or G or T
+H = A or C or T
+K = G or T
+M = A or C
+N = A or C or G or T
+R = A or G
+S = C or G
+V = A or C or G
+W = A or T
+Y = C or T 

@@ -11,6 +11,8 @@ prefix=$(basename $input .snpeff.vcf)
 
 [[ ! -d $out ]] && mkdir -pv $out
 
+echo ">> START @$(date)"
+
 gene_tem=${out}/${prefix}.gene.txt
 pathway_tem=${out}/${prefix}.pathway.txt
 pathway_tem2=${out}/${prefix}.pathway.uniq_tem.txt
@@ -29,5 +31,5 @@ rm $pathway_tem $gene_tem $pathway_tem2
 
 /nfs2/pipe/Re/Software/miniconda/bin/perl $kegg_scr $pathway $out
 
-
+echo ">> DONE @$(date)"
 
