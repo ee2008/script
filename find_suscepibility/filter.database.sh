@@ -3,7 +3,7 @@
 # seal the script:filter.database.pl 
 # @wxian20160822
 
-[[ $# -eq 0 ]] && echo "Usage: sh $0 <anno_dir/sample> <out_dir>" && exit 0
+[[ $# -eq 0 ]] && echo "Usage: sh $0 <anno_dir/sample.var/sv> <out_dir>" && exit 0
 
 echo ">> START @$(date)"
 

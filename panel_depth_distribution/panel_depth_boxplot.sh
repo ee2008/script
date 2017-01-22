@@ -35,7 +35,7 @@ while [[ $# -gt 0 ]]; do
 	shift
 done
 
-LD_LIBRARY_PATH="/nfs2/pipe/Re/Software/miniconda/lib"
+export LD_LIBRARY_PATH="/nfs2/pipe/Re/Software/miniconda/lib"
 R_boxplot=$(dirname $(readlink -e $0))/panel_depth_boxplot.R
 
 file=$(basename $IN)
@@ -89,7 +89,7 @@ if [[ $SUM -gt 2000 ]]; then
 else
 	if [[ $tools == "bedtools" ]]; then
 		INPUT=$OUT_dir/${sample}.txt
-		PANEL=$OUT_dir/panel.bed
+		PANEL=$OUT_dir/${sample}.panel.bed
 		awk -F "\t" '{print $1"\t"$2"\t"$3"\t"$(NF-1)"\t"$NF}' $IN > $INPUT
 		cut -f 1,2,3 $INPUT | uniq -c | sed 's/^[ \t]*//g' > $PANEL
 		$R_boxplot $INPUT $tools $OUT_dir/${OUTPUT}.$TYPE $TYPE all $PANEL
@@ -100,7 +100,7 @@ else
 	fi
 fi
 
-echo "DONE" > $OUT_dir/${sample}.${tools}_boxplot_done.txt
+echo "DONE" > $OUT_dir/${sample}.${tools}_boxplot_done
 echo ">> ALL DONE @$(date)"
 
 
