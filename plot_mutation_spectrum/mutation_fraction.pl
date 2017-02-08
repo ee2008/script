@@ -7,7 +7,10 @@ die "Usage: perl $0 <sample1.vcf> <sample2.vcf> ...[-o <out_dir> | ./]\n" unless
 
 use FindBin qw($Bin);
 my $mutation_fraction_R=$Bin."/mutation_fraction_plot.R";
+$ENV{'LD_LIBRARY_PATH'} = "/nfs2/pipe/Re/Software/miniconda/lib:".$ENV{'LD_LIBRARY_PATH'};
 
+my($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
+print ">> START $mon $day $ht $year\n";
 
 my $s;
 my $out="./";
@@ -76,5 +79,12 @@ for my $sample(@sample) {
 close OUT1;
 close OUT2;
 
-system("/nfs2/pipe/Re/Software/miniconda/bin/Rscript $mutation_fraction_R $out_bar $out_heat $out") 
+($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
+print ">> START PLOTTING $mon $day $ht $year\n";
+
+
+system("$mutation_fraction_R $out_bar $out_heat $out"); 
+
+($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
+print ">> DONE $mon $day $ht $year\n";
 

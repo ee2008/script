@@ -23,7 +23,13 @@ out_file_n=${out}/$sample.suscepibility_new_gene.txt
 # == cut the oncotator.tsv
 #code=$(chardetect $oncotator | cut -d " " -f 2)
 #grep -v "^#" $oncotator | /nfs2/pipe/Re/Software/bin/csvcut -t -e BIG5 -c genome_change,"HGNC_OMIM ID(supplied by NCBI)",CGC_GeneID | /nfs2/pipe/Re/Software/bin/csvformat -T > $out/simply.oncotator.tsv 
-grep -v "^#" $oncotator | cut -f 69,226,242 > $out/${sample}.simply.oncotator.tsv 
+
+onco1=$(sed -n '4p' $oncotator | awk  -F "\t" '{for(i=1;i<NF;i++) {if($i=="genome_change") {print i} }}')
+onco2=$(sed -n '4p' $oncotator | awk  -F "\t" '{for(i=1;i<NF;i++) {if($i=="HGNC_OMIM ID(supplied by NCBI)") {print i} }}')
+onco3=$(sed -n '4p' $oncotator | awk  -F "\t" '{for(i=1;i<NF;i++) {if($i=="CGC_GeneID") {print i} }}')
+
+
+grep -v "^#" $oncotator | cut -f $onco1,$onco2,$onco3 > $out/${sample}.simply.oncotator.tsv 
 
 # == cut the annodb.genome_summary.xls
 /nfs2/pipe/Re/Software/bin/csvcut -t -c Func,Gene,"Exonic|Biotype",Chr,Start $annodb | /nfs2/pipe/Re/Software/bin/csvformat -T > $out/${sample}.simply.annodb.xls

@@ -1,6 +1,10 @@
-#!/nfs2/pipe/Re/Software/miniconda/bin/Rscript --vanilla 
+#!/nfs/pipe/Re/Software/bin/Rscript --vanilla
+##!/nfs2/pipe/Re/Software/miniconda/bin/Rscript --vanilla 
 # Inferring Somatic Signatures from Single Nucleotide Variant Calls
 # @wxian20160826
+
+.libPaths("/lustre/project/og04/pub/biosoft/R_Packages")
+options(bitmapType='cairo')
 
 argv <- commandArgs(TRUE)
 if (length(argv) < 1) {

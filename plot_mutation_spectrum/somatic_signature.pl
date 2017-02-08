@@ -30,6 +30,8 @@ output including:
 
 use FindBin qw($Bin);
 
+my($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
+print ">> START $mon $day $ht $year\n";
 
 my $somatic_signature_R = $Bin."/somatic_signature_plot.R";
 my $out=".";
@@ -116,7 +118,12 @@ for my $sample0(@sample) {
 }
 close OUT;
 
-# plot somatic_signature
-system("/nfs2/pipe/Re/Software/miniconda/bin/Rscript $somatic_signature_R $out_file $out $n_sign");
+($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
+print ">> START PLOTTING $mon $day $ht $year\n";
 
+# plot somatic_signature
+system("$somatic_signature_R $out_file $out $n_sign");
+
+($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
+print ">> DONE $mon $day $ht $year\n";
 

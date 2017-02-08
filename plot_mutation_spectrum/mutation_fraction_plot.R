@@ -1,7 +1,9 @@
-#!/nfs2/pipe/Re/Software/miniconda/bin/Rscript --vanilla
+#!/nfs/pipe/Re/Software/bin/Rscript --vanilla
+##!/nfs2/pipe/Re/Software/miniconda/bin/Rscript --vanilla
 # plot mutation fraction
 # @wxian2016Aug22
 
+.libPaths("/lustre/project/og04/pub/biosoft/R_Packages")
 library("pheatmap")
 library ("ggplot2")
 # fix X11
