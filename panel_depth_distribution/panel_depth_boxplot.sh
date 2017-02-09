@@ -55,15 +55,13 @@ else
 		echo "!Error: NO FILE: panel.bed"
 		exit 1
 	else
-		SUM=$(wc -l $PANEL)
+		SUM=$(wc -l $PANEL | cut -d " " -f 1)
 	fi
 fi
 
 echo "> total_bed: $SUM"
 
-
-
-if [[ $SUM -gt 2000 ]]; then
+if  [[ $SUM -gt 2000 ]]; then
 	echo "> PLOT by chr"
 	for i in `seq 1 22` X Y
 	do

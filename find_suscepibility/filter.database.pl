@@ -69,6 +69,9 @@ while (<ANNOVAR>) {
 		print OUT2 "#Func\tGene\tExonic|Biotype\t$line\tCGC_GeneID\tHGNC_OMIM_ID(supplied_by_NCBI)\n";
 		next;
 	}
+	if ($line[24] < 10) {
+		next;
+	}
 	if (!$hash{$line[0].$line[1]."CGC"}) {
 		$CGC=".";
 	} else {

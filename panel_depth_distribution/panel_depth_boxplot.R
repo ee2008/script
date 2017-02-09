@@ -72,37 +72,52 @@ if (tools == "bedtools") {
 	panel=read.table(in_panel,sep="\t")[,1:3]
 	colnames(panel) = c("chr","start","end")
 	panel$chr=ordered(panel$chr,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
-	panel_nrow <- nrow(panel)
-	data_nrow <- nrow(data)
-	int_n <- ceiling(panel_nrow/100)
-	panel_no <- rep(1:100,int_n)
-	panel$no <- panel_no[1:panel_nrow]
-	panel$length=panel$end-panel$start+1
-	p <- 1
-	g <- 100
-	NO <- rep(NULL,data_nrow)
-	GROUP <- rep(NULL,data_nrow)
-	LENGTH <- rep(NULL,data_nrow)
-	for (i in (1:data_nrow)) {
-	  chr <- as.character(data[i,1])
-	  po <- data[i,2]
-	  while ((chr != panel[p,1]) || (po > panel[p,3])) {
-	    p <- p+1
+	if (pic_chr == "all") {
+	  chr_name <- c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y")
+	  no_chr <- sapply (chr_name, function(x) {
+	    panel_chr <- subset(panel,chr==x)
+	    range <- c(panel_chr$start,panel_chr$end)[order(c(panel_chr$start,panel_chr$end))]
+	    data_chr <- subset(data,CHR==x)
+	    chr_no <- as.vector(table(cut (data_chr$PO,range)))
+	  })
+	  nu_no_all <- c()
+	  for (i in 1:24) {
+	    if (length(no_chr[[i]])==1 & no_chr[[i]]==0) {
+	      next 
+	    } else {
+	      nu_no_all <- c(nu_no_all, no_chr[[i]],0) 
+	    }
 	  }
-	  NO[i] <- panel[p,4]
-	  LENGTH[i] <- panel[p,5]
-	  if (g < p) {
-	    g <- g+100
-	  }
-	  GROUP[i] <- paste0(g-99," ~ ",g)
+	 # nu_no_all2 <- c(no_chr[[1]],0,no_chr[[2]],0,no_chr[[3]],0,no_chr[[4]],0,no_chr[[5]],0,no_chr[[6]],0,no_chr[[7]],0,no_chr[[8]],0,no_chr[[9]],0,no_chr[[10]],0,no_chr[[11]],0,no_chr[[12]],0,no_chr[[13]],0,no_chr[[14]],0,no_chr[[15]],0,no_chr[[16]],0,no_chr[[17]],0,no_chr[[18]],0,no_chr[[19]],0,no_chr[[20]],0,no_chr[[21]],0,no_chr[[22]],0,no_chr[[23]],0,no_chr[[24]],0)
+	} else {
+	  range <- c(panel$start,panel$end)[order(c(panel$start,panel$end))]
+	  no_chr <- as.vector(table(cut (data$PO,range)))
+	  nu_no_all <- c(no_chr,0)
 	}
-	group <- rep(NULL,int_n)
-	for (i in (1:int_n)) {
-	  group_n <- paste0((i-1)*100+1," ~ ",i*100)
-	  group <- c(group,group_n)
+	nu_no <- nu_no_all[seq(1,length(nu_no_all),2)]
+	#if (length(nu_no) != nrow(panel)) {
+	 #print ("! Error: no data in panel_bed")
+	 #q()
+	#}
+	if (sum(nu_no) != nrow(data)) {
+	 print ("! Error: data from samtools are not in panel")
+	 q()
 	}
-	data <- cbind(data,NO,GROUP,LENGTH)
-	data$GROUP=ordered(data$GROUP,levels=group)
+	row_panel <- nrow(panel)
+	max_n <- ceiling(row_panel/100)
+	panel$no <- rep(1:100,max_n)[1:row_panel]
+	panel$no <- rep(1:100,max_n)[1:row_panel]
+	data$NO <- rep(panel$no,nu_no)
+	panel$g <- rep(c(1:max_n),rep(100,max_n))[1:row_panel]
+	panel$group <-  paste0((panel$g)*100-99," ~ ",(panel$g)*100)
+	data$GROUP <- rep(panel$group,nu_no)
+	group_factor=c()
+	for (i in (1:max_n)) {
+	 group_n <- paste0((i-1)*100+1," ~ ",i*100)
+	 group_factor <- c(group_factor,group_n)
+	}
+	data$GROUP=ordered(data$GROUP,levels=group_factor)
+	data$LENGTH <- rep(nu_no,nu_no)
 	rm (panel)
 }
 
