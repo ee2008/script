@@ -47,7 +47,7 @@ while (<IN>) {
 	chomp;
 	my $line=$_;
 	if (/^Gene.knownGene/){
-		print OUT "#$line\t$head\n";
+		print OUT "#Gene\tChr\tPos\tRef\tAlt\tExonicFunc\tAAChange\t$head\n";
 		next;
 	}
 	my @line=split (/\t/,$line);

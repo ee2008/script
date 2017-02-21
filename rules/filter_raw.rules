@@ -1,0 +1,68 @@
+# rules of snakemake
+# filter reads via SOAPfilter
+# @szj^15Dec26
+
+configfile: "project_config.json"
+
+filter_raw = config["biosoft"]["filter_raw"]
+summary_filterstat = config["biosoft"]["summary_filterstat"]
+
+#raw = config["path"]["raw"]
+#clean = config["path"]["clean"]
+#qc = config["path"]["qc_report"]
+
+thread = config["threads"]
+prefix = config.get("params_filter_raw_prefix", "")
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+localrules: summary_filterstat
+
+rule all_filter_raw:
+    input:
+        expand("clean/{sample}_R1.fastq.gz", sample = config["sample"]),
+        expand("clean/{sample}_R2.fastq.gz", sample = config["sample"]),
+        "qc/filter/filterstat_summary.txt",
+
+rule filter_SOAPfilter:
+    input:
+        lambda wildcards: config["raw"][wildcards.sample]
+    output:
+        "clean/{sample}_R1.fastq.gz",
+        "clean/{sample}_R2.fastq.gz",
+        "clean/{sample}_filter.log",
+        stat = "clean/{sample}_filterstat.txt",
+    params:
+        prefix = config.get("params_filter_raw_prefix", ""),
+        insert_size = lambda wildcards: config["params_filter_raw_insert_size"][wildcards.sample],
+#trim = config.get("params_filter_raw_trim", ""),
+        trim = lambda wildcards: config["params_filter_raw_trim"][wildcards.sample],
+#        quality = config.get("params_filter_raw_quality", "")
+        quality = lambda wildcards: config["params_filter_raw_quality"][wildcards.sample],
+        custom = config.get("params_filter_raw_custom", ""),
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = thread,
+    shell:
+        # todo: add prefix support
+        "{filter_raw} {input} -o clean -@ {thread} -s {output.stat} {params.prefix} {params.insert_size} {params.trim} {params.quality} {params.custom}"
+
+rule summary_filterstat:
+    input:
+        expand("clean/{sample}_filterstat.txt", sample = config["sample"]),
+        expand("clean/{sample}_filter.log", sample = config["sample"])
+    output:
+        "qc/filter/filterstat_summary.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        "cp -v {input} qc/filter;"\
+        "{summary_filterstat} qc/filter"
+

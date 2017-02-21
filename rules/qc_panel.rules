@@ -1,0 +1,382 @@
+# for panel stat
+# @szj^16Feb18
+
+configfile: './project_config.json'
+include: './qc_align.rules'
+
+localrules: panel_bed_stat, capture_stat, summary_capture_stat
+
+#genome_file = "/lustre/project/og04/pub/database/human_genome_hg19/reference/human_g1k_v37.fasta.genome_panel"
+
+samtools = config['biosoft']['samtools']
+summary_panelstat = config['biosoft']['summary_panelstat']
+perl = config['biosoft']['perl']
+plot_panel_depth = config['biosoft']['plot_panel_depth']
+boxplot_panel_depth = config['biosoft']['boxplot_panel_depth']
+
+fa = config["ref"]["fa"]
+panel_bed = config["ref"]["panel_bed"]
+thread = config['threads']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_qc_panel:
+    input:
+        "qc/panel/capture_stat_summary.txt",
+        "qc/panel/panel_bed_stat.txt",
+        expand("qc/panel/{sample}.samtools_depth_bed.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_coverage_hist.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_genomecov_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.capture_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect_uncov.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.panel_depth.png", sample = config['sample']),
+        expand("qc/panel/{sample}.boxplot_panel_depth.png", sample = config['sample']),
+        expand("qc/panel/{sample}.panel_depth_samtools.png", sample = config['sample']),
+        expand("qc/panel/{sample}.boxplot_panel_depth_samtools.png", sample = config['sample']),
+        "qc/covmap/covmap_summary.txt",
+
+rule panel_bed_stat:
+    input:
+        {panel_bed}
+    output:
+        "qc/panel/panel_bed_stat.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#panel_bed\t$(readlink -e {input})" > {output}
+        paste <(echo "#region_count") <(grep -v '^#' {input} | wc -l) >> {output}
+        grep -v '^#' {input} \
+            | \
+        awk ' \
+            BEGIN {{ \
+                suml = 0; \
+            }} \
+            {{ \
+                len = $3 - $2; \
+                suml += len; \
+            }} \
+            END {{ \
+                print "#region_len" "\t" suml \
+            }} \
+        ' >> {output}
+        GENE_n=$(grep -v '^#' {input} \
+            | cut -f 4 | cut -d ',' -f1 \
+            | sort | uniq -c | wc -l)
+        echo -e "#gene_count\t$GENE_n" >> {output}
+        """
+
+rule samtools_depth_bed_bam:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/panel/{sample}.samtools_depth_bed.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 500,
+        qsub_p = 1,
+    shell:
+        """
+        {samtools} depth -b {panel_bed} {input} > {output}
+        """
+
+rule bedtools_intersect:
+    input:
+        rules.bedtools_genomecov_bam.output
+    output:
+        "qc/panel/{sample}.bedtools_intersect.txt",
+    params:
+        qsub_q = qsub_q_big_d
+    resources:
+        qsub_vf = 52000,
+        qsub_p = 1,
+    shell:
+        """
+        awk 'FNR==NR {{a[$1]=1;next}} ($1 in a)' <(cut -f 1 {panel_bed} | sort | uniq) {input} > {output}.tmp && \
+        {bedtools} intersect -a {panel_bed} -b {output}.tmp -wao > {output} && \
+        rm {output}.tmp
+        """
+#awk 'FNR==NR {{a[$1]=1;next}} ($1 in a)' <(cut -f 1 {panel_bed} | sort | uniq) {input} | {bedtools} intersect -a {panel_bed} -b - -wao -sorted > {output}
+        #egrep '^[1-9]|^X|^Y' {input} | {bedtools} intersect -a {panel_bed} -b - -wao -sorted > {output}
+        #{bedtools} intersect -a {panel_bed} -b {input} -wao -sorted -g {genome_file} > {output}
+
+rule bedtools_coverage_hist:
+    input:
+        "qc/panel/{sample}.bedtools_intersect.txt"
+    output:
+        "qc/panel/{sample}.bedtools_coverage_hist.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 6500,
+        qsub_p = 1,
+    shell:
+        """
+        awk -F "\\t" '{{if ($(NF-1) != "0" && $(NF-1) != ".") print $(NF-4) "\\t" $(NF-3) "\\t" $(NF-2) "\\t" $(NF-1) "\\t" $(NF-0)}}' {input} | {bedtools} coverage -hist -a {panel_bed} -b - > {output}
+        """
+        #awk -F "\\t" '{{if ($(NF-1) != "0" && $(NF-1) != ".") print $(NF-4) "\\t" $(NF-3) "\\t" $(NF-2) "\\t" $(NF-1) "\\t" $(NF-0)}}' {input} | {bedtools} coverage -hist -a {panel_bed} -b - -sorted > {output}
+        #awk -F "\t" '{{if ($8 != "0" && $8 != ".") print $5 "\t" $6 "\t" $7 "\t" $8 "\t" $9}}' {input} | {bedtools} coverage -hist -a {panel_bed} -b - -sorted > {output}
+
+rule bedtools_intersect_uncov:
+    input:
+        "qc/panel/{sample}.bedtools_intersect.txt"
+    output:
+        "qc/panel/{sample}.bedtools_intersect_uncov.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 16000,
+        qsub_p = 1,
+    shell:
+        """
+        grep -v "\\b0\\b.*$" {input} | uniq | {bedtools} intersect -v -a {panel_bed} -b - > {output} || echo 'not exit 0'
+        """
+#grep -v "\\b0\\b.*$" {input} | uniq | {bedtools} intersect -v -a {panel_bed} -b - -sorted > {output}
+#awk '{{if ($4 != 0) print $0;}}' {input} | {bedtools} intersect -v -a {panel_bed} -b - > {output}
+
+rule bedtools_intersect_stat:
+    input:
+        "qc/panel/{sample}.bedtools_intersect.txt",
+    output:
+        "qc/panel/{sample}.bedtools_intersect_stat.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 600,
+        qsub_p = 1,
+    shell:
+        """
+        awk -F "\t" \
+            'BEGIN {{ \
+                suml1x = 0; sumb1x = 0; \
+                suml10x = 0; sumb10x = 0; \
+                suml100x = 0; sumb100x = 0; \
+                suml1000x = 0; sumb1000x = 0; \
+                print "#depth\tlength\tbases"; \
+            }} {{ \
+                dep = $(NF-1); len = $(NF-0); base = dep * len; \
+                print dep "\t" len "\t" base \
+            }} {{ \
+                if (dep > 0)  \
+                    suml1x += len; sumb1x += base \
+            }} {{ \
+                if (dep > 9) {{ \
+                    suml10x += len; sumb10x += base \
+                }} \
+            }} {{ \
+                if (dep > 99) {{ \
+                    suml100x += len; sumb100x += base \
+                }} \
+            }} {{ \
+                if (dep > 999) {{ \
+                    suml1000x += len; sumb1000x += base \
+                }} \
+            }} END {{ \
+                {{ \
+                     print "#capture_sum_len_1X:\t" suml1x "\tcapture_sum_base_1X:\t" sumb1x; \
+                     print "#capture_sum_len_10X:" "\t" suml10x "\t" "capture_sum_base_10X:" "\t" sumb10x; \
+                     print "#capture_sum_len_100X:" "\t" suml100x "\t" "capture_sum_base_100X:" "\t" sumb100x; \
+                     print "#capture_sum_len_1000X:" "\t" suml1000x "\t" "capture_sum_base_1000X:" "\t" sumb1000x; \
+                 }} \
+            }} \
+            ' {input} > {output}
+        """
+
+rule bedtools_genomecov_stat:
+    input:
+        rules.bedtools_genomecov_bam.output
+    output:
+        total = "qc/panel/{sample}.bedtools_genomecov_stat.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 600,
+        qsub_p = 1,
+    shell:
+        """
+        awk ' \
+            BEGIN {{ \
+                suml1x = 0; sumb1x = 0; \
+                suml10x = 0; sumb10x = 0; \
+                suml100x = 0; sumb100x = 0; \
+                suml1000x = 0; sumb1000x = 0 \
+            }} {{ \
+                dep = $4; len = $3 - $2; base = dep * len \
+            }} {{ \
+                if (dep > 0) \
+                    suml1x += len; sumb1x += base \
+            }} {{ \
+                if (dep > 9) {{ \
+                    suml10x += len; sumb10x += base \
+                }} \
+            }} {{ \
+                if (dep > 99) {{ \
+                    suml100x += len; sumb100x += base \
+                }} \
+            }} {{ \
+                if (dep > 999) {{ \
+                    suml1000x += len; sumb1000x += base \
+                }} \
+            }} END {{ \
+                print "#total_sum_len_1X:" "\t" suml1x "\t" "total_sum_base_1X:" "\t" sumb1x; \
+            print "#total_sum_len_10X:" "\t" suml10x "\t" "total_sum_base_10X:" "\t" sumb10x; \
+                print "#total_sum_len_100X:" "\t" suml100x "\t" "total_sum_base_100X:" "\t" sumb100x; \
+                print "#total_sum_len_1000X:" "\t" suml1000x "\t" "total_sum_base_1000X:" "\t" sumb1000x; \
+            }} \
+            ' {input} > {output.total}
+        """
+
+rule capture_stat:
+    input:
+        intersect = rules.bedtools_intersect.output,
+        capture = rules.bedtools_intersect_stat.output,
+        genome = rules.bedtools_genomecov_bam.output,
+        total = rules.bedtools_genomecov_stat.output,
+        hist = rules.bedtools_coverage_hist.output,
+        uncov = rules.bedtools_intersect_uncov.output,
+    output:
+        "qc/panel/{sample}.capture_stat.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        grep '^\#capture_sum_len' {input.capture} > {output}
+        grep '^\#total_sum_len' {input.total} >> {output}
+        cap_len=$(grep '^#capture_sum_len_1X' {input.capture} | cut -f 2)
+        cap_base=$(grep '^#capture_sum_len_1X' {input.capture} | cut -f 4)
+        cap_ave_dep="$([[ $cap_base -eq 0 ]] && echo 0 || echo $(($cap_base/$cap_len)))"
+        cap_ave_dep_cent=$(($cap_ave_dep / 10))
+        awk -F "\t" -v thre=$cap_ave_dep -v thre_cent=$cap_ave_dep_cent ' \
+            BEGIN {{ \
+                suml_ave = 0; sumb_ave = 0; \
+                suml_ave_cent = 0; sumb_ave_cent = 0; \
+                print "#capture_average_depth:" "\t" thre "\t" "capture_average_depth_cent" "\t" thre_cent
+            }} {{ \
+                dep = $(NF-1); len = $(NF-0); base = dep * len; \
+            }} {{ \
+                if (dep > thre) {{ \
+                    suml_ave += len; sumb_ave += base; \
+                }} \
+            }} {{\
+                if (dep > thre_cent) {{ \
+                    suml_ave_cent += len; sumb_ave_cent += base; \
+                }} \
+            }} \
+            END {{ \
+                print "#capture_sum_len_above_average_depth:" "\t" suml_ave "\t" "capture_sum_base_above_average_depth:" "\t" sumb_ave; \
+                print "#capture_sum_len_above_average_depth_cent:" "\t" suml_ave_cent "\t" "capture_sum_base_above_average_depth_cent:" "\t" sumb_ave_cent; \
+            }} \
+            ' {input.intersect} >> {output}
+        awk -F "\t" -v thre=$cap_ave_dep -v thre_cent=$cap_ave_dep_cent ' \
+            BEGIN {{ \
+                suml_ave = 0; sumb_ave = 0; \
+                suml_ave_cent = 0; sumb_ave_cent = 0; \
+            }} {{ \
+                dep = $4; len = $3 - $2; base = dep * len \
+            }} {{ \
+                if (dep > thre) {{ \
+                    suml_ave += len; sumb_ave += base; \
+                }} \
+            }} {{\
+                if (dep > thre_cent) {{ \
+                    suml_ave_cent += len; sumb_ave_cent += base; \
+                }} \
+            }} \
+            END {{ \
+                print "#total_sum_len_above_average_depth:" "\t" suml_ave "\t" "total_sum_base_above_average_depth:" "\t" sumb_ave; \
+                print "#total_sum_len_above_average_depth_cent:" "\t" suml_ave_cent "\t" "total_sum_base_above_average_depth_cent:" "\t" sumb_ave_cent; \
+            }} \
+            ' {input.genome} >> {output}
+        echo -e "#region_count_not_covered_100%:\t$(grep -c -v -e '^all' -e '1.0000000$' {input.hist})"  >> {output}
+        echo -e "#region_count_not_captured:\t$(wc -l {input.uncov} | cut -d ' ' -f1)" >> {output}
+        """
+
+rule summary_capture_stat:
+    input:
+        expand("qc/panel/{sample}.capture_stat.txt", sample = config["sample"]),
+        rules.panel_bed_stat.output,
+    output:
+        "qc/panel/capture_stat_summary.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        {summary_panelstat} qc/panel
+        """
+
+rule plot_panel_depth:
+    input:
+        "qc/panel/{sample}.bedtools_intersect.txt",
+        "qc/align/{sample}.itools_depth.gz",
+    output:
+        "qc/panel/{sample}.panel_depth.png"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 900,
+        qsub_p = 1,
+    shell:
+        """
+        {perl} {plot_panel_depth} -p . -s {wildcards.sample} -o qc/panel -output {wildcards.sample}.panel_depth
+        """
+
+rule plot_panel_depth_samtools:
+    input:
+        "qc/panel/{sample}.samtools_depth_bed.txt",
+        "qc/align/{sample}.samtools_depth.txt.gz",
+    output:
+        "qc/panel/{sample}.panel_depth_samtools.png"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 900,
+        qsub_p = 1,
+    shell:
+        """
+        {perl} {plot_panel_depth} -p . -s {wildcards.sample} -o qc/panel -output {wildcards.sample}.panel_depth_samtools -tool samtools
+        """
+
+rule boxplot_panel_depth:
+    input:
+        "qc/panel/{sample}.bedtools_intersect.txt",
+    output:
+        "qc/panel/{sample}.boxplot_panel_depth.png",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        """
+        {boxplot_panel_depth} -i {input} -o qc/panel -n {wildcards.sample}.boxplot_panel_depth
+        """
+
+rule boxplot_panel_depth_samtools:
+    input:
+        "qc/panel/{sample}.samtools_depth_bed.txt",
+    output:
+        "qc/panel/{sample}.boxplot_panel_depth_samtools.png",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        """
+        {boxplot_panel_depth} -i {input} -p {panel_bed} -o qc/panel -n {wildcards.sample}.boxplot_panel_depth_samtools
+        """

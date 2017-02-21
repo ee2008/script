@@ -1,0 +1,80 @@
+# correct indel and sv according to cosmic database
+
+# @szj^16Aug23
+
+configfile: 'project_config.json'
+
+include: 'var_somatic_varscan.rules'
+include: 'var_germline_varscan.rules'
+include: 'var_trio_varscan.rules'
+include: 'align_speedseq.rules'
+# include: 'all_var.rules'
+
+indel2cosmic = config['biosoft']['indel2cosmic']
+sv2cosmic = config['biosoft']['sv2cosmic']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_var_corr_cosmic:
+    input:
+        expand("var_corr/{germline}.indel2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{germline}.sv2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{somatic}.sindel2cosmic.hit", somatic = config['somatic']),
+        expand("var_corr/{somatic}.sv2cosmic.hit", somatic = config['somatic']),
+        #expand("var_corr/{trio}.indel2cosmic.hit", trio = config['trio']),
+        #expand("var_corr/{trio}.sv2cosmic.hit", trio = config['trio']),
+
+rule indel_to_cosmic_somatic:
+    input:
+        "var_varscan/{somatic}.sindel.filter.txt"
+    output:
+        "var_corr/{somatic}.sindel2cosmic.hit"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {indel2cosmic} var_varscan/{wildcards.somatic} var_corr/{wildcards.somatic} sindel.filter.txt || echo "indel2cosmic run fail: {wildcards.somatic}"
+        mv var_corr/{wildcards.somatic}.indel2cosmic var_corr/{wildcards.somatic}.sindel2cosmic.hit || echo "indel2cosmic mv hit fail: {wildcards.somatic}"
+        mv var_corr/{wildcards.somatic}.indel2cosmic.2 var_corr/{wildcards.somatic}.sindel2cosmic.off || echo "indel2cosmic mv off fail: {wildcards.somatic}"
+        rm var_corr/{wildcards.somatic}*[012] || echo "indel2cosmic rm fail: {wildcards.somatic}"
+        """
+
+rule indel_to_cosmic_germline:
+    input:
+        "var_varscan/{germline}.indel.filter.txt"
+    output:
+        "var_corr/{germline}.indel2cosmic.hit"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {indel2cosmic} var_varscan/{wildcards.germline} var_corr/{wildcards.germline} indel.filter.txt || echo "indel2cosmic run fail: {wildcards.germline}"
+        mv var_corr/{wildcards.germline}.indel2cosmic var_corr/{wildcards.germline}.indel2cosmic.hit || echo "indel2cosmic mv hit fail: {wildcards.germline}"
+        mv var_corr/{wildcards.germline}.indel2cosmic.2 var_corr/{wildcards.germline}.indel2cosmic.off || echo "indel2cosmic mv off fail: {wildcards.germline}"
+        rm var_corr/{wildcards.germline}*[012] || echo "indel2cosmic rm fail: {wildcards.germline}"
+        """
+
+rule sv_to_cosmic:
+    input:
+        "var/{prefix}.sv.vcf"
+    output:
+        "var_corr/{prefix}.sv2cosmic.hit",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {sv2cosmic} {input} var_corr/{wildcards.prefix} || echo "sv2cosmic run fail: {wildcards.prefix}"
+        """
+

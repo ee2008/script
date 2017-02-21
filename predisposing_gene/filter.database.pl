@@ -5,7 +5,7 @@
 
 use strict;
 
-die "Usage: perl $0 <simply_annovar.txt> <simply_annodb.xls> <simply_oncotator.tsv> <out_file_suscepibility> <out_file_suscepibility_new>
+die "Usage: perl $0 <simply_annovar.txt> <simply_annodb.xls> <simply_oncotator.tsv> <out_file_predisposing_gene> <out_file_predisposing_new_gene>
 
 file_info:
 the colname in simply_annovar.txt: Chr,Start,End,Ref,Alt,Func.ensGene,Gene.ensGene,GeneDetail.ensGene,avsnp144,SIFT_score,SIFT_pred,Polyphen2_HVAR_score,Polyphen2_HVAR_pred,MutationTaster_score,MutationTaster_pred,CADD_raw,CADD_phred,COSMIC_ID,1000G_EAS,ESP6500siv2_ALL,cg46,cg69,clinvar_20150629,cosmic70
@@ -52,7 +52,7 @@ while (<ANNODB>) {
 	next if (/^Func/);
 	my @line=split(/\t/,$line);
 	my $chr=substr($line[3],3,length($line[3]));
-	$hash{$chr.$line[4]."gene"}="$line[0]\t$line[1]\t$line[2]";
+	$hash{$chr.$line[4]."gene"}="$line[1]\t$line[2]";
 }
 close ANNODB;
 
@@ -65,8 +65,8 @@ while (<ANNOVAR>) {
 	my $line=$_;
 	my @line=split(/\t/,$line);
 	if (/^Chr/) {
-		print OUT1 "#Func\tGene\tExonic|Biotype\t$line\tCGC_GeneID\tHGNC_OMIM_ID(supplied_by_NCBI)\n";
-		print OUT2 "#Func\tGene\tExonic|Biotype\t$line\tCGC_GeneID\tHGNC_OMIM_ID(supplied_by_NCBI)\n";
+		print OUT1 "#Gene\tExonic|Biotype\t$line\tCGC_GeneID\tHGNC_OMIM_ID(supplied_by_NCBI)\n";
+		print OUT2 "#Gene\tExonic|Biotype\t$line\tCGC_GeneID\tHGNC_OMIM_ID(supplied_by_NCBI)\n";
 		next;
 	}
 	if ($line[24] < 10) {

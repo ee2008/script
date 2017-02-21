@@ -3,20 +3,10 @@
 # merge all maf file
 # @wxian20160825
 
-die "Usage: perl $0 <cancer_type:somatic.oncotator.maf> <cancer_name:somatic.oncotator.maf> ...[-o <out_dir> | ./] [-s <n_sign> | 5]
+die "Usage: perl $0 <cancer_type:somatic.oncotator.maf> <cancer_type:somatic.oncotator.maf> ...[-o <out_dir> | ./] <-s <n_sign> (less than or equal to the number of cancer_type)>
 
-note: must input more than one cancer_type
+note: must input more than one cancer_type, or separate into different subgroups
 
-cancer_type:
-	gbm: Glioblastoma multiforme
-	hnsc: Head and Neck squamous cell carcinoma
-	kirc: Kidney Chromophobe
-	luad: Lung adenocarcinoma
-	lusc: Lung squamous cell carcinoma
-	ov: Ovarian serous cystadenocarcinoma
-	skcm: Skin Cutaneous Melanoma
-	thca: Thyroid carcinoma
-	
 output including:
 	mutation_signature.maf
 	fitted_spectrum.png
@@ -42,7 +32,6 @@ my @s_name;
 my $Verification_Status="NA";
 my $Validation_Status="Untested";
 my $Mutation_Status="Somatic";
-my $n_sign=5;
 
 if (($ARGV[@ARGV-4] eq "-o") || ($ARGV[@ARGV-4] eq "-s")) {
 	$s=@ARGV-5;
@@ -64,6 +53,11 @@ if (($ARGV[@ARGV-4] eq "-o") || ($ARGV[@ARGV-4] eq "-s")) {
 	$s=@ARGV-1;
 }
 
+die ">> !error: no n_sign\n" unless ($n_sign); 
+
+if (!-e $out) {
+	mkdir $out;
+}
 
 my $out_file=$out."/mutation_signature.maf";
 my @sample=@ARGV[0..$s];
@@ -123,6 +117,7 @@ print ">> START PLOTTING $mon $day $ht $year\n";
 
 # plot somatic_signature
 system("$somatic_signature_R $out_file $out $n_sign");
+#print "$somatic_signature_R $out_file $out $n_sign\n";
 
 ($week,$mon,$day,$ht,$year)=split(" ",localtime(time()));
 print ">> DONE $mon $day $ht $year\n";

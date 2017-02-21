@@ -1,0 +1,101 @@
+# to combine seperate steps
+# from snakemake rules
+# @szj^15Dec26
+# V0.1@szj^15Dec31
+
+include: "./qc_raw.rules"
+include: "./filter_raw.rules"
+include: "./qc_clean.rules"
+include: "./align_bwa.rules"
+include: "./qc_covmap.rules"
+
+configfile: "project_config.json"
+sample = config["sample"]
+
+#sm = "/nfs2/pipe/Re/Software/bin/snakemake"
+
+# try all rules' output file
+rule all_pipeline:
+    input:
+        # qc_raw:
+        "qc/raw/rqc_report_raw.fastq.gz.html",
+        expand("qc/raw/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/raw/multiqc_report.html",
+        expand("qc/raw/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/raw/fqstat_summary.txt",
+        # filter_raw:
+        expand("clean/{sample}_R1.fastq.gz", sample = config["sample"]),
+        expand("clean/{sample}_R2.fastq.gz", sample = config["sample"]),
+        "qc/filter/filterstat_summary.txt",
+        # align_bwa:
+        expand("align/{sample}.bam", sample = config["sample"]),
+        # qc_clean
+        "qc/clean/rqc_report_clean.fastq.gz.html",
+        expand("qc/clean/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/clean/multiqc_report.html",
+        expand("qc/clean/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/clean/fqstat_summary.txt",
+        # qc_covmap
+        "qc/covmap/covmap_summary.txt",
+
+"""
+# try all rules' rule
+rule all_pipeline:
+    input:
+        rules.all_qc_raw.input,
+        rules.all_filter_raw.input,
+        rules.all_qc_clean.input,
+        rules.all_align_bwa.input,
+        rules.all_qc_covmap.input
+"""
+
+# try specific each rule
+"""
+rule qc_raw:
+    input:
+        "raw"
+    output:
+        "qc/raw/fqstat_summary.txt",
+#rules.all_qc_raw.input
+    shell:
+        "{sm} -s qc_raw.rules"
+
+rule filter_raw:
+    input:
+        "raw"
+    output:
+        "qc/filter/filterstat_summary.txt",
+#rules.all_filter_raw.input
+    shell:
+        "{sm} -s filter_raw.rules"
+
+rule qc_clean:
+    input:
+        rules.filter_raw.output
+    output:
+        "qc/clean/fqstat_summary.txt",
+#rules.all_qc_clean.input
+    shell:
+        "{sm} -s qc_clean.rules"
+
+rule align_bwa:
+    input:
+        rules.filter_raw.output
+    output:
+        rules.all_align_bwa.input
+    shell:
+        "{sm} -s align_bwa.rules"
+
+rule qc_covmap:
+    input:
+        rules.align_bwa.output
+    output:
+        "qc/covmap/covmap_summary.txt"
+#rules.all_qc_covmap.input
+    shell:
+        "{sm} -s qc_covmap.rules"
+"""

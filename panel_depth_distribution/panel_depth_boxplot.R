@@ -72,6 +72,7 @@ if (tools == "bedtools") {
 	panel=read.table(in_panel,sep="\t")[,1:3]
 	colnames(panel) = c("chr","start","end")
 	panel$chr=ordered(panel$chr,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
+	chr_in_panel <- table(panel$chr)
 	if (pic_chr == "all") {
 	  chr_name <- c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y")
 	  no_chr <- sapply (chr_name, function(x) {
@@ -82,7 +83,7 @@ if (tools == "bedtools") {
 	  })
 	  nu_no_all <- c()
 	  for (i in 1:24) {
-	    if (length(no_chr[[i]])==1 & no_chr[[i]]==0) {
+	    if (chr_in_panel[[i]]==0) {
 	      next 
 	    } else {
 	      nu_no_all <- c(nu_no_all, no_chr[[i]],0) 
@@ -105,7 +106,6 @@ if (tools == "bedtools") {
 	}
 	row_panel <- nrow(panel)
 	max_n <- ceiling(row_panel/100)
-	panel$no <- rep(1:100,max_n)[1:row_panel]
 	panel$no <- rep(1:100,max_n)[1:row_panel]
 	data$NO <- rep(panel$no,nu_no)
 	panel$g <- rep(c(1:max_n),rep(100,max_n))[1:row_panel]

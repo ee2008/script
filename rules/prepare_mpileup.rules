@@ -1,0 +1,64 @@
+# @szj^16Mar01
+
+configfile: "./project_config.json"
+
+fa = config['ref']['fa']
+samtools = config['biosoft']['samtools']
+varscan = config['biosoft']['varscan']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_prepare_mpileup:
+    input:
+        expand("align/{sample}.mpileup", sample = config['sample']),
+
+rule samtools_mpileup:
+    input:
+        "align/{prefix}.bam"
+    output:
+        "align/{prefix}.mpileup"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1000,
+        qsub_p = 1,
+    shell:
+        """
+        {samtools} mpileup -A -C 50 -d 99999 -E -L 99999 -q 0 -Q 0 -x -f {fa} -o {output} {input}
+        """
+#{samtools} mpileup -A -C 50 -d 99999 -E -L 99999 -q 0 -Q 0 -x -O -s -f {fa} -o {output} {input}
+#{samtools} mpileup -f {fa} -q 1 -Q 1 -d 99999 -L 99999 {input} > {output}
+
+rule gzip_mpileup:
+    input:
+        "align/{prefix}.mpileup"
+    output:
+        "align/{prefix}.mpileup.gz"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        gzip -v {input}
+        """
+
+rule varscan_readcounts:
+    input:
+        "align/{prefix}.mpileup"
+    output:
+        "var_varscan/{prefix}.readcounts.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = 1,
+    shell:
+        """
+        awk '($4>0)' {input} | {varscan} readcounts --output-file {output}
+        """
+

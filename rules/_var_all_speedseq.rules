@@ -1,0 +1,45 @@
+# !DEPRECATED
+# integrate:
+# var_germline_speedseq
+# var_somatic_speedseq
+# var_trio_speedseq
+# @szj^16Feb03
+
+configfile: "project_config.json"
+
+include: './var_germline_speedseq.rules'
+include: './var_somatic_speedseq.rules'
+include: './var_trio_speedseq.rules'
+
+rule all_var_all_speedseq:
+    input:
+        expand("var/{germline}.var.vcf", germline = config['germline']),
+        expand("var/{germline}.sv.vcf", germline = config['germline']),
+        expand("var/{somatic}.var.vcf", somatic = config["somatic"]),
+        expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+        expand("var/{trio}.var.vcf", trio = config["trio"]),
+        expand("var/{trio}.denovo.vcf", trio = config["trio"]),
+        expand("var/{trio}.sv.vcf", trio = config['trio']),
+
+    """
+        rules.all_var_germline_speedseq.input,
+        rules.all_var_somatic_speedseq.input,
+        rules.all_var_trio_speedseq.input,
+
+        expand("var_speedseq/{sample}.vcf.gz", sample = config['sample']),
+        expand("var_speedseq/{sample}.sv.vcf.gz", sample = config['sample']),
+        expand("var/{sample}.vcf", sample = config['sample']),
+        expand("var/{sample}.sv.vcf", sample = config['sample']),
+        expand("var_speedseq/{somatic}.vcf.gz", somatic = config['somatic']),
+        expand("var_speedseq/{somatic}.sv.vcf.gz", somatic = config['somatic']),
+        expand("var/{somatic}.vcf", somatic = config["somatic"]),
+        expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+        expand("var_speedseq/{trio}.vcf.gz", trio = config['trio']),
+
+        expand("var_speedseq/{trio}.sv.vcf.gz", trio = config['trio']),
+        expand("var_speedseq/{trio}_denovo.vcf.gz", trio = config["trio"]),
+        expand("var/{trio}.vcf", trio = config["trio"]),
+        expand("var/{trio}_denovo.vcf", trio = config["trio"]),
+        expand("var/{trio}.sv.vcf", trio = config['trio']),
+
+    """

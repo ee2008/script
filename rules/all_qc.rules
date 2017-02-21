@@ -1,0 +1,133 @@
+# all qc rules
+# @szj^16Apr11
+
+configfile: './project_config.json'
+
+csvlook = config['biosoft']['csvlook']
+#onsuccess: shell("""
+        #user=$(whoami)
+        #[[ $user == 'shenzhongji2'  ]] && user='shenzhongji'
+        #{csvlook} -t qc/qc_summary_brief.txt | sed '1d;$d;' | sed -e 's/^|//g' -e 's/|$//g' -e 's/^\ *//g' | sed '2s/\+/|/g' | sed -e 's/^#//g' | less -iS | mailx -a qc/qc_summary_brief.txt -s QC\ DONE\:\ snakejob\ under\ $(basename $(pwd))\ in\ $(date +%Y%m%d%H%M%S) $user@1gene.com.cn
+        #""")
+
+include: "./qc_align.rules"
+include: "./qc_clean.rules"
+include: "./qc_covmap.rules"
+include: "./qc_panel.rules"
+include: "./qc_raw.rules"
+include: "./qc_var.rules"
+include: 'all_var.rules'
+
+#localrules: join_qc_summary
+
+csvjoin = config['biosoft']['csvjoin']
+csvformat = config['biosoft']['csvformat']
+csvcut = config['biosoft']['csvcut']
+
+rule all_qc_all:
+    input:
+#rule all_qc_align_all:
+    #input:
+        expand("qc/align/{sample}.fastqc.html", sample = config['sample']),
+        "qc/align/multiqc_report.html",
+        expand("qc/align/{sample}.itools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.itools_depth.gz", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_dups.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_depth.txt.gz", sample = config['sample']),
+        expand("qc/align/{sample}.plot_bamstats/", sample = config['sample']),
+        expand("qc/align/{sample}.bedtools_genomecov.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samstat.html", sample = config['sample']),
+        expand("qc/align/{sample}.qualimap/qualimapReport.html", sample = config['sample']),
+        expand("qc/align/{sample}.qualimap_panel/qualimapReport.html", sample = config['sample']),
+        "qc/covmap/covmap_summary.txt",
+
+#rule all_qc_clean_all:
+    #input:
+        "qc/filter/filterstat_summary.txt",
+#        "qc/clean/rqc_report.html",
+        expand("qc/clean/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/clean/multiqc_report.html",
+        expand("qc/clean/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/clean/fqstat_summary.txt",
+
+#rule all_qc_covmap_all:
+    #input:
+        "qc/covmap/covmap_summary.txt",
+
+#rule all_qc_panel_all:
+    #input:
+        "qc/panel/capture_stat_summary.txt",
+        "qc/panel/panel_bed_stat.txt",
+        expand("qc/panel/{sample}.samtools_depth_bed.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_coverage_hist.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_genomecov_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.capture_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect_uncov.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.panel_depth.png", sample = config['sample']),
+        expand("qc/panel/{sample}.panel_depth_samtools.png", sample = config['sample']),
+        expand("qc/panel/{sample}.boxplot_panel_depth.png", sample = config['sample']),
+        expand("qc/panel/{sample}.boxplot_panel_depth_samtools.png", sample = config['sample']),
+        "qc/covmap/covmap_summary.txt",
+
+#rule all_qc_raw_all:
+    #input:
+#        "qc/raw/rqc_report.html",
+        expand("qc/raw/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/raw/multiqc_report.html",
+        expand("qc/raw/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/raw/fqstat_summary.txt",
+
+#rule all_qc_var:↓
+    #input:↓
+        expand('qc/var/{germline}.var.bcftools_stats.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.bcftools_stats.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.bcftools_stats.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.bcftools_stats.txt', somatic = config['somatic']),
+        expand('qc/var/{trio}.var.bcftools_stats.txt', trio = config['trio']),
+        expand('qc/var/{trio}.sv.bcftools_stats.txt', trio = config['trio']),
+        expand('qc/var/{germline}.var.vt_peek.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.vt_peek.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.vt_peek.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.vt_peek.txt', somatic = config['somatic']),
+#        expand('qc/var/{germline}.var.valid_dup.txt', germline = config['germline']),
+#        expand('qc/var/{germline}.sv.valid_dup.txt', germline = config['germline']),
+#        expand('qc/var/{germline}.var.valid_uniq.txt', germline = config['germline']),
+#        expand('qc/var/{germline}.sv.valid_uniq.txt', germline = config['germline']),
+#        expand('qc/var/{somatic}.var.valid_dup.txt', somatic = config['somatic']),
+#        expand('qc/var/{somatic}.sv.valid_dup.txt', somatic = config['somatic']),
+#        expand('qc/var/{somatic}.var.valid_uniq.txt', somatic = config['somatic']),
+#        expand('qc/var/{somatic}.sv.valid_uniq.txt', somatic = config['somatic']),
+
+        "qc/qc_summary.txt",
+
+rule join_qc_summary:
+    input:
+        "qc/raw/fqstat_summary_pe.txt",
+        "qc/filter/filterstat_summary.txt",
+        "qc/clean/fqstat_summary_pe.txt",
+        "qc/covmap/covmap_summary.txt",
+        "qc/panel/capture_stat_summary.txt",
+        "qc/panel/panel_bed_stat.txt",
+        "qc/align/dups_summary.txt",
+    output:
+        "qc/qc_summary.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        panel_size=$(grep 'region_len' qc/panel/panel_bed_stat.txt | cut -f 2)
+
+        {csvjoin} -t -c 1 qc/raw/fqstat_summary_pe.txt qc/filter/filterstat_summary.txt qc/clean/fqstat_summary_pe.txt qc/covmap/covmap_summary.txt qc/panel/capture_stat_summary.txt qc/align/dups_summary.txt | {csvformat} -T | awk -v panel_size=$panel_size 'FS="\t" {{if ($0 ~ "#") print $0, "\t", "seq_depth", "\t", "trim_adapter"; else {{total=$2*$3; trim_perc=1-$4/total; print $0, "\t", $4/panel_size, "\t", trim_perc}} }}' | sed -e 's/\ \t/\t/g' -e 's/\t\ /\t/g' > {output}
+
+        {csvcut} -t -c '#sample,5,6,10,12,13,low_qual_filter(%),adapter_filter(%),undersize_ins_filter(%),duplicated_filter(%),29,30,34,36,37,coverage,mapping_rate,coverage_cent,specificity_cent,uniformity_cent,capture_depth_1X,samtools_dups,insert_size,seq_depth,trim_adapter' {output} | {csvformat} -T > qc/qc_summary_brief.txt
+        """

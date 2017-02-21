@@ -1,3 +1,24 @@
+#!/nfs/pipe/Re/Software/bin/Rscript --vanilla
+
+# plot gc content
+# @wxian2017Feb17
+
+argv <- commandArgs(TRUE)
+if (length(argv) == 0) {
+	cat ("Usage: /PATH/plot_gc_content.R <input_file> <out_dir>\n")
+	q()
+}
+
+.libPaths("/lustre/project/og04/pub/biosoft/R_Packages")
+library("ggplot2")
+options(bitmapType='cairo')
+data_path <- as.character(argv[1])
+out_dir <- as.character(argv[2])
+if (!file.exists(out_dir) ) {
+	dir.create(out_dir)
+}
+
+
 
   #in_data=read.table("/lustre/project/og04/wangxian/pipeline_script/GC/GC_output/all_sort.gc_content.txt")
   
@@ -19,7 +40,7 @@ abnormal_data$color <- "blue"
   #data_nodata$color="black"
 standard=read.table("/p299/user/og04/wangxian/GC_percent_test/panel_designed/standard_gc_percent_needle.txt")
 standard$color <- "red"
-standard$V1 <- c(1:1033)
+standard$V1 <- c(1:nrow(standard))
 colnames(standard) <- c("panel","chr","start","end","base","gc","color")
 abnormal <- rbind(abnormal_data[,c(1,2,5)],standard[,c(1,6,7)])
 abnormal <- abnormal[order(abnormal[,1]),]

@@ -1,0 +1,80 @@
+# align with speedseq
+# from: raw fastq
+# to: sorted rmdup bam
+# @szj^16Jan25
+
+configfile: "project_config.json"
+
+include: 'qc_clean.rules'
+
+samtools=config["biosoft"]["samtools"]
+speedseq=config["biosoft"]["speedseq"]
+
+thread=config["threads"]
+fa=config["ref"]["fa"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_align_speedseq:
+    input:
+        expand("align/{sample}.bam", sample=config["sample"]),
+        expand("align/{sample}.bam.bai", sample=config["sample"]),
+        expand("align/{sample}.discordants.bam", sample=config["sample"]),
+        expand("align/{sample}.discordants.bam.bai", sample=config["sample"]),
+        expand("align/{sample}.splitters.bam", sample=config["sample"]),
+        expand("align/{sample}.splitters.bam.bai", sample=config["sample"]),
+        expand("{fa}.fai", fa = config["ref"]["fa"]),
+
+rule align_speedseq:
+    #input: lambda wildcards: config["clean"][wildcards.sample]
+    input: lambda wildcards: config["raw"][wildcards.sample]
+    output:
+        "align/{sample}.bam",
+        "align/{sample}.bam.bai",
+        "align/{sample}.discordants.bam",
+        "align/{sample}.discordants.bam.bai",
+        "align/{sample}.splitters.bam",
+        "align/{sample}.splitters.bam.bai",
+    params:
+        qsub_q = qsub_q_big_d
+    resources:
+        qsub_vf = 35000,
+        qsub_p = thread,
+    shell:
+        """
+        {speedseq} align -v -t {thread} -o align/{wildcards.sample} -R "@RG\\tID:{wildcards.sample}\\tSM:{wildcards.sample}\\tLB:{wildcards.sample}" {fa} {input}
+        """
+
+rule faidx_fa:
+#input: expand("{fa}", fa = config["ref"]["fa"])
+    input: "{fa}"
+    output:
+        "{fa}.fai",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 500,
+        qsub_p = 1,
+    shell:
+        "{samtools} faidx {input}"
+
+rule index_fa:
+#input: expand("{fa}", fa = config["ref"]["fa"])
+    input: "{fa}"
+    output:
+        "{fa}.amb",
+        "{fa}.ann",
+        "{fa}.bwt",
+        "{fa}.pac",
+        "{fa}.sa",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 500,
+        qsub_p = 1,
+    shell:
+        "{bwa} index {input}"
+

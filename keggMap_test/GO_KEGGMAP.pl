@@ -133,7 +133,7 @@ while (<IN_OUT>) {
 }
 close IN_OUT;
 
-my $path_uniq=$OUT."/".$sample.".kegg_gene.txt";
+my $path_uniq=$OUT."/".$sample.".var.pathway.txt";
 open (PATH, '>', $path_uniq); 
 print PATH "#Pathway\tGene\n";
 for my $key(keys %hash_path) {

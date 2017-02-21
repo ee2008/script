@@ -1,0 +1,405 @@
+# via intevar @yaolina
+# @szj^16Sep28
+
+configfile: 'project_config.json'
+
+include: 'all_qc.rules'
+include: 'var_germline_speedseq.rules'
+include: 'var_germline_varscan.rules'
+include: 'var_somatic_mutect.rules'
+include: 'var_somatic_speedseq.rules'
+include: 'var_somatic_varscan.rules'
+
+dep_thre_percent_germline = 0.05
+dep_thre_percent_somatic = 0.05
+
+intevar = config['biosoft']['intevar']
+vcfuniq = config['biosoft']['vcfuniq']
+convert2bed = config['biosoft']['convert2bed']
+bedtools = config['biosoft']['bedtools']
+transvar = config['biosoft']['transvar']
+csvgrep = config['biosoft']['csvgrep']
+csvcut = config['biosoft']['csvcut']
+
+thread = config['threads']
+fa = config['ref']['fa']
+panel_bed = config['ref']['panel_bed']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_var_intevar:
+    input:
+        #expand('var_intevar/{germline}.snp.tsv', germline = config['germline']),
+        #expand('var_intevar/{germline}.indel.tsv', germline = config['germline']),
+        #expand('var_intevar/{somatic}.snv.tsv', somatic = config['somatic']),
+        #expand('var_intevar/{somatic}.sindel.tsv', somatic = config['somatic']),
+        expand("var_intevar/{germline}.var.tsv", germline = config['germline']),
+        expand("var_intevar/{germline}.var.panel.tsv", germline = config['germline']),
+        expand("var_intevar/{somatic}.svar.tsv", somatic = config['somatic']),
+        expand("var_intevar/{somatic}.svar.panel.tsv", somatic = config['somatic']),
+
+rule intevar_germline:
+    input:
+        "var_speedseq/{germline}.var.vcf.gz",
+        "var_varscan/{germline}.snp.vcf",
+    output:
+        "var_intevar/{germline}_intevar/{germline}.intevar.germline.done",
+        #"var_intevar/{germline}_intevar/output_gename/variant_locations.vcf",
+        #'var_intevar/{germline}.snp.tsv',
+        #'var_intevar/{germline}.indel.tsv',
+        #'var_intevar/{germline}.snp.panel.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 1000,
+        qsub_p = thread,
+    shell:
+        """
+        {intevar} -n {wildcards.germline} -i . -o var_intevar
+        [[ -f var_intevar/{wildcards.germline}_intevar/output_gename/variant_locations.vcf ]] && echo 'Y' > {output}
+        """
+        #{intevar} -n {wildcards.germline} -i . -o var_intevar -p ref/panel.bed.info
+
+rule intevar_somatic:
+    input:
+        "var_speedseq/{somatic}.var.vcf.gz",
+        "var_varscan/{somatic}.snv.vcf",
+        "var_mutect/{somatic}.snv.mutect.vcf",
+        "var_mutect/{somatic}.snv.mutect.txt",
+    output:
+        "var_intevar/{somatic}_intevar/{somatic}.intevar.somatic.done",
+        #"var_intevar/{somatic}_intevar/output_gename/variant_locations.vcf",
+        #snv = 'var_intevar/{somatic}.snv.tsv',
+        #sindel = 'var_intevar/{somatic}.sindel.tsv',
+        #spanel = 'var_intevar/{somatic}.snv.panel.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 1000,
+        qsub_p = thread,
+    shell:
+        """
+        {intevar} -n {wildcards.somatic} -i . -o var_intevar
+        [[ -f var_intevar/{wildcards.somatic}_intevar/output_gename/variant_locations.vcf ]] && echo 'Y' > {output}
+        """
+        #{intevar} -n {wildcards.somatic} -i . -o var_intevar -p ref/panel.bed.info
+        #mv -v var_intevar/{wildcards.somatic}.var.panel.tsv {output.spanel}
+        #mv -v var_intevar/{wildcards.somatic}.snp.tsv {output.snv}
+        #mv -v var_intevar/{wildcards.somatic}.indel.tsv {output.sindel}
+
+rule intevar_vcf_to_filter_vcf_germline:
+    input:
+        tmp = "var_intevar/{germline}_intevar/{germline}.intevar.germline.done",
+        qc = "qc/qc_summary.txt",
+    output:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.vcf",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        echo "> processe on: {wildcards.germline}"
+        # dep=$(awk '{{if ($1 == "{wildcards.germline}") print $NF}}' {input.qc})
+        dep=$({csvgrep} -t -m '{wildcards.germline}' -c '#sample' {input.qc} | {csvcut} -c 'capture_depth_1X' | tail -1)
+        dep_thre=$(echo "$dep * {dep_thre_percent_germline}" | /usr/bin/bc)
+        dep_thre=${{dep_thre%%\.*}}
+        echo ">> dep: $dep, dep_thre_percent: {dep_thre_percent_germline}, dep_thre: $dep_thre"
+        [[ -f {output} ]] && echo "! output exists, will remove" && rm -v {output}.tmp
+        [[ -f {output}.tmp ]] && echo "! output.tmp exists, will remove" && rm -v {output}.tmp
+        [[ -f {output}.header ]] && echo "! output.header exists, will remove" && rm -v {output}.header
+        while read line; do
+            if [[ ${{line:0:1}} == '#' ]]; then
+                printf "$line\n" >> {output}.header
+            else
+                dp=${{line##*,dp=}}
+                dp=${{dp%%;}}
+                if [[ $dp -gt $dep_thre ]]; then
+                    printf "$line\n" >> {output}.tmp
+                fi
+            fi
+        done < var_intevar/{wildcards.germline}_intevar/output_gename/variant_locations.vcf
+        sort -k1 -V {output}.tmp | uniq | sed 's/^chr//g' > {output}.body
+        cat {output}.header {output}.body > {output}.all
+        cat {output}.header > {output}
+        {bedtools} intersect -a {output}.all -b {panel_bed} >> {output}
+        rm {output}.tmp {output}.header {output}.body {output}.all
+        echo ">> input: $(wc -l var_intevar/{wildcards.germline}_intevar/output_gename/variant_locations.vcf)"
+        echo ">> output: $(wc -l {output})"
+        """
+
+rule intevar_filter_vcf_to_transvar_vcf_panel_germline:
+    input:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.vcf",
+    output:
+        vcf = "var_intevar/{germline}_intevar/{germline}.var.filter.panel.vcf",
+        transvar = "var_intevar/{germline}_intevar/{germline}.var.filter.panel.transvar.vcf",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        echo "> processe on: {wildcards.germline}"
+        {bedtools} intersect -a {input} -b ref/panel.bed.info | uniq > {output.vcf}
+        {transvar} ganno --vcf {output.vcf} --ensembl --longest > {output.transvar}
+        """
+
+rule intevar_filter_vcf_to_transvar_vcf_germline:
+    input:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.vcf",
+    output:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.transvar.vcf",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        echo "> processe on: {wildcards.germline}"
+        {transvar} ganno --vcf {input} --ensembl --longest > {output}
+        """
+
+rule intevar_transvar_vcf_to_bed_germline:
+    input:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.transvar.vcf",
+    output:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.transvar.bed",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:$PATH
+        {convert2bed} -i vcf -o bed < {input} > {output}
+        """
+
+rule intevar_transvar_vcf_to_bed_panel_germline:
+    input:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.panel.transvar.vcf",
+    output:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.panel.transvar.bed",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:$PATH
+        {convert2bed} -i vcf -o bed < {input} > {output}
+        """
+
+rule intevar_transvar_bed_format_germline:
+    input:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.transvar.bed",
+    output:
+        bed = "var_intevar/{germline}.var.tsv",
+        #panel_bed = "var_intevar/{germline}.var.panel.tsv",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#CHROM\tPOS\tEND\tID\tQUAL\tREF\tALT\tFILTER\ttranscript\tgene\tstrand\tganno\tcanno\tpanno\tregion\tinfo\tVF\tDP\tDP_ALT" > {output.bed}
+        sed -e 's/^chr//g' -e 's/{wildcards.germline}:.*,vf=//g' -e 's/,dp=/\t/g' -e 's/;\t/\t/g' -e 's|\tchr.*:\(g\.\S*\)/\(\S*\)/\(\S*\)\t|\t\\1\t\\2\t\\3\t|g' {input} | awk -F "\t" '{{printf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%.f\\n\", $1,$2,$3,$4,$5,$6,$7,$8, $11,$12,$13,$14,$15,$16,$17,$18, $9,$10, $9 * $10 }}' >> {output.bed}
+        """
+        #[[ ! -f var_intevar/panel_bed_info.header ]] && head -1 ref/panel.bed.info > var_intevar/panel_bed_info.header
+        #head -1 {output.bed} > {output.panel_bed}.header
+        #paste var_intevar/panel_bed_info.header {output.panel_bed}.header > {output.panel_bed}
+        #{bedtools} intersect -a ref/panel.bed.info -b {output.bed} -wa -wb >> {output.panel_bed}
+        #rm -vf {output.panel_bed}.header
+
+rule intevar_transvar_bed_format_panel_germline:
+    input:
+        "var_intevar/{germline}_intevar/{germline}.var.filter.panel.transvar.bed",
+    output:
+        #bed = "var_intevar/{germline}.var.tsv",
+        panel_bed = "var_intevar/{germline}.var.panel.tsv",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#CHROM\tPOS\tEND\tID\tQUAL\tREF\tALT\tFILTER\ttranscript\tgene\tstrand\tganno\tcanno\tpanno\tregion\tinfo\tVF\tDP\tDP_ALT" > {output.panel_bed}.tmp
+        sed -e 's/^chr//g' -e 's/{wildcards.germline}:.*,vf=//g' -e 's/,dp=/\t/g' -e 's/;\t/\t/g' -e 's|\tchr.*:\(g\.\S*\)/\(\S*\)/\(\S*\)\t|\t\\1\t\\2\t\\3\t|g' {input} | awk -F "\t" '{{printf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%.f\\n\", $1,$2,$3,$4,$5,$6,$7,$8, $11,$12,$13,$14,$15,$16,$17,$18, $9,$10, $9 * $10 }}' >> {output.panel_bed}.tmp
+        [[ ! -f var_intevar/panel_bed_info.header ]] && head -1 ref/panel.bed.info > var_intevar/panel_bed_info.header
+        head -1 {output.panel_bed}.tmp > {output.panel_bed}.tmp.header
+        paste var_intevar/panel_bed_info.header {output.panel_bed}.tmp.header > {output.panel_bed}
+        {bedtools} intersect -a ref/panel.bed.info -b {output.panel_bed}.tmp -wa -wb >> {output.panel_bed}
+        rm -vf {output.panel_bed}.tmp.header {output.panel_bed}.tmp
+        """
+
+rule intevar_vcf_to_filter_vcf_somatic:
+    input:
+        tmp = "var_intevar/{somatic}_intevar/{somatic}.intevar.somatic.done",
+        qc = "qc/qc_summary.txt",
+    output:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.vcf",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        echo "> processe on: {wildcards.somatic}"
+        somatic_pair={wildcards.somatic}
+        normal=${{somatic_pair%%-VS-*}}
+        tumor=${{somatic_pair##*-VS-}}
+        echo "> somatic: $somatic_pair, normal: $normal, tumor: $tumor"
+        # dep_normal=$(awk -v normal=$normal '{{if ($1 == normal) print $NF}}' {input.qc})
+        dep_normal=$({csvgrep} -t -m $normal -c '#sample' {input.qc} | {csvcut} -c 'capture_depth_1X' | tail -1)
+        # dep_tumor=$(awk -v tumor=$tumor '{{if ($1 == tumor) print $NF}}' {input.qc})
+        dep_tumor=$({csvgrep} -t -m $tumor -c '#sample' {input.qc} | {csvcut} -c 'capture_depth_1X' | tail -1)
+        dep_normal=${{dep_normal%%\.*}}
+        dep_tumor=${{dep_tumor%%\.*}}
+        [[ $dep_normal -lt $dep_tumor ]] && dep="$dep_normal" || dep="$dep_tumor"
+        dep_thre=$(echo "$dep * {dep_thre_percent_somatic}" | /usr/bin/bc)
+        dep_thre=${{dep_thre%%\.*}}
+        echo ">> dep_normal: $dep_normal, dep_tumor: $dep_tumor"
+        echo ">> dep: $dep, dep_thre_percent: {dep_thre_percent_somatic}, dep_thre: $dep_thre"
+        [[ -f {output} ]] && echo "! output exists, will remove" && rm -v {output}
+        [[ -f {output}.tmp ]] && echo "! output.tmp exists, will remove" && rm -v {output}.tmp
+        [[ -f {output}.header ]] && echo "! output.header exists, will remove" && rm -v {output}.header
+        while read line; do
+            if [[ ${{line:0:1}} == '#' ]]; then
+                printf "$line\n" >> {output}.header
+            else
+                dp=${{line##*,dp=}}
+                dp=${{dp%%;}}
+                if [[ $dp -gt $dep_thre ]]; then
+                    printf "$line\n" >> {output}.tmp
+                fi
+            fi
+        done < var_intevar/{wildcards.somatic}_intevar/output_gename/variant_locations.vcf
+        sort -k1 -V {output}.tmp | uniq | sed 's/^chr//g' > {output}.body
+        cat {output}.header {output}.body > {output}.all
+        cat {output}.header > {output}
+        {bedtools} intersect -a {output}.all -b {panel_bed} >> {output}
+        rm {output}.tmp {output}.header {output}.body {output}.all
+        echo ">> input: $(wc -l var_intevar/{wildcards.somatic}_intevar/output_gename/variant_locations.vcf)"
+        echo ">> output: $(wc -l {output})"
+        """
+
+rule intevar_filter_vcf_to_transvar_vcf_panel_somatic:
+    input:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.vcf",
+    output:
+        vcf = "var_intevar/{somatic}_intevar/{somatic}.svar.filter.panel.vcf",
+        transvar = "var_intevar/{somatic}_intevar/{somatic}.svar.filter.panel.transvar.vcf",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        echo "> processe on: {wildcards.somatic}"
+        {bedtools} intersect -a {input} -b ref/panel.bed.info | uniq > {output.vcf}
+        {transvar} ganno --vcf {output.vcf} --ensembl --longest > {output.transvar}
+        """
+
+rule intevar_filter_vcf_to_transvar_vcf_somatic:
+    input:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.vcf",
+    output:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.transvar.vcf",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        echo "> processe on: {wildcards.somatic}"
+        {transvar} ganno --vcf {input} --ensembl --longest > {output}
+        """
+
+rule intevar_transvar_vcf_to_bed_somatic:
+    input:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.transvar.vcf",
+    output:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.transvar.bed",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:$PATH
+        {convert2bed} -i vcf -o bed < {input} > {output}
+        """
+
+rule intevar_transvar_vcf_to_bed_panel_somatic:
+    input:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.panel.transvar.vcf",
+    output:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.panel.transvar.bed",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:$PATH
+        {convert2bed} -i vcf -o bed < {input} > {output}
+        """
+
+rule intevar_transvar_bed_format_somatic:
+    input:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.transvar.bed",
+    output:
+        bed = "var_intevar/{somatic}.svar.tsv",
+        #panel_bed = "var_intevar/{somatic}.svar.panel.tsv",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#CHROM\tPOS\tEND\tID\tQUAL\tREF\tALT\tFILTER\ttranscript\tgene\tstrand\tganno\tcanno\tpanno\tregion\tinfo\tVF\tDP\tDP_ALT" > {output.bed}
+        sed -e 's/^chr//g' -e 's/{wildcards.somatic}:.*,vf=//g' -e 's/,dp=/\t/g' -e 's/;\t/\t/g' -e 's|\tchr.*:\(g\.\S*\)/\(\S*\)/\(\S*\)\t|\t\\1\t\\2\t\\3\t|g' {input} | awk -F "\t" '{{printf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%.f\\n\", $1,$2,$3,$4,$5,$6,$7,$8, $11,$12,$13,$14,$15,$16,$17,$18, $9,$10, $9 * $10 }}' >> {output.bed}
+        """
+        #[[ ! -f var_intevar/panel_bed_info.header ]] && head -1 ref/panel.bed.info > var_intevar/panel_bed_info.header
+        #head -1 {output.bed} > {output.panel_bed}.header
+        #paste var_intevar/panel_bed_info.header {output.panel_bed}.header > {output.panel_bed}
+        #{bedtools} intersect -a ref/panel.bed.info -b {output.bed} -wa -wb >> {output.panel_bed}
+        #rm -vf {output.panel_bed}.header
+
+rule intevar_transvar_bed_format_panel_somatic:
+    input:
+        "var_intevar/{somatic}_intevar/{somatic}.svar.filter.panel.transvar.bed",
+    output:
+        #bed = "var_intevar/{somatic}.svar.tsv",
+        panel_bed = "var_intevar/{somatic}.svar.panel.tsv",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#CHROM\tPOS\tEND\tID\tQUAL\tREF\tALT\tFILTER\ttranscript\tgene\tstrand\tganno\tcanno\tpanno\tregion\tinfo\tVF\tDP\tDP_ALT" > {output.panel_bed}.tmp
+        sed -e 's/^chr//g' -e 's/{wildcards.somatic}:.*,vf=//g' -e 's/,dp=/\t/g' -e 's/;\t/\t/g' -e 's|\tchr.*:\(g\.\S*\)/\(\S*\)/\(\S*\)\t|\t\\1\t\\2\t\\3\t|g' {input} | awk -F "\t" '{{printf \"%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%s\\t%.f\\n\", $1,$2,$3,$4,$5,$6,$7,$8, $11,$12,$13,$14,$15,$16,$17,$18, $9,$10, $9 * $10 }}' >> {output.panel_bed}.tmp
+        [[ ! -f var_intevar/panel_bed_info.header ]] && head -1 ref/panel.bed.info > var_intevar/panel_bed_info.header
+        head -1 {output.panel_bed}.tmp > {output.panel_bed}.tmp.header
+        paste var_intevar/panel_bed_info.header {output.panel_bed}.tmp.header > {output.panel_bed}
+        {bedtools} intersect -a ref/panel.bed.info -b {output.panel_bed}.tmp -wa -wb >> {output.panel_bed}
+        rm -vf {output.panel_bed}.tmp.header {output.panel_bed}.tmp
+        """

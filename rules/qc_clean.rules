@@ -1,0 +1,125 @@
+# rules of snakemake
+# qc for clean fastq
+# used fastqc, readfq and multiqc
+# NOTE: base on qc_raw.rules
+# @szj^15Dec26
+
+# fastqc: sam,bam,fq => *_fastqc.html
+# readfq (itools Fqtools stat): fq => txt
+# multiqc: fastqc results
+# Rqc: multi fq => rqc_report_*.html
+
+configfile: "./project_config.json"
+include: "./filter_raw.rules"
+
+localrules: summary_fqstat_clean
+
+Rqc = config["biosoft"]["Rqc"]
+fastqc = config["biosoft"]["fastqc"]
+itools = config["biosoft"]["itools"]  # for readfq
+multiqc = config["biosoft"]["multiqc"]
+java = config["biosoft"]["java"]
+summary_fqstat = config["biosoft"]["summary_fqstat"]
+
+thread = config["threads"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+#out = config["path"]["qc_report"] + "/clean"
+#clean = config["path"]["clean"]
+#qc = config["path"]["qc_report"]
+
+rule all_qc_clean:
+    input:
+        "qc/filter/filterstat_summary.txt",
+        "qc/clean/rqc_report.html",
+        expand("qc/clean/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/clean/multiqc_report.html",
+        expand("qc/clean/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/clean/fqstat_summary.txt",
+
+rule Rqc_clean:
+    input:
+        expand("clean/{sample}_R1.fastq.gz", sample = config["sample"]),
+        expand("clean/{sample}_R2.fastq.gz", sample = config["sample"]),
+    output:
+        "qc/clean/rqc_report.html"
+    params:
+        qsub_q = qsub_q_big_d
+    resources:
+        qsub_vf = 25000,
+        qsub_p = 1,
+    shell:
+        """
+        export LD_LIBRARY_PATH=/nfs/pipe/Re/Software/miniconda/lib
+        {Rqc} $(readlink -e clean) .fastq.gz qc/clean rqc_report
+        """
+
+rule fastqc_clean:
+    input:
+        "clean/{prefix}.fastq.gz"
+    output:
+        "qc/clean/{prefix}_fastqc.html",
+        #"qc/clean/{prefix}_fastqc",
+        zip_file = "qc/clean/{prefix}_fastqc.zip",
+    threads:
+        config["threads"]
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3500,
+        qsub_p = config["threads"],
+    shell:
+        "{fastqc} -t {threads} -j {java} {input} -o qc/clean"
+        #"unzip -o {output.zip_file} -d qc/clean"
+
+rule multiqc_clean:
+    input:
+        expand("qc/clean/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fastqc.html", sample = config["sample"]),
+    output:
+        "qc/clean/multiqc_report.html"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 99,
+        qsub_p = 1,
+    shell:
+        "cd qc/clean;"\
+        "{multiqc} -f ."
+
+rule readfq_clean:
+    input:
+        "clean/{prefix}.fastq.gz"
+    output:
+        "qc/clean/{prefix}_fqstat.txt"
+    threads:
+        config["threads"]
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 600,
+        qsub_p = config["threads"],
+    shell:
+        "{itools} Fqtools stat -CPU {threads} -InFq {input} -OutStat {output} || echo '$? not equal to 0'"
+
+rule summary_fqstat_clean:
+    input:
+        expand("qc/clean/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fqstat.txt", sample = config["sample"])
+    output:
+        "qc/clean/fqstat_summary.txt",
+        "qc/clean/fqstat_summary_pe.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        "{summary_fqstat} qc/clean"
+

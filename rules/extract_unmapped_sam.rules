@@ -1,0 +1,31 @@
+# @szj^15Nov20
+# !TODO
+
+"""
+extract unmapped reads
+from sam files
+to new sam files
+"""
+
+#prefix = config["sample"]
+SAMTOOLS = "/nfs2/pipe/Re/Software/miniconda/bin/samtools"
+
+rule all:
+    input: "{prefix}.unmap.sam.gz"
+
+rule sam_to_sorted_bam:
+    input: "{prefix}.sam.gz"
+    output: "{prefix}.unmap.bam"
+    shell:
+        """
+        {samtools} view -f 4 {input} | samtools view -Sb - | samtools sort - {prefix}.unmap
+        """
+
+rule sorted_bam_to_sam:
+    input: "{prefix}.unmap.bam"
+    output: "{prefix}.unmap.sam.gz"
+    shell:
+        """
+        samtools view {input} | gzip > {output}
+        """
+# samtools view -f 4 <.sort.bam> | samtools view -Sb - | samtools sort - [FM][12].unmap | samtools view > <.unmap.sam>

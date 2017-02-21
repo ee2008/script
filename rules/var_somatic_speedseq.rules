@@ -1,0 +1,70 @@
+# call snp and sv via speedseq (by FreeBayes and Lumpy)
+# for somatic (two for a pair)
+# @szj^16Jan26
+
+configfile: "project_config.json"
+
+include: "./align_speedseq.rules"
+include: "./prepare_vcf.rules"
+
+speedseq=config["biosoft"]["speedseq"]
+speedseq_bed = config["biosoft"]["speedseq_bed"]
+
+thread=config["threads"]
+fa=config["ref"]["fa"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+par_min_alt_dp = config["params"]["var_caller_somatic"]["min_alt_dp"]
+par_min_var_freq = config["params"]["var_caller_somatic"]["min_var_freq"]
+
+
+rule all_var_somatic_speedseq:
+    input:
+        expand("var_speedseq/{somatic}.var.vcf.gz", somatic = config['somatic']),
+        expand("var_speedseq/{somatic}.sv.vcf.gz", somatic = config['somatic']),
+        expand("var/{somatic}.var.vcf", somatic = config["somatic"]),
+        expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+
+rule snv_somatic_speedseq:
+    input:
+        B_N = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".bam",
+        B_T = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".bam",
+    output:
+        "var_speedseq/{somatic}.var.vcf.gz"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 5300,
+        qsub_p = thread,
+    shell:
+        """
+        echo ">> min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}"
+        {speedseq} somatic -C {par_min_alt_dp} -F {par_min_var_freq} -v -t {thread} -o var_speedseq/{wildcards.somatic}.var {fa} {input.B_N} {input.B_T}
+        """
+        #{speedseq} somatic -v -w {speedseq_bed}/include.bed -t {thread} -o var_speedseq/{wildcards.somatic}.var {fa} {input.B_N} {input.B_T}
+
+rule sv_somatic_speedseq:
+    input:
+        B_N = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".bam",
+        B_T = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".bam",
+        S_N = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".splitters.bam",
+        S_T = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".splitters.bam",
+        D_N = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".discordants.bam",
+        D_T = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".discordants.bam",
+    output:
+        "var_speedseq/{somatic}.sv.vcf.gz"
+    params:
+        custom = config["params_speedseq_sv_custom"],
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 5000,
+        qsub_p = thread,
+    shell:
+        """
+        {speedseq} sv -v -x {speedseq_bed}/lumpy.exclude.bed -t {thread} {params.custom} -o var_speedseq/{wildcards.somatic} -R {fa} -B {input.B_N},{input.B_T} -S {input.S_N},{input.S_T} -D {input.D_N},{input.D_T} || echo '-> no sv'  # to avoid non-zero exit status due to none sv called
+        """
+

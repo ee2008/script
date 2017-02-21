@@ -1,0 +1,188 @@
+# for normal tumor pair
+# call somatic snv, indel, copynumber
+# and filter via varscan
+# @szj^16Mar01
+
+configfile: "./project_config.json"
+include: "./prepare_mpileup.rules"
+
+varscan = config['biosoft']['varscan']
+fa = config['ref']['fa']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+par_min_dp = config["params"]["var_caller_somatic"]["min_dp"]
+par_min_alt_dp = config["params"]["var_caller_somatic"]["min_alt_dp"]
+par_min_var_freq = config["params"]["var_caller_somatic"]["min_var_freq"]
+par_p_value = config["params"]["var_caller_somatic"]["p_value"]
+
+
+rule all_var_somatic_varscan:
+    input:
+        expand("var_varscan/{somatic}.snv.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.vcf", somatic = config['somatic']),
+#        expand("var_varscan/{somatic}.copynumber.txt", somatic = config['somatic']),
+#        expand("var_varscan/{somatic}.copynumber.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.txt.Somatic.hc", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt.Somatic.hc", somatic = config['somatic']),
+
+rule varscan_somatic_var_vcf:
+    input:
+        normal = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".mpileup",
+        tumor = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".mpileup",
+    output:
+        snp = "var_varscan/{somatic}.snv.vcf",
+        indel = "var_varscan/{somatic}.sindel.vcf",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} somatic {input.normal} {input.tumor} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-snp {output.snp} --output-indel {output.indel} --output-vcf 1
+        """
+
+rule varscan_somatic_var:
+    input:
+        normal = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".mpileup",
+        tumor = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".mpileup",
+    output:
+        snp = "var_varscan/{somatic}.snv.txt",
+        indel = "var_varscan/{somatic}.sindel.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} somatic {input.normal} {input.tumor} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-snp {output.snp} --output-indel {output.indel}
+        """
+
+rule varscan_somatic_copynumber:
+    input:
+        normal = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".mpileup",
+        tumor = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".mpileup",
+    output:
+        "var_varscan/{somatic}.copynumber.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: 0.01 (fix)"
+        {varscan} copynumber {input.normal} {input.tumor} {output} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value 0.01
+        mv {output}.copynumber {output}
+        """
+
+rule varscan_somatic_filter_snp:
+    input:
+        snp = "var_varscan/{somatic}.snv.txt",
+        indel = "var_varscan/{somatic}.sindel.txt",
+    output:
+        "var_varscan/{somatic}.snv.filter.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} somaticFilter {input.snp} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --indel-file {input.indel} --output-file {output}
+        """
+
+rule varscan_somatic_filter_indel:
+    input:
+        snp = "var_varscan/{somatic}.snv.txt",
+        indel = "var_varscan/{somatic}.sindel.txt",
+    output:
+        "var_varscan/{somatic}.sindel.filter.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} somaticFilter {input.indel} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-file {output}
+        """
+
+rule varscan_somatic_copycaller:
+    """adjust VarScan copynumber output for GC content, apply amp/del thresholds, and (optionally) recenter the data"""
+    input:
+        rules.varscan_somatic_copynumber.output
+    output:
+        call = "var_varscan/{somatic}.copynumber.filter.txt",
+        homdel = "var_varscan/{somatic}.copynumber.homdel.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} copyCaller {input} --output-file {output.call} --output-homdel-file {output.homdel}
+        """
+
+rule varscan_somatic_process_snp:
+    input:
+        "var_varscan/{somatic}.snv.txt",
+    output:
+        "var_varscan/{somatic}.snv.txt.Germline",
+        "var_varscan/{somatic}.snv.txt.Germline.hc",
+        "var_varscan/{somatic}.snv.txt.Somatic",
+        "var_varscan/{somatic}.snv.txt.Somatic.hc",
+        "var_varscan/{somatic}.snv.txt.LOH",
+        "var_varscan/{somatic}.snv.txt.LOH.hc",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} processSomatic {input}
+        """
+
+rule varscan_somatic_process_indel:
+    input:
+        "var_varscan/{somatic}.sindel.txt",
+    output:
+        "var_varscan/{somatic}.sindel.txt.Germline",
+        "var_varscan/{somatic}.sindel.txt.Germline.hc",
+        "var_varscan/{somatic}.sindel.txt.Somatic",
+        "var_varscan/{somatic}.sindel.txt.Somatic.hc",
+        "var_varscan/{somatic}.sindel.txt.LOH",
+        "var_varscan/{somatic}.sindel.txt.LOH.hc",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} processSomatic {input}
+        """
+

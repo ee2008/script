@@ -1,0 +1,38 @@
+# !DEPRECATED
+# integrate:
+# var_germline_varscan
+# var_somatic_varscan
+# var_trio_varscan
+# @szj^16Mar02
+
+configfile: "./project_config.json"
+include: "./var_germline_varscan.rules"
+include: "./var_somatic_varscan.rules"
+include: "./var_trio_varscan.rules"
+
+rule all_var_all_varscan:
+    input:
+        expand("var_varscan/{germline}.snp.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.filter.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.filter.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.cns.txt.gz", germline = config['germline']),
+
+        expand("var_varscan/{somatic}.snv.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.txt.Somatic.hc", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt.Somatic.hc", somatic = config['somatic']),
+
+        expand("var_varscan/{trio}.snp.vcf", trio = config['trio']),
+        expand("var_varscan/{trio}.indel.vcf", trio = config['trio']),
+
+        expand("align/{sample}.mpileup.gz", sample = config['sample']),
+

@@ -18,6 +18,9 @@ my $out="./";
 if ($ARGV[@ARGV-2] eq "-o") {
 	$s=@ARGV-3;
 	$out=$ARGV[@ARGV-1];
+	if (!-e $out) {
+		mkdir $out;
+	}
 } else {
 	$s=@ARGV-1;
 }

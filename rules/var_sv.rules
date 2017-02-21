@@ -1,0 +1,68 @@
+# use: 
+# - factera
+# to call sv
+# - lumpy to cosmic
+# @szj^16Oct28
+
+configfile: 'project_config.json'
+
+include: 'var_germline_speedseq.rules'
+include: 'var_somatic_speedseq.rules'
+
+factera = config['biosoft']['factera']
+lumpy2cosmic = config['biosoft']['lumpy2cosmic']
+
+thread = config['threads']
+fa = config['ref']['fa']
+panel_bed = config['ref']['panel_bed']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_var_sv:
+    input:
+        expand('sv/{germline}.fusion.factera.log', germline = config['germline']),
+        expand('sv/{germline}.fusion.panel.tsv', germline = config['germline']),
+        expand('sv/{somatic}.fusion.panel.tsv', somatic = config['somatic']),
+
+rule sv_factera:
+    input:
+        'align/{prefix}.bam'
+    output:
+        #origin = 'sv/{prefix}_factera/{prefix}.factera.fusions.txt',
+        #cp = 'sv/{prefix}.fusion.factera.tsv',
+        'sv/{prefix}.fusion.factera.log',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:$PATH
+        [[ ! -d sv/{wildcards.prefix}_factera ]] && mkdir -pv sv/{wildcards.prefix}_factera
+        {factera} -C -o sv/{wildcards.prefix}_factera {input} {panel_bed} {fa}.2bit || echo 'no fusion from factera'
+        cp -v 'sv/{wildcards.prefix}_factera/{wildcards.prefix}.factera.fusions.txt' 'sv/{wildcards.prefix}.fusion.factera.tsv' && echo 'done factera' > {output} || echo 'no fusion from factera' > {output}
+        """
+
+rule lumpy_to_cosmic:
+    input:
+        'var_speedseq/{prefix}.sv.vcf.gz'
+    output:
+        'sv/{prefix}.fusion.tsv',
+        'sv/{prefix}.fusion.panel.tsv',
+        'sv/{prefix}.sv.tsv',
+        'sv/{prefix}.sv.panel.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 300,
+        qsub_p = 1,
+    shell:
+        # TODO: add bedtools and mv script dir
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:/nfs/pipe/Re/Software/bin:$PATH
+        {lumpy2cosmic} {input} -o sv -b ref/panel.bed.info
+        """

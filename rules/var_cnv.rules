@@ -1,0 +1,134 @@
+# via cnvkit
+# @szj^16Aug12
+# @szj^16Sep28
+
+configfile: 'project_config.json'
+
+include: 'align_speedseq.rules'
+
+cnvkit = config['biosoft']['cnvkit']
+
+thread = config['threads']
+fa = config['ref']['fa']
+panel_bed = config['ref']['panel_bed']
+
+ref_cnn = config['ref']['ref_cnn']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+localrules: cnv_cnvkit_trusted_gene_all
+
+rule all_var_cnv:
+    input:
+        expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+        'cnv/heatmap.pdf',
+        'cnv/trusted_gene.tsv',
+        'cnv/metrics.tsv',
+
+rule cnv_cnvkit_somatic:
+    input:
+        bam_n = lambda wildcards: 'align/' + config['somatic_pair'][wildcards.somatic][0] + '.bam',
+        bam_t = lambda wildcards: 'align/' + config['somatic_pair'][wildcards.somatic][1] + '.bam',
+    output:
+        'cnv/{somatic}/{somatic}.cns',
+        'cnv/{somatic}/{somatic}.cnr',
+        'cnv/{somatic}/{somatic}.gainloss.tsv',
+        'cnv/{somatic}/{somatic}.cnv.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 7300,
+        qsub_p = thread,
+    shell:
+        """
+        {cnvkit} -m somatic -1 '{input.bam_n}' -2 '{input.bam_t}' -o cnv/{wildcards.somatic} -b {panel_bed} -f {fa} -t {thread} --plot
+        """
+
+rule cnv_cnvkit_reference:
+    input:
+        expand('align/{normal}.bam', normal = config['normal'])
+    output:
+        'ref/ref.cnn'
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 7300,
+        qsub_p = thread,
+    shell:
+        """
+        {cnvkit} -m reference -1 '{input}' -r {output} -b {panel_bed}
+        """
+
+rule cnv_cnvkit_germline:
+    input:
+        bam_t = lambda wildcards: config['align'][wildcards.germline],
+        ref_cnn = expand('{ref_cnn}', ref_cnn = ref_cnn)
+    output:
+        'cnv/{germline}/{germline}.cns',
+        'cnv/{germline}/{germline}.cnr',
+        'cnv/{germline}/{germline}.gainloss.tsv',
+        'cnv/{germline}/{germline}.cnv.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 7300,
+        qsub_p = thread,
+    shell:
+        """
+        {cnvkit} -m germline -2 '{input.bam_t}' -r {input.ref_cnn} -o cnv/{wildcards.germline} -p {wildcards.germline} -b {panel_bed} -f {fa} -t {thread} --plot
+        """
+
+rule cnv_cnvkit_headmap_all:
+    input:
+        expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+    output:
+        'cnv/heatmap.pdf'
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        #{cnvkit} --custom 'heatmap {input} -d -o {output}'
+        {cnvkit} --custom 'heatmap {input} -o {output}'
+        """
+
+rule cnv_cnvkit_trusted_gene_all:
+    input:
+        expand('cnv/{somatic}/{somatic}.gainloss.tsv', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.gainloss.tsv', germline = config['germline']),
+    output:
+        'cnv/trusted_gene.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        cat {input} | awk '{{if ($5 > 0) print $1"\tgain"; else print $1"\tloss"}}' | uniq | grep -v '^gene' | sort | uniq -c | tr -s ' ' | cut -c 2- | sort -k1 -rn | sed 's/\ /\t/g' > {output}
+        """
+
+rule cnv_cnvkit_metrics_all:
+    input:
+        cnr = expand('cnv/{somatic}/{somatic}.cnr', somatic = config['somatic']),
+        cns = expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        cnr_g = expand('cnv/{germline}/{germline}.cnr', germline = config['germline']),
+        cns_g = expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+    output:
+        'cnv/metrics.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {cnvkit} --custom 'metrics {input.cnr} {input.cnr_g} -s {input.cns} {input.cns_g} -o {output}'
+        """

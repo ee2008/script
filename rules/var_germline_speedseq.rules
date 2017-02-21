@@ -1,0 +1,56 @@
+# call snp and sv via speedseq (by FreeBayes and Lumpy)
+# for germline (one by one)
+# @szj^16Jan25
+
+configfile: "project_config.json"
+
+include: "./align_speedseq.rules"
+include: "./prepare_vcf.rules"
+
+speedseq=config["biosoft"]["speedseq"]
+speedseq_bed = config["biosoft"]["speedseq_bed"]
+
+thread=config["threads"]
+fa=config["ref"]["fa"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_var_germline_speedseq:
+    input:
+        expand("var_speedseq/{germline}.var.vcf.gz", germline = config['germline']),
+        expand("var_speedseq/{germline}.sv.vcf.gz", germline = config['germline']),
+        expand("var/{germline}.var.vcf", germline = config['germline']),
+        expand("var/{germline}.sv.vcf", germline = config['germline']),
+
+rule snp_germline_speedseq:
+    input: lambda wildcards: config["align"][wildcards.germline]
+    output:
+        "var_speedseq/{germline}.var.vcf.gz"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 7000,
+        qsub_p = thread,
+    shell:
+        "{speedseq} var -v -t {thread} -o var_speedseq/{wildcards.germline}.var {fa} {input}"
+#"{speedseq} var -v -w {speedseq_bed}/include.bed -t {thread} -o var_speedseq/{wildcards.germline}.var {fa} {input}"
+
+rule sv_germline_speedseq:
+    input: lambda wildcards: config["align"][wildcards.germline]
+    output:
+        "var_speedseq/{germline}.sv.vcf.gz",
+    params:
+        custom = config["params_speedseq_sv_custom"],
+#params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4800,
+        qsub_p = thread,
+    shell:
+        """
+        {speedseq} sv -v -x {speedseq_bed}/lumpy.exclude.bed -t {thread} {params.custom} -o var_speedseq/{wildcards.germline} -R {fa} -B {input} -S align/{wildcards.germline}.splitters.bam -D align/{wildcards.germline}.discordants.bam || echo '-> no sv'  # to avoid non-zero exit status due to none sv called
+        """
+

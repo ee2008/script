@@ -1,0 +1,52 @@
+# more custom analysis
+# NOT fully developed
+# @szj^16Mar15
+
+configfile: "project_config.json"
+# onsuccess: shell("echo $(date) | mail -s 'ALL DONE: analysis_human' $(whoami)@1gene.com.cn")
+
+include: "./anno_human.rules"
+
+mutsig = config['biosoft']['mutsig']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_analysis_human:
+    input:
+        expand("analysis/{somatic}.var.oncotator.maf.log", somatic = config["somatic"]),
+        expand("analysis/analysis.sig_genes.txt"),
+
+rule anno_oncotator_var_maf:
+    input:
+        "var_speedseq/{prefix}.var.vcf"
+    output:
+        maf = "analysis/{prefix}.var.oncotator.maf",
+        logs = "analysis/{prefix}.var.oncotator.maf.log"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_oncotator} {input} {output.maf} TCGAMAF
+        """
+
+rule mutsig:
+    input:
+        expand("analysis/{somatic}.var.oncotator.maf", somatic = config['somatic']),
+    output:
+        "analysis/analysis.sig_genes.txt"
+    params:
+        qsub_q = qsub_q_big_d
+    resources:
+        qsub_vf = 100000,
+        qsub_p = 1,
+    shell:
+        """
+        {mutsig} analysis
+        """
+

@@ -6,15 +6,19 @@
 
 use strict;
 
-die "Usage: perl $0 <*.itools_depth.gz> <out_dir>\n" unless (@ARGV >0);
+die "Usage: perl $0 <project_id> <*.itools_depth.gz> <out_dir> [panel_design.bed| /p299/user/og04/wangxian/GC_percent_test/panel_designed/panel_design.txt]\n" unless (@ARGV >0);
 
-my $in_file = $ARGV[0];
-my $out_dir = $ARGV[1];
+my $project=$ARGV[0];
+my $in_file=$ARGV[1];
+my $out_dir=$ARGV[2];
 if (!-e $out_dir) {
 	mkdir $out_dir;
 }
 
-my $needle="/p299/user/og04/wangxian/GC_percent_test/panel_designed/designed_panel12_sort_uniq.bed";
+my $needle="/p299/user/og04/wangxian/GC_percent_test/panel_designed/panel_design.txt";
+if (@ARGV > 3) {
+	$needle=$ARGV[3];
+}
 my $needle_no=`wc -l $needle | cut -d " " -f 1`;
 chomp $needle_no;
 
@@ -90,10 +94,17 @@ open (OUT, '>', $out);
 for (my $key=1;$key<=$needle_no;$key++) {
 	if ((not exists $hash_all{$key}) || ($hash_all{$key} ==0)) {
 		$gc_percent="-";
+		$hash_all{$key}=0;
 	} else {
 		$gc_percent=$hash_gc{$key}/$hash_all{$key}*100;
 	}
-	print OUT "$key\t$gc_percent\n";
+	my $chr_needle=(split /\t/, $hash_panel{$key})[0];
+	my $start_needle=(split /\t/, $hash_panel{$key})[1];
+	my $end_needle=(split /\t/, $hash_panel{$key})[2];
+	my $length_needle=$end_needle-$start_needle+1;
+	my $depth_needle=int($hash_all{$key}/$length_needle);
+	my $no=$chr_needle.$start_needle.$end_needle;
+	print OUT "$project\t$sample\t$chr_needle\t$start_needle\t$end_needle\t$no\t$depth_needle\t$gc_percent\n";
 }
 close OUT;
 

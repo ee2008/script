@@ -1,0 +1,90 @@
+# ploidy via sequenza & PyClone
+# @wujh^20161026
+
+configfile: "project_config.json"
+
+include: 'align_speedseq.rules'
+include: 'prepare_mpileup.rules'
+
+sequenza = config['biosoft']['sequenza']
+#pyclone = config['biosoft']['pyclone']
+
+thread = config["threads"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+localrules: summary_ploidy
+
+rule all_advance_ploidy:
+    input:
+        expand("advance/ploidy/{somatic}_prevalence/tables/loci.tsv", somatic = config['somatic']),
+        expand("advance/ploidy/{somatic}_ploidy/{somatic}_PyClone.tsv", somatic = config['somatic']),
+        expand("advance/ploidy/{somatic}_ploidy/{somatic}_alternative_solutions.txt", somatic = config['somatic']),
+        'advance/ploidy_summary.txt',
+
+rule ploidy_sequenza:
+    input:
+        normal = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".mpileup",
+        tumor = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".mpileup",
+    output:
+        "advance/ploidy/{somatic}_ploidy/{somatic}_PyClone.tsv",
+        "advance/ploidy/{somatic}_ploidy/{somatic}_alternative_solutions.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 2500,
+        qsub_p = thread,
+    shell:
+        """
+        sh {sequenza} -1 {input.normal} -2 {input.tumor} \
+        -p {wildcards.somatic} -o advance/ploidy/{wildcards.somatic}_ploidy -t {thread}
+        """
+
+rule prevalence_pyclone:
+    input:
+        "advance/ploidy/{somatic}_ploidy/{somatic}_PyClone.tsv",
+    output:
+        "advance/ploidy/{somatic}_prevalence/tables/loci.tsv",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs/pipe/Re/Software/miniconda/bin:$PATH
+        export LD_LIBRARY_PATH=/nfs/pipe/Re/Software/miniconda/lib:$LD_LIBRARY_PATH
+        CONDA_PATH_BACKUP=""
+        PS1=""
+        source activate pyclone
+        [[ ! -s "matplotlibrc" ]] && echo "backend: Agg" > matplotlibrc
+        PyClone run_analysis_pipeline --working_dir advance/ploidy/{wildcards.somatic}_prevalence/ \
+            --in_files {input} --samples {wildcards.somatic} --prior major_copy_number \
+            --density pyclone_beta_binomial --num_iters 15000 --burnin 15 --min_cluster_size 1
+        source deactivate
+        """
+
+rule summary_ploidy:
+    input:
+        expand("advance/ploidy/{somatic}_ploidy/{somatic}_alternative_solutions.txt", somatic = config['somatic']),
+    output:
+        'advance/ploidy_summary.txt',
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 10,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#sample\tcellularity\tploidy" > {output}
+        for i in {input}; do
+            sample=$(basename $i _alternative_solutions.txt)
+            cellularity=$(sed -n 2p $i | cut -f 1)
+            ploidy=$(sed -n 2p $i | cut -f 2)
+            echo -e "$sample\t$cellularity\t$ploidy" >> {output}
+        done
+        """
+

@@ -1,0 +1,88 @@
+# call snp and sv via speedseq (by FreeBayes and Lumpy)
+# for trio (three for a pair)
+# @szj^16Jan27
+
+configfile: "project_config.json"
+
+include: "./align_speedseq.rules"
+include: "./prepare_vcf.rules"
+
+speedseq=config["biosoft"]["speedseq"]
+speedseq_bed = config["biosoft"]["speedseq_bed"]
+
+thread=config["threads"]
+fa=config["ref"]["fa"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_var_trio_speedseq:
+    input:
+        expand("var_speedseq/{trio}.var.vcf.gz", trio = config['trio']),
+        expand("var_speedseq/{trio}.sv.vcf.gz", trio = config['trio']),
+        expand("var_speedseq/{trio}.denovo.vcf.gz", trio = config["trio"]),
+        expand("var/{trio}.var.vcf", trio = config["trio"]),
+        expand("var/{trio}.denovo.vcf", trio = config["trio"]),
+        expand("var/{trio}.sv.vcf", trio = config['trio']),
+
+rule snp_trio_speedseq:
+    input:
+        B_F = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][0] + ".bam",
+        B_M = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][1] + ".bam",
+        B_C = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][2] + ".bam",
+    output:
+        "var_speedseq/{trio}.var.vcf.gz"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 2100,
+        qsub_p = thread,
+    shell:
+        """
+        {speedseq} var -v -w {speedseq_bed}/include.bed -t {thread} -o var_speedseq/{wildcards.trio}.var {fa} {input.B_F} {input.B_M} {input.B_C} || echo '-> no snp'
+        """
+
+rule snp_denovo_trio_speedseq:
+    input:
+        B_F = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][0] + ".bam",
+        B_M = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][1] + ".bam",
+        B_C = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][2] + ".bam",
+    output:
+        "var_speedseq/{trio}.denovo.vcf.gz"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 2000,
+        qsub_p = thread,
+    shell:
+        """
+        {speedseq} var -v -w {speedseq_bed}/include.bed -t {thread} -q 0.01 -o var_speedseq/{wildcards.trio}.denovo {fa} {input.B_F} {input.B_M} {input.B_C} || echo '-> no denovo'
+        """
+#[[ ! -f {output} ]] && echo '-> no denovo mutation' && touch {output}
+
+rule sv_trio_speedseq:
+    input:
+        B_F = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][0] + ".bam",
+        B_M = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][1] + ".bam",
+        B_C = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][2] + ".bam",
+        S_F = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][0] + ".splitters.bam",
+        S_M = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][1] + ".splitters.bam",
+        S_C = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][2] + ".splitters.bam",
+        D_F = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][0] + ".discordants.bam",
+        D_M = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][1] + ".discordants.bam",
+        D_C = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][2] + ".discordants.bam",
+    output:
+        "var_speedseq/{trio}.sv.vcf.gz"
+    params:
+        custom = config["params_speedseq_sv_custom"],
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 4800,
+        qsub_p = thread,
+    shell:
+        """
+        {speedseq} sv -v -x {speedseq_bed}/lumpy.exclude.bed -t {thread} {params.custom} -o var_speedseq/{wildcards.trio} -R {fa} -B {input.B_F},{input.B_M},{input.B_C} -S {input.S_F},{input.S_M},{input.S_C} -D {input.D_F},{input.D_M},{input.D_C} || echo '-> no sv'  # to avoid non-zero exit status due to none sv called
+        """
+

@@ -1,0 +1,43 @@
+# call trio snp, indel via varscan
+# output vcf
+# @szj^16Mar02
+
+configfile: "./project_config.json"
+include: "./prepare_mpileup.rules"
+
+varscan = config['biosoft']['varscan']
+fa = config['ref']['fa']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+par_min_cov = 2
+par_min_var_freq = 0.00001
+par_p_value = 0.99
+
+rule all_var_trio_varscan:
+    input:
+        expand("var_varscan/{trio}.snp.vcf", trio = config['trio']),
+        expand("var_varscan/{trio}.indel.vcf", trio = config['trio']),
+
+rule var_trio_varscan:
+    input:
+        father = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][0] + ".mpileup",
+        mother = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][1] + ".mpileup",
+        child = lambda wildcards: "align/" + config["trio_pair"][wildcards.trio][2] + ".mpileup",
+    output:
+        "var_varscan/{trio}.snp.vcf",
+        "var_varscan/{trio}.indel.vcf",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} trio {input.father} {input.mother} {input.child} --output-name var_varscan/{wildcards.trio}
+        """
+

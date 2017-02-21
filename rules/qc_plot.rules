@@ -1,0 +1,52 @@
+# rules of snakemake
+# qc for plot
+
+# @wxian2016Oct10
+
+configfile: "project_config.json"
+include: "./all_qc.rules"
+
+plot_qc = config['biosoft']['plot_qc']
+
+thread = config["threads"]
+sample = config["sample"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_qc_plot:
+	input:
+		expand("qc/plot/{sample}_raw_reads_composition.png",sample = config["sample"]),
+		expand("qc/plot/{sample}_base_content.png",sample = config["sample"]),
+		expand("qc/plot/{sample}_Depth_distribution.png",sample = config["sample"]),
+		expand("qc/plot/{sample}_Coverage.png",sample = config["sample"]),
+		expand("qc/plot/{sample}_Quality_score.png",sample = config["sample"]),
+		expand("qc/plot/{sample}_Cumulative_depth_distribution.png",sample = config["sample"]),
+
+rule qc_plot:
+	input:
+		"qc/filter/{sample}_filterstat.txt",
+		"qc/raw/{sample}_R1_fqstat.txt",
+		"qc/raw/{sample}_R2_fqstat.txt",
+		"qc/raw/{sample}_R1_fastqc.zip",
+		"qc/raw/{sample}_R2_fastqc.zip",
+		"qc/panel/{sample}.samtools_depth_bed.txt",
+		"qc/align/{sample}.itools_stat.txt",
+	output:
+		"qc/plot/{sample}_raw_reads_composition.png",
+		"qc/plot/{sample}_base_content.png",
+		"qc/plot/{sample}_Depth_distribution.png",
+		"qc/plot/{sample}_Coverage.png", 
+		"qc/plot/{sample}_Quality_score.png",
+		"qc/plot/{sample}_Cumulative_depth_distribution.png",
+	params:
+		qsub_q = qsub_q_d
+	resources:
+		qsub_vf = 500,
+		qsub_p = config["threads"],
+	shell:
+		"sh {plot_qc} ./ {sample} ./qc/plot"
+
+

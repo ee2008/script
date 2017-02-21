@@ -17,8 +17,8 @@ annovar=${in}*.annovar.hg19_multianno.txt
 annodb=${in}*.annodb.genome_summary.xls
 oncotator=${in}*.oncotator.tsv
 sample=${in##*/}
-out_file=${out}/$sample.suscepibility_gene.txt
-out_file_n=${out}/$sample.suscepibility_new_gene.txt
+out_file=${out}/$sample.predisposing_gene.txt
+out_file_n=${out}/$sample.predisposing_new_gene.txt
 
 # == cut the oncotator.tsv
 #code=$(chardetect $oncotator | cut -d " " -f 2)

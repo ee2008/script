@@ -1,0 +1,62 @@
+# purity via THetA
+# @szj^16Aug01
+
+configfile: "project_config.json"
+
+include: 'align_speedseq.rules'
+
+theta = config['biosoft']['theta']
+thread=config["threads"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+localrules: summary_purity
+
+rule all_advance_purity:
+    input:
+        expand("advance/purity/{somatic}.pdf", somatic = config['somatic']),
+        expand("advance/purity/{somatic}.txt", somatic = config['somatic']),
+        'advance/purity_summary.txt',
+
+rule purity_theta:
+    input:
+        bam_normal = lambda wildcards: "align/" + config['somatic_pair'][wildcards.somatic][0] + '.bam',
+        bam_tumor = lambda wildcards: "align/" + config['somatic_pair'][wildcards.somatic][1] + '.bam',
+    output:
+        pdf = "advance/purity/{somatic}.pdf",
+        txt = "advance/purity/{somatic}.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = qsub_mem_d,
+        qsub_p = thread,
+    shell:
+        """
+        {theta} -1 {input.bam_normal} -2 {input.bam_tumor} -o advance/purity -t {thread}
+        cp advance/purity/{wildcards.somatic}_purity/{wildcards.somatic}_purity.n2.graph.pdf {output.pdf}
+        cp advance/purity/{wildcards.somatic}_purity/{wildcards.somatic}_purity.n2.results {output.txt}
+        """
+
+rule summary_purity:
+    input:
+        expand("advance/purity/{somatic}.txt", somatic = config['somatic']),
+    output:
+        'advance/purity_summary.txt',
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 10,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#sample\tck\tmut" > {output}
+        for i in {input}; do
+            sample=$(basename $i .txt)
+            ck=$(cat $i | tail -n +2 | cut -f 2 | cut -d ',' -f1 | cut -c -6)
+            mut=$(cat $i | tail -n +2 | cut -f 2 | cut -d ',' -f2 | cut -c -6)
+            echo -e "$sample\t$ck\t$mut" >> {output}
+        done
+        """

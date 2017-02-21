@@ -1,0 +1,78 @@
+# qsub suggest resource: p=1
+# call somatic SNV via MuTect
+# by chr
+# @szj^16Mar01
+
+configfile: "project_config.json"
+
+var_mutect = config['biosoft']['var_mutect']
+vcf_concat = config['biosoft']['vcf-concat']
+fa = config['ref']['fa']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+par_min_var_freq = config["params"]["var_caller_somatic"]["min_var_freq"]
+
+rule all_var_somatic_mutect:
+    input:
+        expand("var_mutect/{somatic}.snv.mutect.vcf", somatic = config['somatic']),
+#        expand("{fa}.chr", fa = fa),
+
+rule snv_somatic_mutect:
+    input:
+        bam_normal = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".bam",
+        bam_tumor = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".bam",
+    output:
+        "var_mutect/{somatic}.snv.mutect.txt",
+        "var_mutect/{somatic}.snv.mutect.vcf",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 11000,
+        qsub_p = 1,
+    shell:
+        """
+        echo ">> min_var_freq: {par_min_var_freq}"
+        {var_mutect} -r {fa} -1 {input.bam_normal} -2 {input.bam_tumor} -o var_mutect/ -M '--fraction_contamination {par_min_var_freq} --minimum_mutation_cell_fraction {par_min_var_freq} --tumor_f_pretest {par_min_var_freq}'
+        """
+#"{var_mutect} -r {fa} -1 {input.bam_normal} -2 {input.bam_tumor} -o var_mutect/"
+# not for ctDNA
+
+"""
+def _getChromosomes(chr_file = "{fa}.chr".format(fa = fa)):
+    ret = []
+    with open(chr_file, 'r') as fai:
+        for line in fai:
+            ret.append(line.strip())
+    return(ret)
+
+rule prepare_chr:
+    input:
+        "{fa}"
+    output:
+        "{fa}.chr"
+    shell:
+        "grep '^>' {input} | tr -d '>' | cut -d ' '  -f1 > {output}"
+
+rule snv_somatic_mutect:
+    input:
+        bam_normal = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][0] + ".bam",
+        bam_tumor = lambda wildcards: "align/" + config["somatic_pair"][wildcards.somatic][1] + ".bam",
+    output:
+        "var/{somatic}.{chrom}.mutect_stats.txt",
+        "var/{somatic}.{chrom}.mutect_pass.vcf",
+    shell:
+        "{var_mutect} -r {fa} -1 {input.bam_normal} -2 {input.bam_tumor} -c {chrom} -o var/"
+
+rule merge_mutect:
+    input:
+        vcf = expand("var/{{somatic}}.{chrom}.mutect_pass.vcf", chrom = _getChromosomes()),
+        chr_list = expand("{fa}.chr", fa = fa),
+    output:
+        "var/{somatic}.mutect_pass.vcf"
+    shell:
+        "{vcf_concat} {input.vcf} | grep -E '(^##|PASS|^#CHROM)' > {output}"
+"""

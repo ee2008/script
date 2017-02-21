@@ -1,0 +1,68 @@
+# put anno.join, mut freq, panel info together @yaolina
+# include snp, indel, cnv, fusion
+# @szj^16Sep29
+
+configfile: 'project_config.json'
+
+include: 'var_germline_speedseq.rules'
+include: 'var_germline_varscan.rules'
+include: 'var_somatic_mutect.rules'
+include: 'var_somatic_speedseq.rules'
+include: 'var_somatic_varscan.rules'
+
+intevar = config['biosoft']['intevar']
+
+thread = config['threads']
+fa = config['ref']['fa']
+panel_bed = config['ref']['panel_bed']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_var_intevar:
+    input:
+        expand('var_intevar/{germline}.snp.tsv', germline = config['germline']),
+        expand('var_intevar/{germline}.indel.tsv', germline = config['germline']),
+        expand('var_intevar/{somatic}.snv.tsv', somatic = config['somatic']),
+        expand('var_intevar/{somatic}.sindel.tsv', somatic = config['somatic']),
+
+rule intevar_germline:
+    input:
+        "var_speedseq/{germline}.var.vcf.gz",
+        "var_varscan/{germline}.snp.vcf",
+    output:
+        'var_intevar/{germline}.snp.tsv',
+        'var_intevar/{germline}.indel.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 1000,
+        qsub_p = 1,
+    shell:
+        """
+        {intevar} -n {wildcards.germline} -i . -o var_intevar -p ref/panel.bed.info
+        """
+
+rule intevar_somatic:
+    input:
+        "var_speedseq/{somatic}.var.vcf.gz",
+        "var_varscan/{somatic}.snv.vcf",
+        "var_mutect/{somatic}.snv.mutect.vcf",
+        "var_mutect/{somatic}.snv.mutect.txt",
+    output:
+        snv = 'var_intevar/{somatic}.snv.tsv',
+        sindel = 'var_intevar/{somatic}.sindel.tsv',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 1000,
+        qsub_p = 1,
+    shell:
+        """
+        {intevar} -n {wildcards.somatic} -i . -o var_intevar -p ref/panel.bed.info
+        mv -v var_intevar/{wildcards.somatic}.snp.tsv {output.snv}
+        mv -v var_intevar/{wildcards.somatic}.indel.tsv {output.sindel}
+        """
+

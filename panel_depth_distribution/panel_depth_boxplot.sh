@@ -94,11 +94,12 @@ else
 		rm $INPUT
 		rm $PANEL
 	else
+		echo "$R_boxplot $IN $tools $OUT_dir/${OUTPUT}.$TYPE $TYPE all $PANEL"
 		$R_boxplot $IN $tools $OUT_dir/${OUTPUT}.$TYPE $TYPE all $PANEL
 	fi
 fi
 
-echo "DONE" > $OUT_dir/${sample}.${tools}_boxplot_done
+#echo "DONE" > $OUT_dir/${sample}.${tools}_boxplot_done
 echo ">> ALL DONE @$(date)"
 
 

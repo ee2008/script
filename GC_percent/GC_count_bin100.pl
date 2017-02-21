@@ -1,5 +1,7 @@
 #!/usr/bin/perl -w
 
+# no use
+
 # GC content 
 #@wxian2016Dec28
 

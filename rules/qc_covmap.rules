@@ -1,0 +1,139 @@
+# rules of snakemake
+# @szj^15Nov24
+
+# generate coverage file from sorted bam
+# with bedtools genomecov
+# and then calc coverage
+# also extract mapping ratio,
+# with samtools from flagstat
+
+configfile: "project_config.json"
+
+samtools = config["biosoft"]["samtools"]
+bedtools = config["biosoft"]["bedtools"]
+summary_covmap = config["biosoft"]["summary_covmap"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+fa = config["ref"]["fa"]
+
+localrules: extract_cov_index, calc_coverage, combine_cov_map, summary_covmap
+
+rule all_qc_covmap:
+    input:
+        "qc/covmap/covmap_summary.txt",
+
+rule samtools_index:
+    input:
+        fa
+    output:
+        expand("{fa}.fai", fa = fa)
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 400,
+        qsub_p = 1,
+    shell:
+        "{samtools} faidx {input}"
+
+rule extract_cov_index:
+    input:
+        rules.samtools_index.output
+    output:
+        expand("{fa}.cov.index", fa = fa)
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 400,
+        qsub_p = 1,
+    shell:
+        "cut -f1,2 {input} > {output}"
+
+rule generate_coverage:
+    input:
+        bam = "align/{sample}.bam",
+        # aka. rules.sort_bam.output
+        index = rules.extract_cov_index.output
+    output:
+        "qc/covmap/{sample}.coverage"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 2000,
+        qsub_p = 1,
+    shell:
+        "{bedtools} genomecov -ibam {input.bam} -g {input.index} > {output}"
+
+rule calc_coverage:
+    input:
+        "qc/covmap/{sample}.coverage"
+        #aka
+        #rules.generate_coverage.output
+    output:
+        temp("qc/covmap/{sample}.cov")
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 400,
+        qsub_p = 1,
+    shell:
+        """
+        cov=`grep -m 1 '^genome' {input} | cut -f 5`
+        ret=`perl -e \"print substr (1 - \$cov, 0, 6)\"`
+        echo \"coverage\t$ret\" > {output}
+        """
+
+rule calc_mapping_ratio:
+    input:
+        bam = "align/{sample}.bam"
+        # aka. rules.sort_bam.output
+    output:
+        temp("qc/covmap/{sample}.map")
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 600,
+        qsub_p = 1,
+    shell:
+        """
+        total=`{samtools} view -c {input}`
+        mapped=`{samtools} view -c -F 4 {input}`
+        #unmapped=`{samtools} view -c -f 4 {input}`
+        map_rate=`perl -e \"print (substr \$mapped/\$total, 0, 6)\"`
+        echo \"mapping\t$map_rate\" > {output}
+        """
+
+rule combine_cov_map:
+    input:
+#rules.calc_coverage.output,
+#        rules.calc_mapping_ratio.output
+        "qc/covmap/{sample}.cov",
+        "qc/covmap/{sample}.map"
+    output:
+        temp("qc/covmap/{sample}.covmap")
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        cat {input} > {output}
+        """
+
+rule summary_covmap:
+    input:
+        expand("qc/covmap/{sample}.covmap", sample = config["sample"])
+    output:
+        "qc/covmap/covmap_summary.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        "{summary_covmap} qc/covmap"
+

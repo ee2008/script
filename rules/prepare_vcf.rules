@@ -1,0 +1,87 @@
+# split, left-align, and trim VCF (point mutation)
+# via [vt](https://github.com/atks/vt)
+# @szj^16Feb03
+
+configfile: "project_config.json"
+#localrules: prepare_vcf_vt, prepare_vcf_sv
+#ruleorder: prepare_vcf_sv > prepare_vcf_vt
+localrules: prepare_vcf_vt
+
+vt=config["biosoft"]["vt"]
+fa=config["ref"]["fa"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_prepare_vcf:
+    input:
+        expand("var/{germline}.var.vcf", germline = config['germline']),
+        expand("var/{germline}.sv.vcf", germline = config['germline']),
+        expand("var/{somatic}.var.vcf", somatic = config["somatic"]),
+        expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+        expand("var/{trio}.var.vcf", trio = config["trio"]),
+        expand("var/{trio}.sv.vcf", trio = config["trio"]),
+        expand("var/{trio}.denovo.vcf", trio = config["trio"]),
+
+rule prepare_vcf_vt:
+    input:
+        "var_speedseq/{prefix}.var.vcf.gz",
+    output:
+        "var/{prefix}.var.vcf",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 200,
+        qsub_p = 1,
+    shell:
+        """
+        {vt} decompose -s {input} | {vt} normalize -r {fa} - > {output} || echo '-> prepare VCF !fail for: {input}'
+        """
+
+rule prepare_vcf_sv:
+    input:
+        "var_speedseq/{prefix}.sv.vcf.gz"
+    output:
+        "var/{prefix}.sv.vcf"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 150,
+        qsub_p = 1,
+    shell:
+#find var -name '*.sv.vcf' -size 0 | xargs rm -v
+#[[ $(ls -s {output} | cut -d ' ' -f1) -eq 0 ]] && rm -v {output}
+        """
+        # add a dummy mut if not sv found in vcf
+        if [[ $(zgrep -c -v '^#' {input}) -eq 0 ]]; then
+            echo "-> no sv result for: {input}"
+            col_n=$(zgrep '#CHROM' {input} | awk '{{print NF}}')
+            # CHROM POS ID REF ALT QUAL FILTER INFO FORMAT sample
+            dummy_line="X	11111111	.	T	C	.	.	TYPE=DUMMY	GT:SU"
+            for i in {{10..$col_n}}; do
+                dummy_line="$dummy_line	./.:0"
+            done
+            printf "$dummy_line" > {output}.tmp
+            gunzip -c {input} | cat - {output}.tmp > {output}
+            rm {output}.tmp
+        else
+            gunzip -c {input} > {output}
+        fi
+        """
+
+rule prepare_vcf_other:
+    input:
+        "var_speedseq/{prefix}.denovo.vcf.gz"
+    output:
+        "var/{prefix}.denovo.vcf"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 200,
+        qsub_p = 1,
+    shell:
+        """
+        gunzip -c {input} > {output}
+        """

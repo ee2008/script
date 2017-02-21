@@ -1,889 +1,889 @@
-#Gene	Genome Location	Chr Band	Role in Cancer	Tumour Type(Somatic)	Tumor Type(Germline)	Mutated Tumor Samples(Bert Vogelstein 25)	Cancer Type(SMG127)	Putative Driver Category(Comprehensive 435)
-AARS	.	.	.	.	.	.	.	Candidate driver
-AARS2	.	.	.	.	.	.	.	High Confidence Driver
-ABCB1	.	.	.	.	.	.	.	High Confidence Driver
-ABI1	10:26748570-26860863	10p11.2	TSG	AML	.	.	.	.
-ABL1	9:130835447-130885683	9q34.1	oncogene	CML; ALL; T-ALL	.	851	.	High Confidence Driver
-ABL2	1:179107718-179143044	1q24-q25	oncogene	AML	.	.	.	.
-ACKR3	2:-	2q37.3	oncogene	lipoma	.	.	.	.
-ACSL3	2:222908773-222941654	2q36	.	prostate	.	.	.	.
-ACSL6	5:131954234-132011553	5q31.1	.	AML; AEL	.	.	.	.
-ACTB	.	.	.	.	.	.	.	Candidate driver
-ACTG1	.	.	.	.	.	.	.	Candidate driver
-ACVR1	2:157737531-157799493	2q23-q24	oncogene	DIPG	.	.	.	.
-ACVR1B	.	.	TSG	.	.	17	COAD/READ	High Confidence Driver
-ACVR2A	.	.	.	.	.	.	COAD/READ	Candidate driver
-ADAM10	.	.	.	.	.	.	.	High Confidence Driver
-ADCY1	.	.	.	.	.	.	.	High Confidence Driver
-ADORA2A	.	.	.	.	.	.	.	High Confidence Driver
-AFF1	4:87007409-87135702	4q21	oncogene	AL	.	.	.	.
-AFF3	2:99551474-100104454	2q11.2-q12	oncogene	ALL; T-ALL	.	.	.	.
-AFF4	5:132881059-132937189	5q31	oncogene	ALL	.	.	.	.
-AHCTF1	.	.	.	.	.	.	.	Candidate driver
-AHCYL2	.	.	.	.	.	.	.	Candidate driver
-AHDC1	.	.	.	.	.	.	.	Candidate driver
-AHNAK	.	.	.	.	.	.	.	Candidate driver
-AHNAK2	.	.	.	.	.	.	.	High Confidence Driver
-AJUBA	.	.	.	.	.	.	.	High Confidence Driver
-AKAP9	7:91941100-92110159	7q21-q22	oncogene	papillary thyroid	.	.	.	High Confidence Driver
-AKD1	.	.	.	.	.	.	.	High Confidence Driver
-AKT1	14:104770341-104792643	14q32.32	oncogene	breast; colorectal; ovarian; NSCLC	.	155	BRCA	High Confidence Driver
-AKT2	19:40233872-40265267	19q13.1-q13.2	oncogene	ovarian; pancreatic	.	.	.	.
-ALDH2	12:111766983-111809575	12q24.2	TSG	leiomyoma	.	.	.	.
-ALK	2:29193224-29920659	2p23	oncogene	ALCL; NSCLC; neuroblastoma; inflammatory myofibroblastic tumour; Spitzoid tumour	neuroblastoma	189	.	.
-AMER1	X:64186117-64193286	Xq11.2	TSG	Wilms tumour	.	.	.	.
-AMPH	.	.	.	.	.	.	.	High Confidence Driver
-ANAPC1	.	.	.	.	.	.	.	High Confidence Driver
-ANKRD11	.	.	.	.	.	.	.	Candidate driver
-ANKRD12	.	.	.	.	.	.	.	High Confidence Driver
-ANKRD6	.	.	.	.	.	.	.	Candidate driver
-ANXA6	.	.	.	.	.	.	.	Candidate driver
-APAF1	.	.	.	.	.	.	.	High Confidence Driver
-APC	5:112754891-112844126	5q21	TSG	colorectal; pancreatic; desmoid; hepatoblastoma; glioma; other CNS	colorectal; pancreatic; desmoid; hepatoblastoma; glioma; other CNS	2561	.	High Confidence Driver
-APOBEC3B	22:38982454-38992445	22q13.1	oncogene/TSG	.	breast cancer	.	.	.
-AR	X:67545147-67723841	Xq12	oncogene	prostate	.	23	HNSC	High Confidence Driver
-ARAF	.	.	.	.	.	.	.	Candidate driver
-ARHGAP26	5:142770762-143222446	5q31	TSG	AML; MDS	.	.	.	.
-ARHGAP32	.	.	.	.	.	.	.	High Confidence Driver
-ARHGAP35	.	.	.	.	.	.	UCEC	High Confidence Driver
-ARHGEF12	11:120337244-120485077	11q23.3	TSG	AML	.	.	.	.
-ARHGEF6	.	.	.	.	.	.	.	High Confidence Driver
-ARID1A	1:26696404-26780756	1p35.3	TSG	clear cell ovarian carcinoma; RCC; breast	.	234	KIRC	High Confidence Driver
-ARID1B	6:156778104-157207891	6q25.1	TSG	breast; hepatocellular carcinoma	.	17	.	.
-ARID2	12:45729837-45905078	12q12	TSG	hepatocellular carcinoma	.	45	.	High Confidence Driver
-ARID5B	.	.	.	.	.	.	UCEC	High Confidence Driver
-ARNT	1:150812021-150876567	1q21	oncogene/TSG	AML	.	.	.	.
-ASPM	.	.	.	.	.	.	.	High Confidence Driver
-ASPSCR1	17:81977648-82017323	17q25	oncogene	alveolar soft part sarcoma	.	.	.	.
-ASXL1	20:32358776-32437338	20q11.1	TSG	MDS; CMML	.	442	HNSC	High Confidence Driver
-ATF1	12:50780147-50819780	12q13	.	malignant melanoma of soft parts; angiomatoid fibrous histiocytoma	.	.	.	.
-ATF7IP	.	.	.	.	.	.	.	Candidate driver
-ATG13	.	.	.	.	.	.	.	High Confidence Driver
-ATIC	2:215312144-215349656	2q35	oncogene	ALCL	.	.	.	.
-ATM	11:108227625-108365508	11q22.3	TSG	T-PLL	leukaemia; lymphoma; medulloblastoma; glioma	242	.	High Confidence Driver
-ATP1A1	1:116373512-116404444	1p21	oncogene/TSG	adrenal aldosterone producing adenoma	.	.	.	.
-ATP2B3	X:153536248-153580003	Xq28	TSG	adrenal aldosterone producing adenoma	.	.	.	.
-ATR	3:142449429-142578704	3q23	TSG	endometrial; gastric; epithelial ovarian; myeloma	oropharyngeal	.	UCEC	High Confidence Driver
-ATRX	X:77508351-77786001	Xq21.1	TSG	pancreatic neuroendocrine tumours; paediatric GBM	.	50	GBM	High Confidence Driver
-AXIN1	16:288122-347025	16p13.3	TSG	colorectal; endometrial; prostate; hepatocellular carcinoma; hepatoblastoma; sporadic medulloblastoma	.	117	.	.
-AXIN2	17:65529976-65558620	17q24.1	TSG	colorectal carcinoma; stomach carcinoma; hepatocellular carcinoma	colorectal carcinoma	.	.	High Confidence Driver
-B2M	15:44711547-44716342	15q21.1	TSG	DLBCL; melanoma; colorectal adenocarcinoma	.	30	.	High Confidence Driver
-BAP1	3:52402288-52409878	3p21.31-p21.2	TSG	uveal melanoma; breast; NSCLC; RCC	mesothelioma; uveal melanoma	99	KIRC	High Confidence Driver
-BARD1	.	.	.	.	.	.	.	High Confidence Driver
-BAZ1B	.	.	.	.	.	.	.	Candidate driver
-BAZ2A	.	.	.	.	.	.	.	Candidate driver
-BCL10	1:85267627-85276352	1p22	oncogene/TSG	MALT	.	.	.	.
-BCL11A	2:60460404-60553270	2p13	oncogene	B-CLL	.	.	.	.
-BCL11B	14:99174151-99271218	14q32.1	oncogene/TSG	T-ALL	.	.	.	.
-BCL2	18:63128625-63318666	18q21.3	oncogene	NHL; CLL	.	45	.	.
-BCL3	19:44748791-44759615	19q13	oncogene	CLL	.	.	.	.
-BCL5	17:-	17q22	oncogene	CLL	.	.	.	.
-BCL6	3:187722458-187733693	3q27	oncogene	NHL; CLL	.	.	.	.
-BCL7A	12:122022092-122059163	12q24.1	oncogene	BNHL	.	.	.	.
-BCL9	1:147611837-147624864	1q21	oncogene	B-ALL	.	.	.	.
-BCL9L	.	.	.	.	.	.	.	Candidate driver
-BCLAF1	.	.	.	.	.	.	.	High Confidence Driver
-BCOR	X:40052109-40077929	Xp11.4	TSG	retinoblastoma; AML; APL (translocation)	.	21	.	High Confidence Driver
-BCORL1	X:130005232-130056136	Xq25-q26.1	oncogene/TSG	AML; HNSCC	.	.	.	.
-BCR	22:23180961-23315522	22q11.21	oncogene	CML; ALL; AML	.	.	.	.
-BIRC3	11:102324510-102337102	11q22	oncogene/TSG	CLL; MALT; MCL; MM	.	.	.	.
-BLM	15:90747393-90815279	15q26.1	TSG	.	leukaemia; lymphoma; skin squamous cell; other tumour types	.	.	High Confidence Driver
-BMPR1A	10:86876019-86923719	10q22.3	oncogene/TSG	.	gastrointestinal polyps	.	.	.
-BRAF	7:140734597-140924703	7q34	oncogene	melanoma; colorectal; papillary thyroid; borderline ovarian; NSCLC; cholangiocarcinoma; pilocytic astrocytoma; Spitzoid tumour; pancreas acinar carcinoma; melanocytic nevus; prostate; gastric	.	24288	LUAD	High Confidence Driver
-BRCA1	17:43045678-43124096	17q21	TSG	ovarian	breast; ovarian	62	.	High Confidence Driver
-BRCA2	13:32316461-32398770	13q12	TSG	breast; ovarian; pancreatic	breast; ovarian; pancreatic; leukaemia (FANCB; FANCD1)	67	OV	High Confidence Driver
-BRD3	9:134033590-134053477	9q34	oncogene	lethal midline carcinoma of young people	.	.	.	.
-BRD4	19:15249280-15273099	19p13.1	oncogene	lethal midline carcinoma of young people	.	.	.	.
-BRIP1	17:61683296-61861539	17q22	TSG	.	AML; leukaemia; breast	.	.	.
-BTG1	12:92144080-92145535	12q22	TSG	B-CLL	.	.	.	.
-BTK	X:101349885-101375284	Xq21.33-q22	oncogene/TSG	CLL; mantle cell lymphoma	.	.	.	.
-BUB1B	15:40161221-40220759	15q15	TSG	.	rhabdomyosarcoma	.	.	High Confidence Driver
-C12orf9	12:-	12q14.3	.	lipoma	.	.	.	.
-C15orf65	15:-	15q21.3	.	PMBL; Hodgkin lymphoma	.	.	.	.
-C2orf44	2:24030933-24039494	2p23.3	oncogene	colorectal	.	.	.	.
-CACNA1D	3:53495167-53811406	3p14.3	oncogene	adrenal aldosterone producing adenoma	.	.	.	.
-CAD	.	.	.	.	.	.	.	High Confidence Driver
-CALR	19:12938680-12943913	19p13.3-p13.2	oncogene	MPN; MDS	.	.	.	.
-CAMTA1	1:6785531-7766491	1p36.31-p36.23	TSG	epithelioid haemangioendothelioma	.	.	.	.
-CANT1	17:78993550-78997622	17q25	oncogene	prostate	.	.	.	.
-CARD11	7:2906638-2958506	7p22	oncogene	DLBCL	.	74	.	.
-CARM1	.	.	.	.	.	.	.	High Confidence Driver
-CARS	11:3001114-3057367	11p15.5	oncogene/TSG	ALCL	.	.	.	.
-CASC5	15:40602933-40654977	15q14	.	AML	.	.	.	.
-CASP8	2:201266487-201286594	2q33-q34	TSG	hepatocellular; oral squamous cell; breast	.	21	.	High Confidence Driver
-CAST	.	.	.	.	.	.	.	High Confidence Driver
-CBFA2T3	16:88876976-88976807	16q24	.	AML	.	.	.	.
-CBFB	16:67029409-67098733	16q22	TSG	AML	.	.	BRCA	High Confidence Driver
-CBL	11:119206418-119299781	11q23.3	oncogene/TSG	AML; JMML; MDS	.	168	.	.
-CBLB	3:105658970-105867577	3q13.11	TSG	AML	.	.	.	.
-CBLC	19:44777932-44800443	19q13.2	oncogene/TSG	AML	.	.	.	.
-CCAR1	.	.	.	.	.	.	.	High Confidence Driver
-CCDC6	10:59792917-59906424	10q21	TSG	papillary thyroid; CML; NSCLC	.	.	.	.
-CCNB1IP1	14:20311550-20316523	14q11.2	TSG	leiomyoma	.	.	.	.
-CCND1	11:69641314-69651282	11q13	oncogene	CLL; B-ALL; breast	.	.	UCEC	High Confidence Driver
-CCND2	12:4274041-4300009	12p13	oncogene	NHL; CLL	.	.	.	.
-CCND3	6:41935940-41941649	6p21	oncogene	MM	.	.	.	.
-CCNE1	19:29812556-29823777	19q12	oncogene	serous ovarian	.	.	.	.
-CD274	9:5456114-5467862	9p24	TSG	PMBL; Hodgkin lymphoma	.	.	.	.
-CD74	5:150402584-150412749	5q32	oncogene	NSCLC	.	.	.	.
-CD79A	19:41877305-41880980	19q13.2	oncogene	DLBCL; WM	.	.	.	.
-CD79B	17:63929226-63932261	17q23	oncogene	DLBCL; WM	.	.	.	.
-CDC73	1:193122201-193250712	1q21-q31	TSG	parathyroid adenoma	parathyroid adenoma; multiple ossifying jaw fibroma	45	.	High Confidence Driver
-CDH1	16:68737416-68833499	16q22.1	TSG	lobular breast; gastric	gastric	200	.	High Confidence Driver
-CDH11	16:64947603-65004869	16q22.1	TSG	aneurysmal bone cyst	.	.	.	.
-CDK12	17:39462072-39531316	17q12	TSG	serous ovarian	.	.	.	High Confidence Driver
-CDK4	12:57748525-57751717	12q14	oncogene	.	melanoma	.	.	.
-CDK6	7:92615140-92833323	7q21-q22	oncogene	ALL	.	.	.	.
-CDKN1A	.	.	.	.	.	.	BLCA	High Confidence Driver
-CDKN1B	12:12717840-12718946	12p13.1-p12	TSG	breast; small intestine neuroendocrine tumours	pituitary; parathyroid	.	BRCA	High Confidence Driver
-CDKN2A	9:21968229-21974827	9p21	TSG	melanoma; multiple other tumour types	melanoma; pancreatic	968	LUAD	High Confidence Driver
-CDKN2A(p14)	9:21957751-21984490	9p21	.	melanoma; multiple other tumour types	melanoma; pancreatic	.	.	.
-CDKN2C	1:50970369-50974270	1p32	TSG	glioma; MM	.	.	.	High Confidence Driver
-CDX2	13:27963115-27969006	13q12.3	TSG	AML	.	.	.	.
-CEBPA	19:33301338-33302414	19q13.1	TSG	AML; MDS	.	448	LAML	High Confidence Driver
-CEP170	.	.	.	.	.	.	.	Candidate driver
-CEP89	19:32879162-32971874	19q13.11	.	Spitzoid tumour	.	.	.	.
-CFH	.	.	.	.	.	.	.	High Confidence Driver
-CHCHD7	8:56214614-56217435	8q11.2	.	salivary adenoma	.	.	.	.
-CHD3	.	.	.	.	.	.	.	Candidate driver
-CHD4	12:6570676-6606373	12p13	oncogene	uterine serous carcinoma	.	.	.	High Confidence Driver
-CHD7	.	.	.	.	.	.	.	Candidate driver
-CHD8	.	.	.	.	.	.	.	High Confidence Driver
-CHEK2	22:28687897-28734721	22q12.1	TSG	.	breast	.	GBM	High Confidence Driver
-CHIC2	4:54010095-54064300	4q11-q12	.	AML	.	.	.	.
-CIC	19:42284705-42295191	19q13.2	oncogene/TSG	oligodendroglioma; soft tissue sarcoma	.	47	.	High Confidence Driver
-CIITA	16:10877332-10923304	16p13	TSG	PMBL; Hodgkin lymphoma	.	.	.	.
-CLIP1	12:122272875-122380452	12q24.3	.	Spitzoid tumour	.	.	.	High Confidence Driver
-CLP1	11:57659477-57661436	11q12	.	AML	.	.	.	.
-CLTC	17:59620133-59693853	17q11-qter	TSG	ALCL; renal	.	.	.	High Confidence Driver
-CLTCL1	22:19180219-19291641	22q11.21	TSG	ALCL	.	.	.	High Confidence Driver
-CNBP	3:129170453-129171757	3q21	TSG	aneurysmal bone cyst	.	.	.	.
-CNOT1	.	.	.	.	.	.	.	Candidate driver
-CNOT3	19:54142979-54155407	19q13.4	TSG	T-ALL	.	.	.	Candidate driver
-CNTRL	9:121088328-121177187	9q33.2	.	MPN; NHL	.	.	.	.
-COBLL1	.	.	.	.	.	.	.	Candidate driver
-COL18A1	.	.	.	.	.	.	.	High Confidence Driver
-COL1A1	17:50185502-50201513	17q21.31-q22	oncogene	DFSP; aneurysmal bone cyst	.	.	.	.
-COL2A1	12:47973407-48004321	12q13.11	oncogene	chondrosarcoma; enchondroma	.	.	.	.
-COX6C	8:99878148-99892021	8q22-q23	.	uterine leiomyoma	.	.	.	.
-CREB1	2:207555637-207597059	2q34	oncogene	clear cell sarcoma; angiomatoid fibrous histiocytoma	.	.	.	High Confidence Driver
-CREB3L1	11:46278112-46320746	11p11.2	TSG	myxofibrosarcoma	.	.	.	.
-CREB3L2	7:137880476-138001705	7q34	oncogene	fibromyxoid sarcoma	.	.	.	.
-CREBBP	16:3727718-3879916	16p13.3	oncogene/TSG	ALL; AML; DLBCL; B-NHL	.	151	.	.
-CRIPAK	.	.	.	.	.	.	LUAD	.
-CRLF2	X; Y:1196780-1212634	Xp22.3; Yp11.3	oncogene	B-ALL; Downs associated ALL	.	10	.	.
-CRTC1	19:18683703-18777382	19p13.11	oncogene	salivary gland mucoepidermoid	.	.	.	High Confidence Driver
-CRTC3	15:90530072-90642140	15q26.1	.	salivary gland mucoepidermoid	.	.	.	High Confidence Driver
-CSDE1	.	.	.	.	.	.	.	High Confidence Driver
-CSF1R	.	.	oncogene	.	.	48	.	.
-CSF3R	1:36466357-36479496	1p35-p34.4	oncogene	aCML; CNL; leukaemia lymphoma and MDS associated with severe congenital neutropenia; CMML; de novo AML; MDS	.	.	.	.
-CTCF	16:67610833-67637872	16q22.1	TSG	endometrial; breast; head and neck cancer	.	.	UCEC	High Confidence Driver
-CTNNB1	3:41224069-41239342	3p22-p21.3	oncogene	colorectal; ovarian; hepatoblastoma; pleomorphic salivary gland adenoma; other tumour types	.	3262	UCEC	High Confidence Driver
-CTNND1	.	.	.	.	.	.	.	High Confidence Driver
-CTTN	.	.	.	.	.	.	.	High Confidence Driver
-CUL1	.	.	.	.	.	.	.	High Confidence Driver
-CUL3	.	.	.	.	.	.	.	Candidate driver
-CUX1	7:101817640-102249042	7q22.1	oncogene/TSG	endometrial; melanoma; colorectal; AML; MDS; other tumour types	.	.	.	Candidate driver
-CXCR4	2:136114869-136115939	2q21	oncogene	Waldenstrom macroglobulinaemia	.	.	.	.
-CYC1	.	.	.	.	.	.	.	Candidate driver
-CYLD	16:50749699-50796508	16q12-q13	TSG	cylindroma	cylindroma	26	.	High Confidence Driver
-DAB2IP	.	.	.	.	.	.	.	Candidate driver
-DAXX	6:33318743-33321925	6p21.3	oncogene/TSG	pancreatic neuroendocrine tumour; paediatric glioblastoma	.	28	.	.
-DCP1B	.	.	.	.	.	.	.	Candidate driver
-DCTN1	2:74361499-74380037	2p13	.	inflammatory myofibroblastic tumour; Spitzoid tumour	.	.	.	.
-DDB2	11:47215137-47238849	11p12	oncogene/TSG	.	skin basal cell; skin squamous cell; melanoma	.	.	.
-DDIT3	12:57516809-57517406	12q13.1-q13.2	TSG	liposarcoma	.	.	.	.
-DDR2	1:162719064-162780246	1q12-q23	oncogene	squamous cell carcinoma; NSCLC	.	.	.	.
-DDX10	11:108665154-108940423	11q22-q23	TSG	AML*	.	.	.	.
-DDX3X	X:41334253-41347719	Xp11.4	TSG	CLL; medulloblastoma	.	.	.	Candidate driver
-DDX5	17:64499923-64506119	17q21	oncogene	prostate	.	.	.	High Confidence Driver
-DDX6	11:118754712-118786218	11q23.3	.	B-NHL	.	.	.	.
-DEK	6:18225719-18263987	6p23	.	AML	.	.	.	.
-DHX9	.	.	.	.	.	.	.	High Confidence Driver
-DICER1	14:95090498-95133458	14q32.13	TSG	sex cord-stromal tumour; TGCT; embryonal rhabdomyosarcoma; pleuropulmonary blastoma; pituitary blastoma; Wilms tumour; thyroid cancer; other tumour types	pleuropulmonary blastoma	.	.	High Confidence Driver
-DIDO1	.	.	.	.	.	.	.	Candidate driver
-DIS3L2	.	.	.	.	.	.	.	Candidate driver
-DMD	.	.	.	.	.	.	.	High Confidence Driver
-DNAJB1	19:14515940-14518349	19p13.2	.	fibrolamellar hepatocellular carcinoma	.	.	.	.
-DNM2	19:10718243-10831047	19p13.2	.	T-ALL	.	.	.	.
-DNM3	.	.	.	.	.	.	.	Candidate driver
-DNMT1	.	.	oncogene	.	.	22	.	.
-DNMT3A	2:25234279-25313984	2p23	oncogene/TSG	AML	.	788	LAML	High Confidence Driver
-DOCK2	.	.	.	.	.	.	.	High Confidence Driver
-DOCK4	.	.	.	.	.	.	.	Candidate driver
-DOT1L	.	.	.	.	.	.	.	Candidate driver
-DROSHA	5:31401432-31529059	5q11.2	TSG	Wilms tumour; NSCLC; bladder carcinoma	.	.	.	.
-DST	.	.	.	.	.	.	.	Candidate driver
-DUX4L1	4:190084229-190085686	4q35	.	soft tissue sarcoma	.	.	.	.
-EBF1	5:158699111-159099478	5q34	.	lipoma	.	.	.	.
-ECT2L	6:138813275-138902627	6q24.1	.	ETP ALL	.	.	.	.
-EEF1A1	.	.	.	.	.	.	.	High Confidence Driver
-EGFR	7:55019278-55205617	7p12.3-p12.1	oncogene	glioma; NSCLC	NSCLC	10628	GBM	High Confidence Driver
-EIF3E	8:108201885-108248702	8q22-q23	.	colorectal	.	.	.	.
-EIF4A2	3:186783611-186789269	3q27.3	.	NHL	.	.	COAD/READ	High Confidence Driver
-ELF3	.	.	.	.	.	.	BLCA	High Confidence Driver
-ELF4	X:130066721-130081330	Xq26	.	AML	.	.	.	.
-ELK4	1:205616546-205623882	1q32	.	prostate	.	.	.	.
-ELL	19:18444752-18522055	19p13.1	.	AL	.	.	.	.
-ELN	7:74028188-74068700	7q11.23	.	B-ALL	.	.	.	.
-EML4	2:42169613-42330208	2p21	.	NSCLC	.	.	.	.
-EP300	22:41093005-41178956	22q13	TSG	colorectal; breast; pancreatic; AML; ALL; DLBCL	.	88	HNSC	High Confidence Driver
-EPAS1	2:46297912-46384660	2p21-p16	oncogene/TSG	paraganglioma; pheochromocytoma; central nervous system hemangioblastomas	.	.	.	.
-EPB41L3	.	.	.	.	.	.	.	Candidate driver
-EPHA3	.	.	.	.	.	.	HNSC	Candidate driver
-EPHB6	.	.	.	.	.	.	LUAD	Candidate driver
-EPPK1	.	.	.	.	.	.	.	Candidate driver
-EPS15	1:51356700-51519231	1p32	.	ALL	.	.	.	.
-ERBB2	17:39700239-39728044	17q21.1	oncogene	breast; ovarian; other tumour types; NSCLC; gastric	.	164	.	High Confidence Driver
-ERBB2IP	.	.	.	.	.	.	.	High Confidence Driver
-ERBB3	12:56080301-56102055	12q13	oncogene	colon; gastric; head and neck; bladder; skin	.	.	.	.
-ERBB4	2:211383615-212538530	2q33.3-q34	oncogene/TSG	melanoma; gastric; NSCLC	.	.	LUAD	Candidate driver
-ERC1	12:1027904-1490230	12p13.3	.	papillary thyroid; Spitzoid tumour	.	.	.	.
-ERCC2	19:45351629-45370237	19q13.2-q13.3	TSG	.	skin basal cell; skin squamous cell; melanoma	.	BLCA	High Confidence Driver
-ERCC3	2:127257596-127294081	2q21	.	.	skin basal cell; skin squamous cell; melanoma	.	.	.
-ERCC4	16:13920166-13948347	16p13.3-p13.13	.	.	skin basal cell; skin squamous cell; melanoma	.	.	.
-ERCC5	13:102846267-102875903	13q33	.	.	skin basal cell; skin squamous cell; melanoma	.	.	.
-ERG	21:38383403-38575700	21q22.3	.	Ewing sarcoma; prostate; AML	.	.	.	.
-ESR1	6:151807913-152098966	6q25.1	.	breast	.	.	.	High Confidence Driver
-ETNK1	12:22625164-22684954	12p12.1	.	aCML; CMML; SM-AHD; HES	.	.	.	.
-ETV1	7:13895866-13989052	7p22	.	Ewing sarcoma; prostate	.	.	.	.
-ETV4	17:43528519-43545617	17q21	.	Ewing sarcoma; prostate carcinoma	.	.	.	.
-ETV5	3:186048639-186105868	3q28	.	prostate	.	.	.	.
-ETV6	12:11650128-11891046	12p13	.	congenital fibrosarcoma; multiple different leukaemia and lymphoma tumour types including ALL; secretory breast; MDS	.	.	.	.
-EWSR1	22:29268337-29300161	22q12	.	Ewing sarcoma; desmoplastic small round cell tumour ; ALL; clear cell sarcoma; sarcoma; myoepithelioma; mesothelioma	.	.	.	High Confidence Driver
-EXT1	8:117799712-118111046	8q24.11-q24.13	.	.	exostoses; osteosarcoma	.	.	.
-EXT2	11:44107713-44244287	11p12-p11	.	.	exostoses; osteosarcoma	.	.	.
-EZH2	7:148807646-148847298	7q35-q36	oncogene/TSG	DLBCL	.	276	.	High Confidence Driver
-EZR	6:158766914-158818093	6q25.3	oncogene	NSCLC	.	.	.	.
-FAM123B	.	.	TSG	.	.	55	.	.
-FAM129B	.	.	.	.	.	.	.	Candidate driver
-FAM131B	7:143356550-143360093	7q34	.	pilocytic astrocytoma	.	.	.	.
-FAM46C	1:117622869-117624044	1p12	.	MM	.	.	.	.
-FANCA	16:89738601-89816615	16q24.3	.	.	AML; leukaemia	.	.	High Confidence Driver
-FANCC	9:95101707-95249291	9q22.3	.	.	AML; leukaemia	.	.	.
-FANCD2	3:10028658-10098950	3p26	.	.	AML; leukaemia	.	.	.
-FANCE	6:35452546-35466345	6p21-p22	.	.	AML; leukaemia	.	.	.
-FANCF	11:22624686-22625810	11p15	.	.	AML; leukaemia	.	.	.
-FANCG	9:35074108-35079524	9p13	.	.	AML; leukaemia	.	.	.
-FAS	10:88990877-89014450	10q24.1	.	TGCT; nasal NK/T lymphoma; skin squamous cell carcinoma-burn scar related	.	.	.	.
-FAT1	4:186588592-186709827	4q35.2	TSG	oral squamous cell; chemorefractory CLL; head and neck; pancreatic acinar cell carcinoma	pancreatic	.	.	.
-FAT4	4:125316412-125491768	4q28.1	TSG	lymphoma; pancreatic; head and neck; melanoma; hepatocellular carcinoma	.	.	.	.
-FBN2	.	.	.	.	.	.	.	High Confidence Driver
-FBXO11	2:47808118-47839749	2p16.3	.	DLBCL	.	.	.	High Confidence Driver
-FBXW7	4:152322881-152411803	4q31.3	TSG	colorectal; endometrial; T-ALL	.	312	COAD/READ	High Confidence Driver
-FCGR2B	1:161663242-161677553	1q23	.	ALL	.	.	.	.
-FCHO2	.	.	.	.	.	.	.	Candidate driver
-FCRL4	1:157575524-157597944	1q21	.	B-NHL	.	.	.	.
-FES	.	.	.	.	.	.	.	High Confidence Driver
-FEV	2:218981667-218985075	2q36	.	Ewing sarcoma	.	.	.	.
-FGFR1	8:38413628-38457446	8p11.2-p11.1	.	MPN; NHL; salivary adenoma	.	.	.	.
-FGFR1OP	6:166999414-167039979	6q27	.	MPN; NHL	.	.	.	.
-FGFR2	10:121479857-121593817	10q26	oncogene	gastric; NSCLC; endometrial	.	121	UCEC	High Confidence Driver
-FGFR3	4:1793935-1807262	4p16.3	oncogene	bladder; MM; T-cell lymphoma	.	2948	KIRC	High Confidence Driver
-FGFR4	5:177089603-177097676	5q35.2	.	rhabdomyosarcoma	.	.	.	.
-FH	1:241497828-241519722	1q42.1	.	.	leiomyomatosis; renal	.	.	.
-FHIT	3:59752226-60536962	3p14.2	.	pleomorphic salivary gland adenoma	.	.	.	.
-FIP1L1	4:53377840-53459450	4q12	.	idiopathic hypereosinophilic syndrome	.	.	.	.
-FLCN	17:17213655-17228137	17p11.2	.	.	renal; fibrofolliculomas; trichodiscomas	.	.	.
-FLI1	11:128694259-128810988	11q24	.	Ewing sarcoma	.	.	.	.
-FLNA	.	.	.	.	.	.	.	Candidate driver
-FLT3	13:28004052-28100510	13q12	oncogene	AML; ALL	.	11520	LAML	High Confidence Driver
-FLT4	5:180608281-180649545	5q35.3	.	soft tissue sarcoma	.	.	.	.
-FN1	.	.	.	.	.	.	.	High Confidence Driver
-FNBP1	9:129890539-130042975	9q23	.	AML	.	.	.	.
-FOSL2	.	.	.	.	.	.	.	Candidate driver
-FOXA1	14:37591365-37594972	14q12-q13	.	breast; prostate	.	.	BLCA	High Confidence Driver
-FOXA2	.	.	.	.	.	.	.	High Confidence Driver
-FOXL2	3:138945592-138946722	3q23	oncogene	granulosa-cell tumour of the ovary	.	330	.	.
-FOXO1	13:40555680-40666212	13q14.1	oncogene/TSG	alveolar rhabdomyosarcoma	.	.	.	.
-FOXO3	6:108561209-108664855	6q21	oncogene/TSG	AL	.	.	.	.
-FOXO4	X:71096529-71102084	Xq13.1	oncogene/TSG	AL; soft tissue sarcoma	.	.	.	.
-FOXP1	3:70959247-71198381	3p14.1	oncogene	ALL	.	.	.	.
-FRG1B	.	.	.	.	.	.	.	High Confidence Driver
-FSTL3	19:676425-681709	19p13	.	B-CLL	.	.	.	.
-FUBP1	1:77949146-77979004	1p13.1	TSG	oligodendroglioma	.	9	.	.
-FUS	16:31180215-31191438	16p11.2	oncogene	liposarcoma; AML; Ewing sarcoma; angiomatoid fibrous histiocytoma; fibromyxoid sarcoma	.	.	.	.
-G3BP1	.	.	.	.	.	.	.	Candidate driver
-GAB3	.	.	.	.	.	.	.	Candidate driver
-GAS7	17:9917228-10198390	17p	.	AML*	.	.	.	.
-GATA1	X:48791110-48794164	Xp11.23	oncogene/TSG	megakaryoblastic leukaemia of Downs syndrome	.	203	.	.
-GATA2	3:128481019-128487031	3q21.3	oncogene	AML (CML blast transformation)	.	45	.	.
-GATA3	10:8055656-8074023	10p15	oncogene/TSG	breast	.	33	BRCA	High Confidence Driver
-GDI1	.	.	.	.	.	.	.	Candidate driver
-GIGYF2	.	.	.	.	.	.	.	Candidate driver
-GMPS	3:155870871-155937692	3q24	.	AML	.	.	.	.
-GNA11	19:3094652-3121179	19p13.3	oncogene	uveal melanoma; primary central nervous system melanocytic neoplasms	.	110	.	.
-GNAI1	.	.	.	.	.	.	.	High Confidence Driver
-GNAQ	9:77721323-78031235	9q21	oncogene	uveal melanoma; primary central nervous system melanocytic neoplasms	.	245	.	.
-GNAS	20:58891727-58910829	20q13.2	oncogene	pituitary adenoma; pancreatic intraductal papillary mucinous neoplasm; fibrous dysplasia	.	422	.	High Confidence Driver
-GNL3L	.	.	.	.	.	.	.	Candidate driver
-GOLGA5	14:92797439-92839447	14q	.	papillary thyroid; Spitzoid tumour	.	.	.	High Confidence Driver
-GOPC	6:117563254-117602288	6q21	.	glioblastoma; cholangiocarcinoma; borderline ovarian	.	.	.	.
-GOT2	.	.	.	.	.	.	.	High Confidence Driver
-GPC3	X:133536124-133985449	Xq26.1	.	.	Wilms tumour	.	.	.
-GPHN	14:66508529-67180938	14q24	.	AL	.	.	.	High Confidence Driver
-GPS2	.	.	.	.	.	.	.	High Confidence Driver
-GRIN2A	16:9763149-10180411	16p13.2	.	melanoma; colorectal carcinoma; gastric carcinoma; lung carcinoma	.	.	.	.
-GRIN3A	.	.	.	.	.	.	.	Candidate driver
-GTF2H1	.	.	.	.	.	.	.	High Confidence Driver
-H3F3A	1:226064352-226071479	1q42.12	oncogene	glioma	.	122	.	.
-H3F3B	17:75778595-75779174	17q25.1	.	chondroblastoma	.	.	.	.
-H3F3C	.	.	.	.	.	.	LUAD	High Confidence Driver
-HERC1	.	.	.	.	.	.	.	Candidate driver
-HERPUD1	16:56932245-56943290	16q12.2-q13	.	prostate	.	.	.	.
-HEY1	8:79765188-79767663	8q21	.	mesenchymal chondrosarcoma	.	.	.	.
-HGF	.	.	.	.	.	.	LUAD	High Confidence Driver
-HIF1A	14:61695805-61747085	14q23.2	oncogene	endometrioid carcinoma; glioblastoma; colorectal; renal; lung; pancreatic	.	.	.	.
-HIP1	7:75538172-75738920	7q11.23	.	CMML; NSCLC	.	.	.	.
-HIST1H1C	.	.	.	.	.	.	HNSC	Candidate driver
-HIST1H2BD	.	.	.	.	.	.	HNSC	Candidate driver
-HIST1H3B	6:26031650-26032060	6p22.1	oncogene	glioma	.	25	.	.
-HIST1H4I	6:27107089-27107660	6p21.3	.	NHL	.	.	.	.
-HLA-A	6:29942554-29945455	6p21.3	.	Spitzoid tumour	.	.	.	High Confidence Driver
-HLA-B	.	.	.	.	.	.	.	High Confidence Driver
-HLF	17:55265486-55320880	17q22	oncogene	ALL	.	.	.	.
-HMGA1	6:34240781-34244884	6p21	.	microfollicular thyroid adenoma; various benign mesenchymal tumours	.	.	.	.
-HMGA2	12:65825271-65963292	12q15	oncogene	lipoma; leiomyoma; pleomorphic salivary gland adenoma	.	.	.	.
-HMGN2P46	15:-	15q21.1	.	prostate	.	.	.	.
-HMGXB4	.	.	.	.	.	.	.	High Confidence Driver
-HNF1A	12:120978769-121001192	12q24.2	TSG	hepatic adenoma; hepatocellular	hepatic adenoma; hepatocellular carcinoma	126	.	.
-HNRNPA2B1	7:26190125-26200577	7p15	.	prostate	.	.	.	.
-HOOK3	8:42897132-43018498	8p11.21	.	papillary thyroid	.	.	.	.
-HOXA11	7:27182796-27185144	7p15-p14.2	oncogene	CML	.	.	.	.
-HOXA13	7:27198198-27200077	7p15-p14.2	oncogene	AML	.	.	.	.
-HOXA9	7:27163603-27165457	7p15-p14.2	oncogene	AML*	.	.	.	.
-HOXC11	12:53973243-53975414	12q13.3	oncogene	AML	.	.	.	.
-HOXC13	12:53938908-53945257	12q13.3	oncogene	AML	.	.	.	.
-HOXD11	2:176107357-176109143	2q31-q32	oncogene	AML	.	.	.	.
-HOXD13	2:176092916-176094731	2q31-q32	oncogene	AML*	.	.	.	.
-HRAS	11:532636-534322	11p15.5	oncogene	infrequent sarcomas; rare other tumour types	rhabdomyosarcoma; ganglioneuroblastoma; bladder	812	.	High Confidence Driver
-HSP90AA1	14:102081712-102139404	14q32.33	.	NHL	.	.	.	.
-HSP90AB1	6:44248630-44253598	6p12	.	NHL	.	.	.	High Confidence Driver
-HSPA8	.	.	.	.	.	.	.	High Confidence Driver
-HUWE1	.	.	.	.	.	.	.	High Confidence Driver
-IARS2	.	.	.	.	.	.	.	Candidate driver
-IDH1	2:208237079-208251551	2q33.3	oncogene	glioblastoma	.	4509	GBM	High Confidence Driver
-IDH2	15:90084266-90102390	15q26.1	oncogene	glioblastoma	.	1029	LAML	High Confidence Driver
-IGH	14:-	14q32.33	.	MM; Burkitt lymphoma; NHL; CLL; B-ALL; MALT; MLCLS	.	.	.	.
-IGK	2:-	2p12	.	Burkitt lymphoma; B-NHL	.	.	.	.
-IGL	22:-	22q11.2	.	Burkitt lymphoma	.	.	.	.
-IK	.	.	.	.	.	.	.	Candidate driver
-IKBKB	8:42272100-42330979	8p11.2	oncogene	SMZL	.	.	.	.
-IKZF1	7:50319062-50400628	7p12.2	TSG	ALL; DLBCL	.	.	.	.
-IL2	4:122451752-122456440	4q26-q27	.	intestinal T-cell lymphoma	.	.	.	.
-IL21R	16:27430073-27449284	16p11	.	NHL	.	.	.	.
-IL6ST	5:55941082-55976278	5q11	.	hepatocellular carcinoma	.	.	.	.
-IL7R	5:35856978-35876486	5p13	.	ALL; ETP ALL	.	.	.	.
-ING1	.	.	.	.	.	.	.	Candidate driver
-INPP4A	.	.	.	.	.	.	.	Candidate driver
-INTS1	.	.	.	.	.	.	.	Candidate driver
-IRF4	6:393154-407599	6p25-p23	oncogene/TSG	MM	.	.	.	.
-IRS2	.	.	.	.	.	.	.	High Confidence Driver
-ITGA6	.	.	.	.	.	.	.	High Confidence Driver
-ITK	5:157180978-157252678	5q31-q32	.	peripheral T-cell lymphoma	.	.	.	.
-JAK1	1:64834562-64886264	1p32.3-p31.3	oncogene	ALL	.	61	.	.
-JAK2	9:5021988-5126791	9p24	oncogene	ALL; AML; MPN; CML	.	32692	.	High Confidence Driver
-JAK3	19:17826743-17844417	19p13.1	oncogene	acute megakaryocytic leukaemia; ETP ALL	.	89	.	.
-JAZF1	7:27832800-28180577	7p15.2-p15.1	.	endometrial stromal tumour	.	.	.	.
-JMJD1C	.	.	.	.	.	.	.	Candidate driver
-JUN	1:58782075-58783070	1p32-p31	.	sarcoma	.	.	.	.
-KALRN	.	.	.	.	.	.	.	High Confidence Driver
-KAT6A	8:-	8p11	.	AML	.	.	.	.
-KAT6B	10:74842858-75031046	10q22.2	.	AML	.	.	.	.
-KCNJ5	11:128911274-128916731	11q24	.	adrenal adenoma	.	.	.	.
-KDM5A	12:285456-389091	12p11	.	AML	.	.	.	.
-KDM5C	X:53192967-53224889	Xp11.22-p11.21	TSG	clear cell renal carcinoma	.	26	KIRC	High Confidence Driver
-KDM6A	X:44873552-45111411	Xp11.2	TSG	renal cell carcinoma; bladder carcinoma; oesophageal SCC; MM; medulloblastoma; T-ALL; other tumour types	.	66	BLCA	High Confidence Driver
-KDM6B	.	.	.	.	.	.	.	Candidate driver
-KDR	4:55079941-55125293	4q11-q12	.	NSCLC; angiosarcoma	.	.	.	.
-KDSR	18:63331782-63367118	18q21.3	.	B-NHL	.	.	.	.
-KEAP1	19:10486652-10500033	19p13.2	TSG	NSCLC; breast carcinoma	.	.	LUAD	High Confidence Driver
-KIAA0947	.	.	.	.	.	.	.	Candidate driver
-KIAA1109	.	.	.	.	.	.	.	High Confidence Driver
-KIAA1549	7:138837906-138919418	7q34	.	pilocytic astrocytoma	.	.	.	.
-KIAA1598	10:116886555-117005079	10q25.3	.	Spitzoid tumour	.	.	.	.
-KIF20B	.	.	.	.	.	.	.	Candidate driver
-KIF5B	10:32009010-32055973	10p11.22	.	NSCLC; Spitzoid tumour	.	.	.	.
-KIFC3	.	.	.	.	.	.	.	High Confidence Driver
-KIT	4:54658015-54738557	4q12	oncogene	GIST; AML; TGCT; mastocytosis; mucosal melanoma	GIST; epithelioma	4720	.	High Confidence Driver
-KLF4	9:107485751-107489172	9q31	oncogene/TSG	meningioma	.	61	.	.
-KLF6	10:3779539-3785014	10p15	.	prostate; glioma	.	.	.	.
-KLK2	19:50873474-50878559	19q13.41	.	prostate	.	.	.	.
-KMT2A	11:118436513-118522172	11q23	oncogene	AML; ALL	.	.	.	.
-KMT2C	7:152136832-152435786	7q36.1	.	medulloblastoma	.	.	.	.
-KMT2D	12:49021780-49055324	12q13.12	.	medulloblastoma; renal	.	.	.	.
-KRAS	12:25209795-25245384	12p12.1	oncogene	pancreatic; colorectal; lung; thyroid; AML; other tumour types	.	23261	LUAD	High Confidence Driver
-KTN1	14:55612050-55680691	14q22.1	.	papillary thyroid	.	.	.	.
-LASP1	17:38870190-38918778	17q11-q21.3	.	AML	.	.	.	.
-LCK	1:32274330-32285716	1p35-p34.3	.	T-ALL	.	.	.	.
-LCP1	13:46127591-46159662	13q14.1-q14.3	.	NHL	.	.	.	High Confidence Driver
-LEF1	4:108063629-108167767	4q25	oncogene/TSG	B-ALL; T-ALL; eyelid sebaceous carcinoma; AML; lymphomas	.	.	.	.
-LEPR	.	.	.	.	.	.	.	High Confidence Driver
-LHFP	13:39343936-39601216	13q12	.	lipoma	.	.	.	.
-LIFR	5:38481595-38530647	5p13-p12	.	salivary adenoma	.	.	COAD/READ	High Confidence Driver
-LMNA	1:156114919-156139106	1q22	.	Spitzoid tumour	.	.	.	.
-LMO1	11:8224616-8268634	11p15	.	T-ALL; neuroblastoma	neuroblastoma	.	.	.
-LMO2	11:33859356-33869386	11p13	.	T-ALL	.	.	.	.
-LPP	3:188406122-188874480	3q28	.	lipoma; leukaemia	.	.	.	High Confidence Driver
-LRIG3	12:58872572-58920235	12q14.1	.	NSCLC	.	.	.	.
-LRP1B	2:140233186-142130729	2q21.2	TSG	CLL; ovarian cancer; oesophageal squamous cell carcinoma; urothelial cancer	.	.	.	.
-LRRK2	.	.	.	.	.	.	HNSC	High Confidence Driver
-LSM14A	19:34172643-34227388	19q13.11	.	Spitzoid tumour	.	.	.	.
-LTBP1	.	.	.	.	.	.	.	Candidate driver
-LUC7L2	.	.	.	.	.	.	.	Candidate driver
-LUM	.	.	.	.	.	.	.	High Confidence Driver
-LYL1	19:13099319-13101171	19p13.2-p13.1	.	T-ALL	.	.	.	.
-LYN	.	.	.	.	.	.	.	High Confidence Driver
-LZTR1	22:20982372-20997348	22q11.21	TSG	glioblastoma	glioblastoma; schwannoma	.	.	High Confidence Driver
-MACF1	.	.	.	.	.	.	.	Candidate driver
-MAF	16:79594460-79599902	16q22-q23	.	MM	.	.	.	.
-MAFB	20:40687879-40688850	20q11.2-q13.1	.	MM	.	.	.	.
-MALAT1	11:65502644-65502817	11q31.1	.	renal cell carcinoma (childhood epithelioid); lung	.	.	.	High Confidence Driver
-MALT1	18:58671645-58747843	18q21	.	MALT	.	.	.	.
-MAML2	11:95978948-96341895	11q22-q23	.	salivary gland mucoepidermoid	.	.	.	.
-MAP1A	.	.	.	.	.	.	.	Candidate driver
-MAP1B	.	.	.	.	.	.	.	Candidate driver
-MAP2K1	15:66387348-66490615	15q22.1-q22.33	oncogene	NSCLC; melanoma; colorectal	.	13	.	.
-MAP2K2	19:4090598-4123875	19p13.3	oncogene	NSCLC; melanoma	.	.	.	.
-MAP2K4	17:12020887-12141260	17p11.2	.	pancreatic; breast; colorectal	.	.	.	High Confidence Driver
-MAP3K1	5:56152434-56189507	5q11.2	TSG	luminal A breast	.	11	BRCA	High Confidence Driver
-MAP3K13	3:185428582-185482456	3q27	.	breast	.	.	.	.
-MAP3K3	.	.	.	.	.	.	.	High Confidence Driver
-MAP3K4	.	.	.	.	.	.	.	High Confidence Driver
-MAP4	.	.	.	.	.	.	.	Candidate driver
-MAPK1	22:21769204-21867440	22q11.2	oncogene	CLL; ovarian mixed germ cell tumour; cervical carcinoma	.	.	.	.
-MAPK8IP1	.	.	.	.	.	.	.	High Confidence Driver
-MARCKSL1	.	.	.	.	.	.	.	Candidate driver
-MAST2	.	.	.	.	.	.	.	High Confidence Driver
-MATK	.	.	.	.	.	.	.	High Confidence Driver
-MAX	14:65076476-65102339	14q23	.	pheochromocytoma; endometrioid carcinoma; colon carcinoma	pheochromocytoma	.	.	High Confidence Driver
-MCM7	.	.	.	.	.	.	.	Candidate driver
-MDC1	.	.	.	.	.	.	.	High Confidence Driver
-MDM2	12:68808478-68839849	12q15	oncogene	sarcoma; glioma; colorectal; other tumour types	.	.	.	.
-MDM4	1:204525519-204549682	1q32	oncogene	glioblastoma; bladder; retinoblastoma	.	.	.	.
-MDN1	.	.	.	.	.	.	.	Candidate driver
-MDS2	1:23629556-23640550	1p36	.	MDS	.	.	.	.
-MECOM	3:169084909-169131477	3q26.2	oncogene	AML; CML; MDS	.	.	.	High Confidence Driver
-MED12	X:71118755-71142218	Xq13	oncogene	uterine leiomyoma; fibroadenoma; phyllodes tumour	.	337	.	High Confidence Driver
-MED13	.	.	.	.	.	.	.	High Confidence Driver
-MED17	.	.	.	.	.	.	.	High Confidence Driver
-MEF2A	.	.	.	.	.	.	.	High Confidence Driver
-MEGF6	.	.	.	.	.	.	.	Candidate driver
-MEN1	11:64804334-64810109	11q13	TSG	parathyroid tumours; pancreatic neuroendocrine tumour	parathyroid adenoma; pituitary adenoma; pancreatic islet cell; carcinoid	290	.	.
-MET	7:116699085-116796124	7q31	oncogene	papillary renal; head-neck squamous cell	papillary renal	159	.	.
-METTL14	.	.	.	.	.	.	.	High Confidence Driver
-MGA	.	.	.	.	.	.	.	Candidate driver
-MICAL1	.	.	.	.	.	.	.	Candidate driver
-MITF	3:69936723-69965248	3p14.1	.	melanoma	.	.	.	.
-MKI67	.	.	.	.	.	.	.	Candidate driver
-MKL1	22:40411390-40463227	22q13	.	acute megakaryocytic leukaemia	.	.	.	.
-MLF1	3:158571302-158605203	3q25.1	.	AML	.	.	.	.
-MLH1	3:36993548-37050653	3p21.3	TSG	colorectal; endometrial; ovarian; CNS tumours	colorectal; endometrial; ovarian; CNS	61	.	.
-MLL	.	.	.	.	.	.	.	High Confidence Driver
-MLL2	.	.	TSG	.	.	165	LUSC	High Confidence Driver
-MLL3	.	.	TSG	.	.	111	BRCA	High Confidence Driver
-MLL4	.	.	.	.	.	.	UCEC	.
-MLLT1	19:6213042-6279784	19p13.3	oncogene	AL	.	.	.	.
-MLLT10	10:21534646-21740235	10p12	.	AL	.	.	.	High Confidence Driver
-MLLT11	1:151039702-151040970	1q21	.	ALL	.	.	.	.
-MLLT3	9:20346443-20622256	9p22	oncogene	ALL	.	.	.	High Confidence Driver
-MLLT4	6:167827134-167952263	6q27	.	AL	.	.	.	High Confidence Driver
-MLLT6	17:36861887-36881852	17q21	.	AL	.	.	.	.
-MME	.	.	.	.	.	.	.	Candidate driver
-MMP2	.	.	.	.	.	.	.	High Confidence Driver
-MN1	22:27750915-27800543	22q13	.	AML; meningioma	.	.	.	High Confidence Driver
-MNX1	7:157005520-157010350	7q36	.	AML	.	.	.	.
-MPL	1:43337849-43352772	1p34	oncogene	MPN	MPN	531	.	.
-MSH2	2:47403192-47482949	2p22-p21	TSG	colorectal; endometrial; ovarian	colorectal; endometrial; ovarian	37	.	.
-MSH6	2:47783234-47806860	2p16	TSG	colorectal	colorectal; endometrial; ovarian	135	.	.
-MSI2	17:57257049-57631832	17q23.2	.	CML	.	.	.	.
-MSN	X:65667842-65739893	Xq11.2-q12	.	ALCL	.	.	.	High Confidence Driver
-MST1	.	.	.	.	.	.	.	High Confidence Driver
-MTCP1	X:155061843-155064023	Xq28	.	T cell prolymphocytic leukaemia	.	.	.	.
-MTM1	.	.	.	.	.	.	.	Candidate driver
-MTOR	1:11107485-11259409	1p36	oncogene	endometrial carcinoma; head and neck; clear cell renal cell carcinoma; anaplastic thyroid cancer; urothelial cell carcinoma; central nervous system tumours; testicular germ cell tumours and other tumour types	.	.	KIRC	High Confidence Driver
-MUC1	1:155186135-155192843	1q21	.	B-NHL	.	.	.	.
-MUTYH	1:45329306-45340254	1p34.3-1p32.1	.	.	colorectal	.	.	.
-MYB	6:135181514-135217980	6q22-23	.	adenoid cystic carcinoma	.	.	.	High Confidence Driver
-MYC	8:127738263-127740958	8q24.12-q24.13	oncogene	Burkitt lymphoma; amplified in other cancers; B-CLL	.	.	.	.
-MYCBP2	.	.	.	.	.	.	.	Candidate driver
-MYCL	1:39900814-39901434	1p34.2	.	small cell lung carcinoma	.	.	.	.
-MYCN	2:15942065-15946097	2p24.1	oncogene	neuroblastoma	.	.	.	.
-MYD88	3:38138662-38141286	3p22	oncogene	ABC-DLBCL	.	134	.	.
-MYH11	16:15708811-15838252	16p13.13-p13.12	.	AML	.	.	.	.
-MYH9	22:36282668-36349236	22q13.1	.	ALCL	.	.	.	High Confidence Driver
-MYO1D	.	.	.	.	.	.	.	Candidate driver
-MYO5A	15:52313696-52528806	15q21	.	Spitzoid tumour	.	.	.	.
-MYOD1	11:17719783-17721508	11p15.4	.	embryonal rhabdomyosarcoma	.	.	.	.
-NAA15	.	.	.	.	.	.	.	Candidate driver
-NAB2	12:57089272-57094721	12q13.3	oncogene	solitary fibrous tumour; meningeal haemangiopericytoma	.	.	.	.
-NACA	12:56712538-56724521	12q23-q24.1	.	NHL	.	.	.	.
-NAV1	.	.	.	.	.	.	.	Candidate driver
-NAV3	.	.	.	.	.	.	LUSC	High Confidence Driver
-NBEA	.	.	.	.	.	.	.	Candidate driver
-NBN	8:89935582-89984561	8q21	.	.	NHL; glioma; medulloblastoma; rhabdomyosarcoma	.	.	.
-NBPF10	.	.	.	.	.	.	.	High Confidence Driver
-NCKIPSD	3:48674544-48685807	3p21	.	ALL	.	.	.	.
-NCOA1	2:24658678-24768391	2p23	.	alveolar rhabdomyosarcoma	.	.	.	.
-NCOA2	8:70113632-70216745	8q13.1	.	AML; chondrosarcoma; rhabdomyosarcoma	.	.	.	.
-NCOA3	.	.	.	.	.	.	.	High Confidence Driver
-NCOA4	10:51579142-51586417	10q11.2	.	papillary thyroid	.	.	.	High Confidence Driver
-NCOR1	17:16032296-16194569	17p11.2	TSG	breast	.	35	BRCA	High Confidence Driver
-NCOR2	12:124325402-124495251	12q24	TSG	prostate	.	.	.	High Confidence Driver
-NDRG1	8:133238878-133284311	8q24.3	.	prostate	.	.	.	.
-NEB	.	.	.	.	.	.	.	High Confidence Driver
-NEDD4L	.	.	.	.	.	.	.	High Confidence Driver
-NEK1	.	.	.	.	.	.	.	Candidate driver
-NEK8	.	.	.	.	.	.	.	Candidate driver
-NF1	17:31095310-31374155	17q12	TSG	neurofibroma; glioma	neurofibroma; glioma	362	LUAD	High Confidence Driver
-NF2	22:29603999-29694802	22q12.2	TSG	meningioma; acoustic neuroma; renal	meningioma; acoustic neuroma	609	.	.
-NFATC2	20:51391396-51542499	20q13.2	.	Ewing sarcoma	.	.	.	.
-NFE2L2	2:177230785-177264576	2q31	oncogene	NSCLC; HNSCC	.	102	LUSC	High Confidence Driver
-NFE2L3	.	.	.	.	.	.	BRCA	.
-NFIB	9:14088309-14313511	9p24.1	.	adenoid cystic carcinoma; lipoma	.	.	.	.
-NFKB2	10:102395960-102402376	10q24	oncogene	B-NHL	.	.	.	.
-NFKBIE	6:44259219-44265763	6p21.1	.	CLL; desmoplastic melanoma	.	.	.	.
-NIN	14:50725872-50822056	14q24	.	MPN	.	.	.	High Confidence Driver
-NIPBL	.	.	.	.	.	.	.	Candidate driver
-NKX2-1	14:36517278-36519357	14q13	.	NSCLC	.	.	.	.
-NLRP3	.	.	.	.	.	.	.	High Confidence Driver
-NMT2	.	.	.	.	.	.	.	Candidate driver
-NONO	X:71290638-71300076	Xq13.1	.	papillary renal	.	.	.	High Confidence Driver
-NOTCH1	9:136496071-136545786	9q34.3	oncogene/TSG	T-ALL; breast; bladder; skin SCC; lung SCC; head and neck SCC	.	661	LUSC	High Confidence Driver
-NOTCH2	1:119915306-120069406	1p13-p11	oncogene/TSG	marginal zone lymphoma; DLBCL; bladder	.	51	.	.
-NPM1	5:171387949-171410565	5q35	TSG	NHL; APL; AML	.	2471	LAML	High Confidence Driver
-NR1H2	.	.	.	.	.	.	.	High Confidence Driver
-NR4A2	.	.	.	.	.	.	.	High Confidence Driver
-NR4A3	9:99828041-99863867	9q22	.	extraskeletal myxoid chondrosarcoma	.	.	.	.
-NRAS	1:114708535-114716160	1p13.2	oncogene	melanoma; MM; AML; thyroid	.	2738	COAD/READ	High Confidence Driver
-NRG1	8:32548727-32764402	8p12	.	NSCLC	.	.	.	.
-NSD1	5:177135104-177295459	5q35	.	AML	.	.	HNSC	High Confidence Driver
-NT5C2	10:103089672-103174958	10q24.32	.	relapse ALL	.	.	.	.
-NTRK1	1:156860935-156881642	1q21-q22	.	papillary thyroid; Spitzoid tumour	.	.	.	.
-NTRK3	15:87876935-88256153	15q25	.	congenital fibrosarcoma; secretory breast	.	.	.	.
-NUMA1	11:72003527-72035943	11q13	.	APL	.	.	.	High Confidence Driver
-NUP214	9:131125705-131233487	9q34.1	.	AML; T-ALL	.	.	.	High Confidence Driver
-NUP93	.	.	.	.	.	.	.	High Confidence Driver
-NUP98	11:3676159-3782117	11p15	.	AML	.	.	.	High Confidence Driver
-NUTM1	15:34346021-34357492	15q14	oncogene	lethal midline carcinoma	.	.	.	.
-NUTM2A	10:87358266-87367372	10q23.2	.	endometrial stromal sarcoma	.	.	.	.
-NUTM2B	10:79703610-79712485	10q22.3	.	endometrial stromal sarcoma	.	.	.	.
-OLIG2	21:33026863-33027834	21q22.11	.	T-ALL	.	.	.	.
-OMD	9:92415152-92417558	9q22.31	.	aneurysmal bone cyst	.	.	.	.
-P2RY8	X; Y:1465479-1466558	Xp22.3; Yp11.3	.	B-ALL; Down syndrome associated ALL	.	.	.	.
-P4HB	.	.	.	.	.	.	.	Candidate driver
-PABPC1	.	.	.	.	.	.	.	High Confidence Driver
-PABPC4	.	.	.	.	.	.	.	Candidate driver
-PAFAH1B2	11:117152449-117167700	11q23	.	MLCLS	.	.	.	.
-PALB2	16:23603459-23641157	16p12.1	TSG	.	Wilms tumour; medulloblastoma; AML ; breast	.	.	.
-PAX3	2:222201174-222298615	2q35	.	alveolar rhabdomyosarcoma	.	.	.	.
-PAX5	9:36840560-37034031	9p13	TSG	NHL; ALL; B-ALL	.	49	.	.
-PAX7	1:18631604-18736039	1p36.2-p36.12	.	alveolar rhabdomyosarcoma	.	.	.	.
-PAX8	2:113218533-113278394	2q12-q14	.	follicular thyroid	.	.	.	.
-PBRM1	3:52548063-52679711	3p21	TSG	clear cell renal carcinoma; breast	.	171	KIRC	High Confidence Driver
-PBX1	1:164559824-164846677	1q23	.	pre B-ALL; myoepithelioma	.	.	.	.
-PCBP1	.	.	.	.	.	.	COAD/READ	High Confidence Driver
-PCM1	8:17935611-18027662	8p22-p21.3	.	papillary thyroid; CML; MPN	.	.	.	High Confidence Driver
-PCSK7	11:117205997-117229844	11q23.3	.	MLCLS	.	.	.	.
-PDCD1LG2	9:5522547-5569959	9p24.2	.	PMBL; Hodgkin lymphoma	.	.	.	.
-PDE4DIP	1:148889754-149031985	1q12	.	MPN	.	.	.	.
-PDGFB	22:39225723-39243963	22q12.3-q13.1	oncogene	DFSP	.	.	.	.
-PDGFRA	4:54258769-54295272	4q11-q13	oncogene	GIST; idiopathic hypereosinophilic syndrome; paediatric glioblastoma	GIST	653	GBM	High Confidence Driver
-PDGFRB	5:150115763-150137047	5q31-q32	.	MPN; AML; CMML; CML	.	.	.	.
-PDS5A	.	.	.	.	.	.	.	Candidate driver
-PER1	17:8141068-8150706	17p13.1-17p12	.	AML; CMML	.	.	.	.
-PHF6	X:134377618-134425330	Xq26.3	TSG	ETP ALL	.	57	LAML	High Confidence Driver
-PHLDA1	.	.	.	.	.	.	.	High Confidence Driver
-PHOX2B	4:41745807-41748610	4p12	.	neuroblastoma	neuroblastoma	.	.	.
-PICALM	11:85959046-86068780	11q14	.	T-ALL; AML	.	.	.	.
-PIK3CA	3:179198826-179234364	3q26.3	oncogene	colorectal; gastric; glioblastoma; breast	.	4560	BLCA	High Confidence Driver
-PIK3CB	.	.	.	.	.	.	.	High Confidence Driver
-PIK3CG	.	.	.	.	.	.	LUSC	High Confidence Driver
-PIK3R1	5:68226676-68297601	5q13.1	TSG	glioblastoma; ovarian; colorectal	.	88	UCEC	High Confidence Driver
-PIM1	6:37170576-37174091	6p21.2	.	NHL	.	.	.	.
-PIP5K1A	.	.	.	.	.	.	.	High Confidence Driver
-PLAG1	8:56166243-56168269	8q12	oncogene	salivary adenoma; lipoblastoma	.	.	.	.
-PLCG1	20:41137642-41174509	20q12-q13.1	.	angiosarcoma	.	.	.	High Confidence Driver
-PLEC	.	.	.	.	.	.	.	High Confidence Driver
-PML	15:73994813-74045008	15q22	TSG	APL; ALL	.	.	.	.
-PMS1	2:189791810-189877436	2q31-q33	.	.	colorectal; endometrial; ovarian	.	.	.
-PMS2	7:5973399-6009019	7p22	.	.	colorectal; endometrial; ovarian; medulloblastoma; glioma	.	.	.
-POLE	12:132624697-132687315	12q24.3	.	colorectal carcinoma; endometrioid carcinoma; stomach carcinoma; skin cancer	colorectal cancer susceptibility	.	.	Candidate driver
-POT1	7:124823962-124897173	7q31.33	.	CLL	.	.	.	.
-POTEF	.	.	.	.	.	.	.	High Confidence Driver
-POU2AF1	11:111354261-111379177	11q23.1	.	NHL	.	.	.	.
-POU5F1	6:31164601-31170620	6p21.31	.	sarcoma	.	.	.	.
-PPARG	3:12351593-12434145	3p25	.	follicular thyroid	.	.	.	.
-PPFIA4	.	.	.	.	.	.	.	Candidate driver
-PPFIBP1	12:27633397-27692882	12p12.1	.	Spitzoid tumour; inflammatory myofibroblastic tumour	.	.	.	.
-PPM1D	17:60600415-60663552	17q23.3	oncogene	glioma; ovarian cancer; breast cancer	.	.	.	.
-PPP2R1A	19:52190097-52225981	19q13.41	oncogene	clear cell ovarian carcinoma	.	86	UCEC	High Confidence Driver
-PPP6C	9:125149673-125189718	9q33.3	.	melanoma	.	.	.	.
-PRCC	1:156767772-156800460	1q21.1	.	papillary renal	.	.	.	.
-PRDM1	6:106088267-106107486	6q21	TSG	DLBCL	.	46	.	.
-PRDM16	1:3069260-3433811	1p36.23-p33	.	MDS; AML	.	.	.	.
-PRDM2	.	.	.	.	.	.	.	Candidate driver
-PREX2	8:67952395-68231378	8q13.2	oncogene	melanoma; pancreatic ductal adenocarcinoma	.	.	.	.
-PRF1	10:70598053-70600902	10q22	.	.	various leukaemia; lymphoma	.	.	.
-PRKACA	19:14093112-14117547	19p13.1	oncogene	fibrolamellar hepatocellular carcinoma; cortisol secreting adrenal adenoma	.	.	.	.
-PRKAR1A	17:68515400-68530449	17q23-q24	.	papillary thyroid	myxoma; endocrine; papillary thyroid	.	.	High Confidence Driver
-PRKCD	.	.	.	.	.	.	.	High Confidence Driver
-PRPF8	.	.	.	.	.	.	.	High Confidence Driver
-PRRC2A	.	.	.	.	.	.	.	Candidate driver
-PRRX1	1:170664220-170730332	1q24	.	AML	.	.	.	.
-PRX	.	.	.	.	.	.	BLCA	Candidate driver
-PSEN1	.	.	.	.	.	.	.	High Confidence Driver
-PSIP1	9:15471207-15510188	9p22.3	.	AML	.	.	.	.
-PSMD11	.	.	.	.	.	.	.	Candidate driver
-PSME3	.	.	.	.	.	.	.	Candidate driver
-PTCH1	9:95446912-95508361	9q22.3	TSG	skin basal cell; medulloblastoma	skin basal cell; medulloblastoma	318	.	.
-PTEN	10:87864470-87965472	10q23.3	TSG	glioma; prostate; endometrial	harmartoma; glioma; prostate; endometrial	1719	LUSC	High Confidence Driver
-PTK6	20:63529536-63537314	20q13.3	oncogene/TSG	renal; gastric; head and neck; ovarian; others	.	.	.	.
-PTPN11	12:112419112-112504764	12q24.1	oncogene	JMML; AML; MDS	.	410	LAML	High Confidence Driver
-PTPN13	4:86635257-86814551	4q21.3	TSG	lung; NSCLC; gastric; peritoneal carcinomatosis	hepatocellular	.	.	Candidate driver
-PTPRB	12:70521489-70609814	12q15-q21	.	angiosarcoma	.	.	.	.
-PTPRC	1:198639275-198756181	1q31-q32	.	T-ALL	.	.	.	.
-PTPRK	6:127970227-128520358	6q22.2-q22.3	.	colorectal	.	.	.	.
-PTPRT	20:42080879-43189733	20q12-q13	TSG	HNSCC; colorectal cancer; gastric cancer; lung cancer; melanoma	.	.	.	.
-PWP1	.	.	.	.	.	.	.	Candidate driver
-PWWP2A	5:160078155-160119388	5q33.3	.	Spitzoid tumour	.	.	.	.
-QKI	6:163415194-163570710	6q26	oncogene/TSG	angiocentric glioma; colorectal cancer	.	.	.	Candidate driver
-RAB11FIP5	.	.	.	.	.	.	.	Candidate driver
-RABEP1	17:5282488-5383224	17p13.2	.	CMML	.	.	.	.
-RAC1	7:6374736-6402446	7p22	oncogene	melanoma; carcinoma	.	.	.	High Confidence Driver
-RAD21	8:116847500-116866729	8q24.11	.	AML; endometrium; colorectal; lung	.	.	.	High Confidence Driver
-RAD51B	14:67823544-68594603	14q23-q24.2	.	lipoma; uterine leiomyoma	.	.	.	.
-RAF1	3:12584514-12618721	3p25	.	pilocytic astrocytoma; prostate	.	.	.	.
-RAG1	.	.	.	.	.	.	.	Candidate driver
-RALGAPA1	.	.	.	.	.	.	.	Candidate driver
-RALGDS	9:133098587-133121154	9q34.3	.	PMBL; Hodgkin lymphoma;	.	.	.	.
-RANBP17	5:170862034-171298858	5q34	.	ALL	.	.	.	.
-RANBP2	2:108719607-108783901	2q12.3	.	inflammatory myofibroblastic tumour	.	.	.	High Confidence Driver
-RANBP3	.	.	.	.	.	.	.	High Confidence Driver
-RANGAP1	.	.	.	.	.	.	.	Candidate driver
-RAP1GDS1	4:98261566-98442117	4q21-q25	.	T-ALL	.	.	.	.
-RARA	17:40331219-40356226	17q12	oncogene	APL	.	.	.	.
-RASA1	.	.	.	.	.	.	.	High Confidence Driver
-RB1	13:48303913-48480071	13q14	TSG	retinoblastoma; sarcoma; breast; small cell lung carcinoma	retinoblastoma; sarcoma; breast; small cell lung carcinoma	208	LUSC	High Confidence Driver
-RBFOX2	.	.	.	.	.	.	.	Candidate driver
-RBM10	X:47147482-47186599	Xp11.3	TSG	lung adenocarcinoma	.	.	.	Candidate driver
-RBM15	1:110339407-110345610	1p13	.	acute megakaryocytic leukaemia	.	.	.	.
-RBMX	.	.	.	.	.	.	.	High Confidence Driver
-RECQL4	8:144511431-144517784	8q24.3	.	.	osteosarcoma; skin basal cell; skin sqamous cell	.	.	.
-REL	2:60881841-60922535	2p13-p12	oncogene	Hodgkin lymphoma	.	.	.	.
-RET	10:43077259-43128269	10q11.2	oncogene	medullary thyroid; papillary thyroid; pheochromocytoma; NSCLC; Spitzoid tumour	medullary thyroid; papillary thyroid; pheochromocytoma	500	.	.
-RHEB	.	.	.	.	.	.	.	High Confidence Driver
-RHOA	3:49360209-49375589	3p21.3	.	diffuse gastric; T cell lymphomas; paediatric Burkitt lymphoma	.	.	.	High Confidence Driver
-RHOH	4:40243387-40243962	4p13	.	NHL	.	.	.	.
-RIF1	.	.	.	.	.	.	.	Candidate driver
-RMI2	16:11345472-11350790	16p13.13	.	PMBL; Hodgkin lymphoma	.	.	.	.
-RNF111	.	.	.	.	.	.	.	Candidate driver
-RNF213	17:80340149-80393498	17q25.3	.	ALCL	.	.	.	High Confidence Driver
-RNF217-AS1	6:-	6q22.33	.	B-ALL	.	.	.	.
-RNF43	17:58354943-58415577	17q23.2	TSG	cholangiocarcinoma; ovary; pancreas	.	27	.	High Confidence Driver
-ROS1	6:117288492-117425656	6q22	oncogene	glioblastoma; NSCLC; Spitzoid tumour; cholangiocarcinoma; borderline ovarian	.	.	.	.
-RPGR	.	.	.	.	.	.	.	High Confidence Driver
-RPL10	X:154398520-154400854	Xq28	.	T-ALL	.	.	.	.
-RPL22	1:6186672-6199573	1p36.31	.	AML; CML	.	.	UCEC	High Confidence Driver
-RPL5	1:92832115-92841865	1p22.1	.	T-ALL	.	.	GBM	High Confidence Driver
-RPN1	3:128620411-128650800	3q21.3-q25.2	.	AML	.	.	.	.
-RPP38	.	.	.	.	.	.	.	Candidate driver
-RPSAP58	.	.	.	.	.	.	.	High Confidence Driver
-RSPO2	8:107901075-108082638	8q23.1	.	colorectal	.	.	.	.
-RSPO3	6:127119193-127196007	6q22.33	.	colorectal	.	.	.	.
-RSRC1	.	.	.	.	.	.	.	Candidate driver
-RUNDC2A	16:11976807-12052226	16p13.13	.	PMBL; Hodgkin lymphoma	.	.	.	.
-RUNX1	21:34792135-35048899	21q22.3	oncogene/TSG	AML; pre B-ALL; T-ALL	.	304	BRCA	High Confidence Driver
-RUNX1T1	8:91960242-92017340	8q22	oncogene	AML	.	.	.	.
-RXRA	.	.	.	.	.	.	.	High Confidence Driver
-SBDS	7:66988371-66995417	7q11	.	.	AML; MDS	.	.	.
-SDC4	20:45327264-45348384	20q12	.	NSCLC	.	.	.	.
-SDHA	5:218356-256420	5p15	TSG	GIST; paraganglioma	paraganglioma	.	.	.
-SDHAF2	11:61430147-61446071	11q12.2	.	.	paraganglioma	.	.	.
-SDHB	1:17018881-17054019	1p36.1-p35	.	.	paraganglioma; pheochromocytoma	.	.	.
-SDHC	1:161314406-161362433	1q21	.	.	paraganglioma; pheochromocytoma	.	.	.
-SDHD	11:112086908-112094970	11q23	.	.	paraganglioma; pheochromocytoma	.	.	.
-SEC23B	.	.	.	.	.	.	.	Candidate driver
-SEPT5	22:19714590-19722485	22q11.21	.	AML	.	.	.	.
-SEPT6	X:119618762-119693105	Xq24	.	AML	.	.	.	.
-SEPT9	17:77320327-77498658	17q25	.	AML*	.	.	.	.
-SET	9:128689583-128694664	9q34	.	AML	.	.	.	.
-SETBP1	18:44701347-45063698	18q21.1	oncogene	aCML; sAML; MDS/MPN-U; CMML; JMML	neuroepithelial tumours	95	LUAD	.
-SETD2	3:47017093-47123126	3p21.31	TSG	clear cell renal carcinoma	.	47	KIRC	High Confidence Driver
-SETX	.	.	.	.	.	.	.	Candidate driver
-SF3B1	2:197392303-197434999	2q33.1	oncogene	myelodysplastic syndrome	.	516	.	High Confidence Driver
-SFPQ	1:35184456-35193049	1p34.3	.	papillary renal	.	.	.	.
-SGK1	.	.	.	.	.	.	.	High Confidence Driver
-SH2B3	12:111418146-111448302	12q24.12	TSG	MPN; sAML; erythrocytosis; B-ALL	.	.	.	.
-SH3GL1	19:4361600-4400368	19p13.3	.	AL	.	.	.	.
-SH3PXD2A	.	.	.	.	.	.	.	Candidate driver
-SIN3A	.	.	.	.	.	.	UCEC	High Confidence Driver
-SLC25A10	.	.	.	.	.	.	.	Candidate driver
-SLC34A2	4:25662501-25676749	4p15.2	.	NSCLC	.	.	.	.
-SLC3A2	.	.	.	.	.	.	.	Candidate driver
-SLC45A3	1:205659234-205664656	1q32	.	prostate	.	.	.	.
-SMAD2	18:47841827-47896756	18q21	TSG	colorectal carcinoma; hepatocellular carcinoma	.	16	COAD/READ	High Confidence Driver
-SMAD3	15:67066155-67190536	15q21-q22	TSG	colorectal; hepatocellular carcinoma; oral squamous cell carcinoma	.	.	.	.
-SMAD4	18:51047047-51078467	18q21.1	TSG	colorectal; pancreatic; small intestine	gastrointestinal polyp	207	COAD/READ	High Confidence Driver
-SMARCA4	19:10984152-11061816	19p13.2	TSG	NSCLC; SCCOHT	.	68	.	High Confidence Driver
-SMARCAD1	.	.	.	.	.	.	.	Candidate driver
-SMARCB1	22:23787170-23834180	22q11	TSG	malignant rhabdoid	malignant rhabdoid	247	.	.
-SMARCD1	12:50085487-50099000	12q13-q14	.	breast	.	.	.	.
-SMARCE1	17:40628785-40645626	17q21.2	.	.	meningioma	.	.	.
-SMC1A	.	.	.	.	.	.	LAML	High Confidence Driver
-SMC3	.	.	.	.	.	.	.	High Confidence Driver
-SMC4	.	.	.	.	.	.	.	Candidate driver
-SMCHD1	.	.	.	.	.	.	.	Candidate driver
-SMO	7:129189152-129212451	7q31-q32	oncogene	skin basal cell	.	34	.	.
-SMYD4	.	.	.	.	.	.	.	Candidate driver
-SND1	7:127652374-128092058	7q31.3	.	pancreas acinar carcinoma	.	.	.	.
-SOCS1	16:11254843-11255478	16p13.13	TSG	Hodgkin lymphoma; PMBL	.	41	.	.
-SOS1	.	.	.	.	.	.	.	High Confidence Driver
-SOX17	.	.	.	.	.	.	UCEC	High Confidence Driver
-SOX2	3:181712361-181713314	3q26.3-q27	.	NSCLC; oesophageal squamous carcinoma	.	.	.	.
-SOX9	.	.	TSG	.	.	9	COAD/READ	Candidate driver
-SPATA6	.	.	.	.	.	.	.	High Confidence Driver
-SPECC1	17:20096653-20314066	17p11.2	.	JMML	.	.	.	.
-SPEG	.	.	.	.	.	.	.	Candidate driver
-SPEN	1:15848068-15939427	1p36	.	SMZL; adenoid cystic carcinoma; DLBCL	.	.	.	High Confidence Driver
-SPOP	17:49600378-49622810	17q21.33	oncogene	prostate; endometrial	prostate cancer	35	.	High Confidence Driver
-SPTAN1	.	.	.	.	.	.	.	Candidate driver
-SRCAP	.	.	.	.	.	.	.	Candidate driver
-SRGAP3	3:8985519-9248951	3p25.3	.	pilocytic astrocytoma	.	.	.	.
-SRRM2	.	.	.	.	.	.	.	Candidate driver
-SRSF2	17:76736161-76737160	17q25	oncogene	MDS; CLL	.	273	.	.
-SRSF3	6:36596763-36601989	6p21	.	follicular lymphoma	.	.	.	.
-SS18	18:26018354-26090569	18q11.2	.	synovial sarcoma	.	.	.	.
-SS18L1	20:62143822-62179209	20q13.3	.	synovial sarcoma	.	.	.	.
-SSX1	X:48257242-48266387	Xp11.23-p11.22	.	synovial sarcoma	.	.	.	.
-SSX2	X:52752681-52789480	Xp11.23-p11.22	.	synovial sarcoma	.	.	.	.
-SSX2IP	.	.	.	.	.	.	.	Candidate driver
-SSX4	X:48391869-48411372	Xp11.23	.	synovial sarcoma	.	.	.	.
-STAG2	X:124022628-124100597	Xq25	TSG	bladder carcinoma; glioblastoma; melanoma; Ewing's sarcoma; myeloid neoplasms	.	21	LAML	High Confidence Driver
-STAT3	17:42315745-42348516	17q21.31	oncogene	T-cell large granular lymphocytic leukaemia	paediatric large granular lymphocytic leukaemia	.	.	High Confidence Driver
-STAT5B	17:42201738-42232127	17q11.2	.	large granular lymphocytic leukaemia; skin basal cell; APL	.	.	.	.
-STAT6	12:57096572-57108278	12q13	.	solitary fibrous tumour; meningeal haemangiopericytoma	.	.	.	.
-STIL	1:47251136-47310319	1p32	.	T-ALL	.	.	.	.
-STIP1	.	.	.	.	.	.	.	Candidate driver
-STK11	19:1206914-1226647	19p13.3	TSG	NSCLC; pancreatic	jejunal hamartoma; ovarian; testicular; pancreatic	220	LUAD	High Confidence Driver
-STRN	2:36849456-36966463	2p22.2	.	anaplastic thyroid; papillary thyroid; lung	.	.	.	.
-SUFU	10:102504153-102630155	10q24.32	.	medulloblastoma	medulloblastoma	.	.	.
-SUZ12	17:31937247-31999003	17q11.2	.	endometrial stromal tumour	.	.	.	High Confidence Driver
-SVIL	.	.	.	.	.	.	.	Candidate driver
-SYK	9:90843899-90895600	9q22	oncogene	MDS; peripheral T-cell lymphoma	.	.	.	.
-SYNE1	.	.	.	.	.	.	.	High Confidence Driver
-TAF1	.	.	.	.	.	.	UCEC	High Confidence Driver
-TAF15	17:35809571-35846946	17q11.1-q11.2	.	extraskeletal myxoid chondrosarcoma; ALL	.	.	.	.
-TAL1	1:47219720-47225888	1p32	.	lymphoblastic leukaemia/biphasic	.	.	.	.
-TAL2	9:108424779-108425393	9q31	.	T-ALL	.	.	.	.
-TANC2	.	.	.	.	.	.	.	Candidate driver
-TBL1XR1	3:177025498-177064977	3q26.32	.	splenic marginal zone lymphoma; primary central nervous system lymphoma; colorectal carcinoma; gallbladder carcinoma	.	.	BRCA	High Confidence Driver
-TBX3	12:114671841-114683200	12q24.21	oncogene/TSG	breast; large intestine; skin	.	.	LUAD	High Confidence Driver
-TCEA1	8:53970288-53984488	8q11.2	.	salivary adenoma	.	.	.	.
-TCF12	15:56919914-57288514	15q21	.	extraskeletal myxoid chondrosarcoma	.	.	.	High Confidence Driver
-TCF3	19:1611707-1650248	19p13.3	.	pre B-ALL	.	.	.	.
-TCF7	.	.	.	.	.	.	.	High Confidence Driver
-TCF7L2	10:112950757-113165972	10q25.3	.	colorectal	.	.	.	High Confidence Driver
-TCL1A	14:95711755-95714066	14q32.1	.	T-CLL	.	.	.	.
-TCL6	14:95665061-95671429	14q32.1	.	T-ALL	.	.	.	.
-TERT	5:1253728-1294989	5p15.33	.	melanoma; glioblastoma; hepatocellular carcinoma; bladder; skin basal cell; skin squamous cell; mesothelioma; medulloblastoma; other tumour types	melanoma	.	.	.
-TET1	10:68572340-68691815	10q21	oncogene/TSG	AML	.	.	.	.
-TET2	4:105233943-105276519	4q24	TSG	MDS	.	864	LAML	High Confidence Driver
-TFDP1	.	.	.	.	.	.	.	High Confidence Driver
-TFE3	X:49030158-49043226	Xp11.22	.	papillary renal; alveolar soft part sarcoma; renal	.	.	.	.
-TFEB	6:41684599-41691213	6p21	.	renal cell carcinoma (childhood epithelioid)	.	.	.	.
-TFG	3:100713687-100748532	3q11-q12	.	papillary thyroid; ALCL; NSCLC; extraskeletal myxoid chondrosarcoma	.	.	.	.
-TFPT	19:54107050-54115269	19q13	.	pre-B ALL	.	.	.	.
-TFRC	3:196051942-196077099	3q29	.	NHL	.	.	.	.
-TGFBR2	3:30606884-30691599	3p22	TSG	head and neck; colorectal	colorectal	.	HNSC	High Confidence Driver
-TGIF1	.	.	.	.	.	.	.	High Confidence Driver
-TGOLN2	.	.	.	.	.	.	.	Candidate driver
-THRAP3	1:36282564-36304017	1p34.3	.	aneurysmal bone cyst	.	.	.	.
-TICAM1	.	.	.	.	.	.	.	Candidate driver
-TJP2	.	.	.	.	.	.	.	High Confidence Driver
-TLR4	.	.	.	.	.	.	LUAD	Candidate driver
-TLX1	10:101131543-101136914	10q24	.	T-ALL	.	.	.	.
-TLX3	5:171309367-171311600	5q35.1	.	T-ALL	.	.	.	.
-TMPRSS2	21:41466142-41498133	21q22.3	.	prostate	.	.	.	.
-TNFAIP3	6:137871228-137881319	6q23	TSG	marginal zone B-cell lymphomas; Hodgkin lymphoma; PMBL	.	136	.	.
-TNFRSF10C	.	.	.	.	.	.	.	High Confidence Driver
-TNFRSF14	1:2556665-2563273	1p36.32	.	follicular lymphoma	.	.	.	.
-TNFRSF17	16:11965325-11967847	16p13.1	.	intestinal T-cell lymphoma	.	.	.	.
-TNKS1BP1	.	.	.	.	.	.	.	Candidate driver
-TNPO1	.	.	.	.	.	.	.	Candidate driver
-TOM1	.	.	.	.	.	.	.	High Confidence Driver
-TOP1	20:41029068-41123297	20q12-q13.1	.	AML*	.	.	.	.
-TOP3A	.	.	.	.	.	.	.	High Confidence Driver
-TP53	17:7669609-7676594	17p13	oncogene/TSG	breast; colorectal; lung; sarcoma; adrenocortical; glioma; Spitzoid tumour; multiple other tumour types	breast; sarcoma; adrenocortical carcinoma; glioma; multiple other tumour types	14438	GBM	High Confidence Driver
-TP53BP1	.	.	.	.	.	.	.	High Confidence Driver
-TP63	3:189631516-189894502	3q28	oncogene/TSG	HNSCC; DLBCL	NSCLC	.	.	.
-TPM1	.	.	.	.	.	.	.	Candidate driver
-TPM3	1:154157639-154183119	1q22-q23	TSG	papillary thyroid; ALCL; NSCLC; Spitzoid tumour	.	.	.	.
-TPM4	19:16076567-16101347	19p13.1	.	ALCL	.	.	.	.
-TPR	1:186313971-186375028	1q25	.	papillary thyroid; NSCLC	.	.	.	High Confidence Driver
-TRA	14:-	14q11.2	.	T-ALL	.	.	.	.
-TRAF7	16:2163921-2176574	16p13.3	TSG	meningioma	.	123	.	.
-TRB	7:-	7q34	.	T-ALL	.	.	.	.
-TRD	14:-	14q11.2	.	T-cell leukaemia	.	.	.	.
-TRIM24	7:138460549-138584951	7q32-q34	oncogene	APL	.	.	.	.
-TRIM27	6:28904070-28923632	6p22	.	papillary thyroid	.	.	.	.
-TRIM33	1:114397648-114511076	1p13	.	papillary thyroid	.	.	.	.
-TRIM7	.	.	.	.	.	.	.	High Confidence Driver
-TRIO	.	.	.	.	.	.	.	High Confidence Driver
-TRIP11	14:91969673-92039685	14q31-q32	.	AML	.	.	.	High Confidence Driver
-TRRAP	7:98881151-99012355	7q21.2-q22.1	oncogene	melanoma	.	.	.	.
-TSC1	9:132896235-132928872	9q34	TSG	renal cell carcinoma; bladder carcinoma	hamartoma; renal cell carcinoma; tuberous sclerosis tuber	20	.	.
-TSC2	16:2048616-2088610	16p13.3	TSG	pulmonary lymphangioleiomyomatosis (LAM); renal angiomyolipoma; HNSCC	hamartoma; renal cell carcinoma; tuberous sclerosis tuber	.	.	High Confidence Driver
-TSHR	14:80955681-81144353	14q31	oncogene	toxic thyroid adenoma	thyroid adenoma	301	.	.
-TSHZ2	.	.	.	.	.	.	GBM	.
-TSHZ3	.	.	.	.	.	.	COAD/READ	.
-TTK	.	.	.	.	.	.	.	Candidate driver
-TTL	2:112482346-112528796	2q13	.	ALL	.	.	.	.
-TUBA1A	.	.	.	.	.	.	.	High Confidence Driver
-TXNIP	.	.	.	.	.	.	.	High Confidence Driver
-U2AF1	21:43093102-43107494	21q22.3	oncogene	CLL; MDS	.	96	LUAD	High Confidence Driver
-UBE2Z	.	.	.	.	.	.	.	Candidate driver
-UBE4A	.	.	.	.	.	.	.	Candidate driver
-UBR5	8:102254302-102412234	8q22	.	mantle cell lymphoma; gastric; colorectal	.	.	.	.
-UHRF1BP1L	.	.	.	.	.	.	.	High Confidence Driver
-USP28	.	.	.	.	.	.	.	Candidate driver
-USP6	17:5130368-5148597	17p13	.	aneurysmal bone cyst	.	.	.	.
-USP8	15:50439074-50499088	15q21.1	oncogene	corticotroph adenoma	.	.	.	.
-USP9X	.	.	.	.	.	.	UCEC	Candidate driver
-UTP14A	.	.	.	.	.	.	.	Candidate driver
-VEZT	.	.	.	.	.	.	.	Candidate driver
-VHL	3:10141848-10149965	3p25	TSG	renal; haemangioma; pheochromocytoma	renal; haemangioma; pheochromocytoma	1287	KIRC	High Confidence Driver
-VTI1A	10:112447374-112815383	10q25.2	.	colorectal	.	.	.	.
-WAS	X:48683854-48691162	Xp11.23-p11.22	oncogene	.	lymphoma	.	.	.
-WHSC1	4:1900655-1978909	4p16.3	.	MM	.	.	.	High Confidence Driver
-WHSC1L1	8:38317956-38348171	8p12	.	AML	.	.	.	High Confidence Driver
-WIF1	12:65051349-65121191	12q14.3	.	pleomorphic salivary gland adenoma	.	.	.	.
-WRN	8:31058448-31173102	8p12-p11.2	.	.	osteosarcoma; meningioma; other tumour types	.	.	High Confidence Driver
-WT1	11:32389058-32435141	11p13	TSG	Wilms tumour; desmoplastic small round cell tumour	Wilms tumour	312	LAML	High Confidence Driver
-WWTR1	3:149520805-149657306	3q23-q24	oncogene	epithelioid haemangioendothelioma	.	.	.	.
-XPA	9:97675439-97697292	9q22.3	TSG	.	skin basal cell; skin squamous cell; melanoma	.	.	.
-XPC	3:14145941-14178568	3p25	TSG	.	skin basal cell; skin squamous cell; melanoma	.	.	.
-XPO1	2:61478820-61533897	2p15	oncogene	CLL	.	.	.	.
-YWHAE	17:1345447-1400110	17p13.3	.	endometrial stromal sarcoma	.	.	.	.
-ZBTB16	11:114063302-114250556	11q23.1	.	APL	.	.	.	.
-ZCCHC8	12:122473497-122500840	12q24.31	.	Spitzoid tumour	.	.	.	.
-ZEB2	.	.	.	.	.	.	.	Candidate driver
-ZFHX3	16:72787164-72960145	16q22.3	TSG	endometrial; gastric; prostate	.	.	.	High Confidence Driver
-ZFP36L1	.	.	.	.	.	.	.	High Confidence Driver
-ZFP36L2	.	.	.	.	.	.	.	High Confidence Driver
-ZMYM2	.	.	.	.	.	.	.	High Confidence Driver
-ZMYM4	.	.	.	.	.	.	.	Candidate driver
-ZMYND8	.	.	.	.	.	.	.	Candidate driver
-ZNF132	.	.	.	.	.	.	.	High Confidence Driver
-ZNF198	13:19993073-20086014	13q11-q12	.	MPN; NHL	.	.	.	.
-ZNF278	22:31326891-31345602	22q12-q14	.	Ewing sarcoma	.	.	.	.
-ZNF300	.	.	.	.	.	.	.	High Confidence Driver
-ZNF331	19:53569378-53577953	19q13.3-q13.4	.	follicular thyroid adenoma	.	.	.	.
-ZNF384	12:6667714-6679520	12p13	.	ALL	.	.	.	.
-ZNF451	.	.	.	.	.	.	.	Candidate driver
-ZNF521	18:25062712-25350946	18q11.2	.	ALL	.	.	.	.
-ZNF703	.	.	.	.	.	.	.	Candidate driver
-ZNF814	.	.	.	.	.	.	.	High Confidence Driver
-ZNF844	.	.	.	.	.	.	.	High Confidence Driver
-ZNF91	.	.	.	.	.	.	.	High Confidence Driver
-ZRSR2	X:15790496-15823242	Xp22.1	.	MDS; CLL	.	.	.	.
+#Gene	Genome Location	Role in Cancer	Tumour Type(Somatic)	Tumor Type(Germline)	Mutated Tumor Samples(Bert Vogelstein125)	Cancer Type(SMG127)	Putative Driver Category(Comprehensive435)
+AARS	.	.	.	.	.	.	Candidate driver
+AARS2	.	.	.	.	.	.	High Confidence Driver
+ABCB1	.	.	.	.	.	.	High Confidence Driver
+ABI1	10:26748570-26860863	TSG	AML	.	.	.	.
+ABL1	9:130835447-130885683	oncogene	CML; ALL; T-ALL	.	851	.	High Confidence Driver
+ABL2	1:179107718-179143044	oncogene	AML	.	.	.	.
+ACKR3	2:-	oncogene	lipoma	.	.	.	.
+ACSL3	2:222908773-222941654	.	prostate	.	.	.	.
+ACSL6	5:131954234-132011553	.	AML; AEL	.	.	.	.
+ACTB	.	.	.	.	.	.	Candidate driver
+ACTG1	.	.	.	.	.	.	Candidate driver
+ACVR1	2:157737531-157799493	oncogene	DIPG	.	.	.	.
+ACVR1B	.	TSG	.	.	17	COAD/READ	High Confidence Driver
+ACVR2A	.	.	.	.	.	COAD/READ	Candidate driver
+ADAM10	.	.	.	.	.	.	High Confidence Driver
+ADCY1	.	.	.	.	.	.	High Confidence Driver
+ADORA2A	.	.	.	.	.	.	High Confidence Driver
+AFF1	4:87007409-87135702	oncogene	AL	.	.	.	.
+AFF3	2:99551474-100104454	oncogene	ALL; T-ALL	.	.	.	.
+AFF4	5:132881059-132937189	oncogene	ALL	.	.	.	.
+AHCTF1	.	.	.	.	.	.	Candidate driver
+AHCYL2	.	.	.	.	.	.	Candidate driver
+AHDC1	.	.	.	.	.	.	Candidate driver
+AHNAK	.	.	.	.	.	.	Candidate driver
+AHNAK2	.	.	.	.	.	.	High Confidence Driver
+AJUBA	.	.	.	.	.	.	High Confidence Driver
+AKAP9	7:91941100-92110159	oncogene	papillary thyroid	.	.	.	High Confidence Driver
+AKD1	.	.	.	.	.	.	High Confidence Driver
+AKT1	14:104770341-104792643	oncogene	breast; colorectal; ovarian; NSCLC	.	155	BRCA	High Confidence Driver
+AKT2	19:40233872-40265267	oncogene	ovarian; pancreatic	.	.	.	.
+ALDH2	12:111766983-111809575	TSG	leiomyoma	.	.	.	.
+ALK	2:29193224-29920659	oncogene	ALCL; NSCLC; neuroblastoma; inflammatory myofibroblastic tumour; Spitzoid tumour	neuroblastoma	189	.	.
+AMER1	X:64186117-64193286	TSG	Wilms tumour	.	.	.	.
+AMPH	.	.	.	.	.	.	High Confidence Driver
+ANAPC1	.	.	.	.	.	.	High Confidence Driver
+ANKRD11	.	.	.	.	.	.	Candidate driver
+ANKRD12	.	.	.	.	.	.	High Confidence Driver
+ANKRD6	.	.	.	.	.	.	Candidate driver
+ANXA6	.	.	.	.	.	.	Candidate driver
+APAF1	.	.	.	.	.	.	High Confidence Driver
+APC	5:112754891-112844126	TSG	colorectal; pancreatic; desmoid; hepatoblastoma; glioma; other CNS	colorectal; pancreatic; desmoid; hepatoblastoma; glioma; other CNS	2561	.	High Confidence Driver
+APOBEC3B	22:38982454-38992445	oncogene/TSG	.	breast cancer	.	.	.
+AR	X:67545147-67723841	oncogene	prostate	.	23	UCEC,HNSC	High Confidence Driver
+ARAF	.	.	.	.	.	.	Candidate driver
+ARHGAP26	5:142770762-143222446	TSG	AML; MDS	.	.	.	.
+ARHGAP32	.	.	.	.	.	.	High Confidence Driver
+ARHGAP35	.	.	.	.	.	UCEC	High Confidence Driver
+ARHGEF12	11:120337244-120485077	TSG	AML	.	.	.	.
+ARHGEF6	.	.	.	.	.	.	High Confidence Driver
+ARID1A	1:26696404-26780756	TSG	clear cell ovarian carcinoma; RCC; breast	.	234	UCEC,LUSC,KIRC	High Confidence Driver
+ARID1B	6:156778104-157207891	TSG	breast; hepatocellular carcinoma	.	17	.	.
+ARID2	12:45729837-45905078	TSG	hepatocellular carcinoma	.	45	.	High Confidence Driver
+ARID5B	.	.	.	.	.	UCEC	High Confidence Driver
+ARNT	1:150812021-150876567	oncogene/TSG	AML	.	.	.	.
+ASPM	.	.	.	.	.	.	High Confidence Driver
+ASPSCR1	17:81977648-82017323	oncogene	alveolar soft part sarcoma	.	.	.	.
+ASXL1	20:32358776-32437338	TSG	MDS; CMML	.	442	LAML,HNSC	High Confidence Driver
+ATF1	12:50780147-50819780	.	malignant melanoma of soft parts; angiomatoid fibrous histiocytoma	.	.	.	.
+ATF7IP	.	.	.	.	.	.	Candidate driver
+ATG13	.	.	.	.	.	.	High Confidence Driver
+ATIC	2:215312144-215349656	oncogene	ALCL	.	.	.	.
+ATM	11:108227625-108365508	TSG	T-PLL	leukaemia; lymphoma; medulloblastoma; glioma	242	.	High Confidence Driver
+ATP1A1	1:116373512-116404444	oncogene/TSG	adrenal aldosterone producing adenoma	.	.	.	.
+ATP2B3	X:153536248-153580003	TSG	adrenal aldosterone producing adenoma	.	.	.	.
+ATR	3:142449429-142578704	TSG	endometrial; gastric; epithelial ovarian; myeloma	oropharyngeal	.	UCEC	High Confidence Driver
+ATRX	X:77508351-77786001	TSG	pancreatic neuroendocrine tumours; paediatric GBM	.	50	GBM	High Confidence Driver
+AXIN1	16:288122-347025	TSG	colorectal; endometrial; prostate; hepatocellular carcinoma; hepatoblastoma; sporadic medulloblastoma	.	117	.	.
+AXIN2	17:65529976-65558620	TSG	colorectal carcinoma; stomach carcinoma; hepatocellular carcinoma	colorectal carcinoma	.	.	High Confidence Driver
+B2M	15:44711547-44716342	TSG	DLBCL; melanoma; colorectal adenocarcinoma	.	30	.	High Confidence Driver
+BAP1	3:52402288-52409878	TSG	uveal melanoma; breast; NSCLC; RCC	mesothelioma; uveal melanoma	99	KIRC	High Confidence Driver
+BARD1	.	.	.	.	.	.	High Confidence Driver
+BAZ1B	.	.	.	.	.	.	Candidate driver
+BAZ2A	.	.	.	.	.	.	Candidate driver
+BCL10	1:85267627-85276352	oncogene/TSG	MALT	.	.	.	.
+BCL11A	2:60460404-60553270	oncogene	B-CLL	.	.	.	.
+BCL11B	14:99174151-99271218	oncogene/TSG	T-ALL	.	.	.	.
+BCL2	18:63128625-63318666	oncogene	NHL; CLL	.	45	.	.
+BCL3	19:44748791-44759615	oncogene	CLL	.	.	.	.
+BCL5	17:-	oncogene	CLL	.	.	.	.
+BCL6	3:187722458-187733693	oncogene	NHL; CLL	.	.	.	.
+BCL7A	12:122022092-122059163	oncogene	BNHL	.	.	.	.
+BCL9	1:147611837-147624864	oncogene	B-ALL	.	.	.	.
+BCL9L	.	.	.	.	.	.	Candidate driver
+BCLAF1	.	.	.	.	.	.	High Confidence Driver
+BCOR	X:40052109-40077929	TSG	retinoblastoma; AML; APL (translocation)	.	21	.	High Confidence Driver
+BCORL1	X:130005232-130056136	oncogene/TSG	AML; HNSCC	.	.	.	.
+BCR	22:23180961-23315522	oncogene	CML; ALL; AML	.	.	.	.
+BIRC3	11:102324510-102337102	oncogene/TSG	CLL; MALT; MCL; MM	.	.	.	.
+BLM	15:90747393-90815279	TSG	.	leukaemia; lymphoma; skin squamous cell; other tumour types	.	.	High Confidence Driver
+BMPR1A	10:86876019-86923719	oncogene/TSG	.	gastrointestinal polyps	.	.	.
+BRAF	7:140734597-140924703	oncogene	melanoma; colorectal; papillary thyroid; borderline ovarian; NSCLC; cholangiocarcinoma; pilocytic astrocytoma; Spitzoid tumour; pancreas acinar carcinoma; melanocytic nevus; prostate; gastric	.	24288	COAD/READ,LUAD,GBM	High Confidence Driver
+BRCA1	17:43045678-43124096	TSG	ovarian	breast; ovarian	62	.	High Confidence Driver
+BRCA2	13:32316461-32398770	TSG	breast; ovarian; pancreatic	breast; ovarian; pancreatic; leukaemia (FANCB; FANCD1)	67	OV	High Confidence Driver
+BRD3	9:134033590-134053477	oncogene	lethal midline carcinoma of young people	.	.	.	.
+BRD4	19:15249280-15273099	oncogene	lethal midline carcinoma of young people	.	.	.	.
+BRIP1	17:61683296-61861539	TSG	.	AML; leukaemia; breast	.	.	.
+BTG1	12:92144080-92145535	TSG	B-CLL	.	.	.	.
+BTK	X:101349885-101375284	oncogene/TSG	CLL; mantle cell lymphoma	.	.	.	.
+BUB1B	15:40161221-40220759	TSG	.	rhabdomyosarcoma	.	.	High Confidence Driver
+C12orf9	12:-	.	lipoma	.	.	.	.
+C15orf65	15:-	.	PMBL; Hodgkin lymphoma	.	.	.	.
+C2orf44	2:24030933-24039494	oncogene	colorectal	.	.	.	.
+CACNA1D	3:53495167-53811406	oncogene	adrenal aldosterone producing adenoma	.	.	.	.
+CAD	.	.	.	.	.	.	High Confidence Driver
+CALR	19:12938680-12943913	oncogene	MPN; MDS	.	.	.	.
+CAMTA1	1:6785531-7766491	TSG	epithelioid haemangioendothelioma	.	.	.	.
+CANT1	17:78993550-78997622	oncogene	prostate	.	.	.	.
+CARD11	7:2906638-2958506	oncogene	DLBCL	.	74	.	.
+CARM1	.	.	.	.	.	.	High Confidence Driver
+CARS	11:3001114-3057367	oncogene/TSG	ALCL	.	.	.	.
+CASC5	15:40602933-40654977	.	AML	.	.	.	.
+CASP8	2:201266487-201286594	TSG	hepatocellular; oral squamous cell; breast	.	21	.	High Confidence Driver
+CAST	.	.	.	.	.	.	High Confidence Driver
+CBFA2T3	16:88876976-88976807	.	AML	.	.	.	.
+CBFB	16:67029409-67098733	TSG	AML	.	.	BRCA	High Confidence Driver
+CBL	11:119206418-119299781	oncogene/TSG	AML; JMML; MDS	.	168	.	.
+CBLB	3:105658970-105867577	TSG	AML	.	.	.	.
+CBLC	19:44777932-44800443	oncogene/TSG	AML	.	.	.	.
+CCAR1	.	.	.	.	.	.	High Confidence Driver
+CCDC6	10:59792917-59906424	TSG	papillary thyroid; CML; NSCLC	.	.	.	.
+CCNB1IP1	14:20311550-20316523	TSG	leiomyoma	.	.	.	.
+CCND1	11:69641314-69651282	oncogene	CLL; B-ALL; breast	.	.	UCEC	High Confidence Driver
+CCND2	12:4274041-4300009	oncogene	NHL; CLL	.	.	.	.
+CCND3	6:41935940-41941649	oncogene	MM	.	.	.	.
+CCNE1	19:29812556-29823777	oncogene	serous ovarian	.	.	.	.
+CD274	9:5456114-5467862	TSG	PMBL; Hodgkin lymphoma	.	.	.	.
+CD74	5:150402584-150412749	oncogene	NSCLC	.	.	.	.
+CD79A	19:41877305-41880980	oncogene	DLBCL; WM	.	.	.	.
+CD79B	17:63929226-63932261	oncogene	DLBCL; WM	.	.	.	.
+CDC73	1:193122201-193250712	TSG	parathyroid adenoma	parathyroid adenoma; multiple ossifying jaw fibroma	45	.	High Confidence Driver
+CDH1	16:68737416-68833499	TSG	lobular breast; gastric	gastric	200	.	High Confidence Driver
+CDH11	16:64947603-65004869	TSG	aneurysmal bone cyst	.	.	.	.
+CDK12	17:39462072-39531316	TSG	serous ovarian	.	.	.	High Confidence Driver
+CDK4	12:57748525-57751717	oncogene	.	melanoma	.	.	.
+CDK6	7:92615140-92833323	oncogene	ALL	.	.	.	.
+CDKN1A	.	.	.	.	.	BLCA	High Confidence Driver
+CDKN1B	12:12717840-12718946	TSG	breast; small intestine neuroendocrine tumours	pituitary; parathyroid	.	BRCA	High Confidence Driver
+CDKN2A	9:21968229-21974827	TSG	melanoma; multiple other tumour types	melanoma; pancreatic	968	HNSC,LUAD	High Confidence Driver
+CDKN2A(p14)	9:21957751-21984490	.	melanoma; multiple other tumour types	melanoma; pancreatic	.	.	.
+CDKN2C	1:50970369-50974270	TSG	glioma; MM	.	.	.	High Confidence Driver
+CDX2	13:27963115-27969006	TSG	AML	.	.	.	.
+CEBPA	19:33301338-33302414	TSG	AML; MDS	.	448	LAML	High Confidence Driver
+CEP170	.	.	.	.	.	.	Candidate driver
+CEP89	19:32879162-32971874	.	Spitzoid tumour	.	.	.	.
+CFH	.	.	.	.	.	.	High Confidence Driver
+CHCHD7	8:56214614-56217435	.	salivary adenoma	.	.	.	.
+CHD3	.	.	.	.	.	.	Candidate driver
+CHD4	12:6570676-6606373	oncogene	uterine serous carcinoma	.	.	.	High Confidence Driver
+CHD7	.	.	.	.	.	.	Candidate driver
+CHD8	.	.	.	.	.	.	High Confidence Driver
+CHEK2	22:28687897-28734721	TSG	.	breast	.	GBM	High Confidence Driver
+CHIC2	4:54010095-54064300	.	AML	.	.	.	.
+CIC	19:42284705-42295191	oncogene/TSG	oligodendroglioma; soft tissue sarcoma	.	47	.	High Confidence Driver
+CIITA	16:10877332-10923304	TSG	PMBL; Hodgkin lymphoma	.	.	.	.
+CLIP1	12:122272875-122380452	.	Spitzoid tumour	.	.	.	High Confidence Driver
+CLP1	11:57659477-57661436	.	AML	.	.	.	.
+CLTC	17:59620133-59693853	TSG	ALCL; renal	.	.	.	High Confidence Driver
+CLTCL1	22:19180219-19291641	TSG	ALCL	.	.	.	High Confidence Driver
+CNBP	3:129170453-129171757	TSG	aneurysmal bone cyst	.	.	.	.
+CNOT1	.	.	.	.	.	.	Candidate driver
+CNOT3	19:54142979-54155407	TSG	T-ALL	.	.	.	Candidate driver
+CNTRL	9:121088328-121177187	.	MPN; NHL	.	.	.	.
+COBLL1	.	.	.	.	.	.	Candidate driver
+COL18A1	.	.	.	.	.	.	High Confidence Driver
+COL1A1	17:50185502-50201513	oncogene	DFSP; aneurysmal bone cyst	.	.	.	.
+COL2A1	12:47973407-48004321	oncogene	chondrosarcoma; enchondroma	.	.	.	.
+COX6C	8:99878148-99892021	.	uterine leiomyoma	.	.	.	.
+CREB1	2:207555637-207597059	oncogene	clear cell sarcoma; angiomatoid fibrous histiocytoma	.	.	.	High Confidence Driver
+CREB3L1	11:46278112-46320746	TSG	myxofibrosarcoma	.	.	.	.
+CREB3L2	7:137880476-138001705	oncogene	fibromyxoid sarcoma	.	.	.	.
+CREBBP	16:3727718-3879916	oncogene/TSG	ALL; AML; DLBCL; B-NHL	.	151	.	.
+CRIPAK	.	.	.	.	.	LUAD	.
+CRLF2	X; Y:1196780-1212634	oncogene	B-ALL; Downs associated ALL	.	10	.	.
+CRTC1	19:18683703-18777382	oncogene	salivary gland mucoepidermoid	.	.	.	High Confidence Driver
+CRTC3	15:90530072-90642140	.	salivary gland mucoepidermoid	.	.	.	High Confidence Driver
+CSDE1	.	.	.	.	.	.	High Confidence Driver
+CSF1R	.	oncogene	.	.	48	.	.
+CSF3R	1:36466357-36479496	oncogene	aCML; CNL; leukaemia lymphoma and MDS associated with severe congenital neutropenia; CMML; de novo AML; MDS	.	.	.	.
+CTCF	16:67610833-67637872	TSG	endometrial; breast; head and neck cancer	.	.	UCEC	High Confidence Driver
+CTNNB1	3:41224069-41239342	oncogene	colorectal; ovarian; hepatoblastoma; pleomorphic salivary gland adenoma; other tumour types	.	3262	UCEC	High Confidence Driver
+CTNND1	.	.	.	.	.	.	High Confidence Driver
+CTTN	.	.	.	.	.	.	High Confidence Driver
+CUL1	.	.	.	.	.	.	High Confidence Driver
+CUL3	.	.	.	.	.	.	Candidate driver
+CUX1	7:101817640-102249042	oncogene/TSG	endometrial; melanoma; colorectal; AML; MDS; other tumour types	.	.	.	Candidate driver
+CXCR4	2:136114869-136115939	oncogene	Waldenstrom macroglobulinaemia	.	.	.	.
+CYC1	.	.	.	.	.	.	Candidate driver
+CYLD	16:50749699-50796508	TSG	cylindroma	cylindroma	26	.	High Confidence Driver
+DAB2IP	.	.	.	.	.	.	Candidate driver
+DAXX	6:33318743-33321925	oncogene/TSG	pancreatic neuroendocrine tumour; paediatric glioblastoma	.	28	.	.
+DCP1B	.	.	.	.	.	.	Candidate driver
+DCTN1	2:74361499-74380037	.	inflammatory myofibroblastic tumour; Spitzoid tumour	.	.	.	.
+DDB2	11:47215137-47238849	oncogene/TSG	.	skin basal cell; skin squamous cell; melanoma	.	.	.
+DDIT3	12:57516809-57517406	TSG	liposarcoma	.	.	.	.
+DDR2	1:162719064-162780246	oncogene	squamous cell carcinoma; NSCLC	.	.	.	.
+DDX10	11:108665154-108940423	TSG	AML*	.	.	.	.
+DDX3X	X:41334253-41347719	TSG	CLL; medulloblastoma	.	.	.	Candidate driver
+DDX5	17:64499923-64506119	oncogene	prostate	.	.	.	High Confidence Driver
+DDX6	11:118754712-118786218	.	B-NHL	.	.	.	.
+DEK	6:18225719-18263987	.	AML	.	.	.	.
+DHX9	.	.	.	.	.	.	High Confidence Driver
+DICER1	14:95090498-95133458	TSG	sex cord-stromal tumour; TGCT; embryonal rhabdomyosarcoma; pleuropulmonary blastoma; pituitary blastoma; Wilms tumour; thyroid cancer; other tumour types	pleuropulmonary blastoma	.	.	High Confidence Driver
+DIDO1	.	.	.	.	.	.	Candidate driver
+DIS3L2	.	.	.	.	.	.	Candidate driver
+DMD	.	.	.	.	.	.	High Confidence Driver
+DNAJB1	19:14515940-14518349	.	fibrolamellar hepatocellular carcinoma	.	.	.	.
+DNM2	19:10718243-10831047	.	T-ALL	.	.	.	.
+DNM3	.	.	.	.	.	.	Candidate driver
+DNMT1	.	oncogene	.	.	22	.	.
+DNMT3A	2:25234279-25313984	oncogene/TSG	AML	.	788	LAML	High Confidence Driver
+DOCK2	.	.	.	.	.	.	High Confidence Driver
+DOCK4	.	.	.	.	.	.	Candidate driver
+DOT1L	.	.	.	.	.	.	Candidate driver
+DROSHA	5:31401432-31529059	TSG	Wilms tumour; NSCLC; bladder carcinoma	.	.	.	.
+DST	.	.	.	.	.	.	Candidate driver
+DUX4L1	4:190084229-190085686	.	soft tissue sarcoma	.	.	.	.
+EBF1	5:158699111-159099478	.	lipoma	.	.	.	.
+ECT2L	6:138813275-138902627	.	ETP ALL	.	.	.	.
+EEF1A1	.	.	.	.	.	.	High Confidence Driver
+EGFR	7:55019278-55205617	oncogene	glioma; NSCLC	NSCLC	10628	LUAD,GBM	High Confidence Driver
+EIF3E	8:108201885-108248702	.	colorectal	.	.	.	.
+EIF4A2	3:186783611-186789269	.	NHL	.	.	COAD/READ	High Confidence Driver
+ELF3	.	.	.	.	.	BLCA	High Confidence Driver
+ELF4	X:130066721-130081330	.	AML	.	.	.	.
+ELK4	1:205616546-205623882	.	prostate	.	.	.	.
+ELL	19:18444752-18522055	.	AL	.	.	.	.
+ELN	7:74028188-74068700	.	B-ALL	.	.	.	.
+EML4	2:42169613-42330208	.	NSCLC	.	.	.	.
+EP300	22:41093005-41178956	TSG	colorectal; breast; pancreatic; AML; ALL; DLBCL	.	88	HNSC	High Confidence Driver
+EPAS1	2:46297912-46384660	oncogene/TSG	paraganglioma; pheochromocytoma; central nervous system hemangioblastomas	.	.	.	.
+EPB41L3	.	.	.	.	.	.	Candidate driver
+EPHA3	.	.	.	.	.	LUAD,LUSC,HNSC	Candidate driver
+EPHB6	.	.	.	.	.	LUAD	Candidate driver
+EPPK1	.	.	.	.	.	.	Candidate driver
+EPS15	1:51356700-51519231	.	ALL	.	.	.	.
+ERBB2	17:39700239-39728044	oncogene	breast; ovarian; other tumour types; NSCLC; gastric	.	164	.	High Confidence Driver
+ERBB2IP	.	.	.	.	.	.	High Confidence Driver
+ERBB3	12:56080301-56102055	oncogene	colon; gastric; head and neck; bladder; skin	.	.	.	.
+ERBB4	2:211383615-212538530	oncogene/TSG	melanoma; gastric; NSCLC	.	.	LUAD	Candidate driver
+ERC1	12:1027904-1490230	.	papillary thyroid; Spitzoid tumour	.	.	.	.
+ERCC2	19:45351629-45370237	TSG	.	skin basal cell; skin squamous cell; melanoma	.	BLCA	High Confidence Driver
+ERCC3	2:127257596-127294081	.	.	skin basal cell; skin squamous cell; melanoma	.	.	.
+ERCC4	16:13920166-13948347	.	.	skin basal cell; skin squamous cell; melanoma	.	.	.
+ERCC5	13:102846267-102875903	.	.	skin basal cell; skin squamous cell; melanoma	.	.	.
+ERG	21:38383403-38575700	.	Ewing sarcoma; prostate; AML	.	.	.	.
+ESR1	6:151807913-152098966	.	breast	.	.	.	High Confidence Driver
+ETNK1	12:22625164-22684954	.	aCML; CMML; SM-AHD; HES	.	.	.	.
+ETV1	7:13895866-13989052	.	Ewing sarcoma; prostate	.	.	.	.
+ETV4	17:43528519-43545617	.	Ewing sarcoma; prostate carcinoma	.	.	.	.
+ETV5	3:186048639-186105868	.	prostate	.	.	.	.
+ETV6	12:11650128-11891046	.	congenital fibrosarcoma; multiple different leukaemia and lymphoma tumour types including ALL; secretory breast; MDS	.	.	.	.
+EWSR1	22:29268337-29300161	.	Ewing sarcoma; desmoplastic small round cell tumour ; ALL; clear cell sarcoma; sarcoma; myoepithelioma; mesothelioma	.	.	.	High Confidence Driver
+EXT1	8:117799712-118111046	.	.	exostoses; osteosarcoma	.	.	.
+EXT2	11:44107713-44244287	.	.	exostoses; osteosarcoma	.	.	.
+EZH2	7:148807646-148847298	oncogene/TSG	DLBCL	.	276	.	High Confidence Driver
+EZR	6:158766914-158818093	oncogene	NSCLC	.	.	.	.
+FAM123B	.	TSG	.	.	55	.	.
+FAM129B	.	.	.	.	.	.	Candidate driver
+FAM131B	7:143356550-143360093	.	pilocytic astrocytoma	.	.	.	.
+FAM46C	1:117622869-117624044	.	MM	.	.	.	.
+FANCA	16:89738601-89816615	.	.	AML; leukaemia	.	.	High Confidence Driver
+FANCC	9:95101707-95249291	.	.	AML; leukaemia	.	.	.
+FANCD2	3:10028658-10098950	.	.	AML; leukaemia	.	.	.
+FANCE	6:35452546-35466345	.	.	AML; leukaemia	.	.	.
+FANCF	11:22624686-22625810	.	.	AML; leukaemia	.	.	.
+FANCG	9:35074108-35079524	.	.	AML; leukaemia	.	.	.
+FAS	10:88990877-89014450	.	TGCT; nasal NK/T lymphoma; skin squamous cell carcinoma-burn scar related	.	.	.	.
+FAT1	4:186588592-186709827	TSG	oral squamous cell; chemorefractory CLL; head and neck; pancreatic acinar cell carcinoma	pancreatic	.	.	.
+FAT4	4:125316412-125491768	TSG	lymphoma; pancreatic; head and neck; melanoma; hepatocellular carcinoma	.	.	.	.
+FBN2	.	.	.	.	.	.	High Confidence Driver
+FBXO11	2:47808118-47839749	.	DLBCL	.	.	.	High Confidence Driver
+FBXW7	4:152322881-152411803	TSG	colorectal; endometrial; T-ALL	.	312	UCEC,COAD/READ,LUSC,HNSC	High Confidence Driver
+FCGR2B	1:161663242-161677553	.	ALL	.	.	.	.
+FCHO2	.	.	.	.	.	.	Candidate driver
+FCRL4	1:157575524-157597944	.	B-NHL	.	.	.	.
+FES	.	.	.	.	.	.	High Confidence Driver
+FEV	2:218981667-218985075	.	Ewing sarcoma	.	.	.	.
+FGFR1	8:38413628-38457446	.	MPN; NHL; salivary adenoma	.	.	.	.
+FGFR1OP	6:166999414-167039979	.	MPN; NHL	.	.	.	.
+FGFR2	10:121479857-121593817	oncogene	gastric; NSCLC; endometrial	.	121	UCEC	High Confidence Driver
+FGFR3	4:1793935-1807262	oncogene	bladder; MM; T-cell lymphoma	.	2948	KIRC	High Confidence Driver
+FGFR4	5:177089603-177097676	.	rhabdomyosarcoma	.	.	.	.
+FH	1:241497828-241519722	.	.	leiomyomatosis; renal	.	.	.
+FHIT	3:59752226-60536962	.	pleomorphic salivary gland adenoma	.	.	.	.
+FIP1L1	4:53377840-53459450	.	idiopathic hypereosinophilic syndrome	.	.	.	.
+FLCN	17:17213655-17228137	.	.	renal; fibrofolliculomas; trichodiscomas	.	.	.
+FLI1	11:128694259-128810988	.	Ewing sarcoma	.	.	.	.
+FLNA	.	.	.	.	.	.	Candidate driver
+FLT3	13:28004052-28100510	oncogene	AML; ALL	.	11520	LAML	High Confidence Driver
+FLT4	5:180608281-180649545	.	soft tissue sarcoma	.	.	.	.
+FN1	.	.	.	.	.	.	High Confidence Driver
+FNBP1	9:129890539-130042975	.	AML	.	.	.	.
+FOSL2	.	.	.	.	.	.	Candidate driver
+FOXA1	14:37591365-37594972	.	breast; prostate	.	.	BRCA,BLCA	High Confidence Driver
+FOXA2	.	.	.	.	.	.	High Confidence Driver
+FOXL2	3:138945592-138946722	oncogene	granulosa-cell tumour of the ovary	.	330	.	.
+FOXO1	13:40555680-40666212	oncogene/TSG	alveolar rhabdomyosarcoma	.	.	.	.
+FOXO3	6:108561209-108664855	oncogene/TSG	AL	.	.	.	.
+FOXO4	X:71096529-71102084	oncogene/TSG	AL; soft tissue sarcoma	.	.	.	.
+FOXP1	3:70959247-71198381	oncogene	ALL	.	.	.	.
+FRG1B	.	.	.	.	.	.	High Confidence Driver
+FSTL3	19:676425-681709	.	B-CLL	.	.	.	.
+FUBP1	1:77949146-77979004	TSG	oligodendroglioma	.	9	.	.
+FUS	16:31180215-31191438	oncogene	liposarcoma; AML; Ewing sarcoma; angiomatoid fibrous histiocytoma; fibromyxoid sarcoma	.	.	.	.
+G3BP1	.	.	.	.	.	.	Candidate driver
+GAB3	.	.	.	.	.	.	Candidate driver
+GAS7	17:9917228-10198390	.	AML*	.	.	.	.
+GATA1	X:48791110-48794164	oncogene/TSG	megakaryoblastic leukaemia of Downs syndrome	.	203	.	.
+GATA2	3:128481019-128487031	oncogene	AML (CML blast transformation)	.	45	.	.
+GATA3	10:8055656-8074023	oncogene/TSG	breast	.	33	BRCA	High Confidence Driver
+GDI1	.	.	.	.	.	.	Candidate driver
+GIGYF2	.	.	.	.	.	.	Candidate driver
+GMPS	3:155870871-155937692	.	AML	.	.	.	.
+GNA11	19:3094652-3121179	oncogene	uveal melanoma; primary central nervous system melanocytic neoplasms	.	110	.	.
+GNAI1	.	.	.	.	.	.	High Confidence Driver
+GNAQ	9:77721323-78031235	oncogene	uveal melanoma; primary central nervous system melanocytic neoplasms	.	245	.	.
+GNAS	20:58891727-58910829	oncogene	pituitary adenoma; pancreatic intraductal papillary mucinous neoplasm; fibrous dysplasia	.	422	.	High Confidence Driver
+GNL3L	.	.	.	.	.	.	Candidate driver
+GOLGA5	14:92797439-92839447	.	papillary thyroid; Spitzoid tumour	.	.	.	High Confidence Driver
+GOPC	6:117563254-117602288	.	glioblastoma; cholangiocarcinoma; borderline ovarian	.	.	.	.
+GOT2	.	.	.	.	.	.	High Confidence Driver
+GPC3	X:133536124-133985449	.	.	Wilms tumour	.	.	.
+GPHN	14:66508529-67180938	.	AL	.	.	.	High Confidence Driver
+GPS2	.	.	.	.	.	.	High Confidence Driver
+GRIN2A	16:9763149-10180411	.	melanoma; colorectal carcinoma; gastric carcinoma; lung carcinoma	.	.	.	.
+GRIN3A	.	.	.	.	.	.	Candidate driver
+GTF2H1	.	.	.	.	.	.	High Confidence Driver
+H3F3A	1:226064352-226071479	oncogene	glioma	.	122	.	.
+H3F3B	17:75778595-75779174	.	chondroblastoma	.	.	.	.
+H3F3C	.	.	.	.	.	LUAD	High Confidence Driver
+HERC1	.	.	.	.	.	.	Candidate driver
+HERPUD1	16:56932245-56943290	.	prostate	.	.	.	.
+HEY1	8:79765188-79767663	.	mesenchymal chondrosarcoma	.	.	.	.
+HGF	.	.	.	.	.	LUAD	High Confidence Driver
+HIF1A	14:61695805-61747085	oncogene	endometrioid carcinoma; glioblastoma; colorectal; renal; lung; pancreatic	.	.	.	.
+HIP1	7:75538172-75738920	.	CMML; NSCLC	.	.	.	.
+HIST1H1C	.	.	.	.	.	HNSC	Candidate driver
+HIST1H2BD	.	.	.	.	.	UCEC,HNSC	Candidate driver
+HIST1H3B	6:26031650-26032060	oncogene	glioma	.	25	.	.
+HIST1H4I	6:27107089-27107660	.	NHL	.	.	.	.
+HLA-A	6:29942554-29945455	.	Spitzoid tumour	.	.	.	High Confidence Driver
+HLA-B	.	.	.	.	.	.	High Confidence Driver
+HLF	17:55265486-55320880	oncogene	ALL	.	.	.	.
+HMGA1	6:34240781-34244884	.	microfollicular thyroid adenoma; various benign mesenchymal tumours	.	.	.	.
+HMGA2	12:65825271-65963292	oncogene	lipoma; leiomyoma; pleomorphic salivary gland adenoma	.	.	.	.
+HMGN2P46	15:-	.	prostate	.	.	.	.
+HMGXB4	.	.	.	.	.	.	High Confidence Driver
+HNF1A	12:120978769-121001192	TSG	hepatic adenoma; hepatocellular	hepatic adenoma; hepatocellular carcinoma	126	.	.
+HNRNPA2B1	7:26190125-26200577	.	prostate	.	.	.	.
+HOOK3	8:42897132-43018498	.	papillary thyroid	.	.	.	.
+HOXA11	7:27182796-27185144	oncogene	CML	.	.	.	.
+HOXA13	7:27198198-27200077	oncogene	AML	.	.	.	.
+HOXA9	7:27163603-27165457	oncogene	AML*	.	.	.	.
+HOXC11	12:53973243-53975414	oncogene	AML	.	.	.	.
+HOXC13	12:53938908-53945257	oncogene	AML	.	.	.	.
+HOXD11	2:176107357-176109143	oncogene	AML	.	.	.	.
+HOXD13	2:176092916-176094731	oncogene	AML*	.	.	.	.
+HRAS	11:532636-534322	oncogene	infrequent sarcomas; rare other tumour types	rhabdomyosarcoma; ganglioneuroblastoma; bladder	812	.	High Confidence Driver
+HSP90AA1	14:102081712-102139404	.	NHL	.	.	.	.
+HSP90AB1	6:44248630-44253598	.	NHL	.	.	.	High Confidence Driver
+HSPA8	.	.	.	.	.	.	High Confidence Driver
+HUWE1	.	.	.	.	.	.	High Confidence Driver
+IARS2	.	.	.	.	.	.	Candidate driver
+IDH1	2:208237079-208251551	oncogene	glioblastoma	.	4509	GBM	High Confidence Driver
+IDH2	15:90084266-90102390	oncogene	glioblastoma	.	1029	LAML	High Confidence Driver
+IGH	14:-	.	MM; Burkitt lymphoma; NHL; CLL; B-ALL; MALT; MLCLS	.	.	.	.
+IGK	2:-	.	Burkitt lymphoma; B-NHL	.	.	.	.
+IGL	22:-	.	Burkitt lymphoma	.	.	.	.
+IK	.	.	.	.	.	.	Candidate driver
+IKBKB	8:42272100-42330979	oncogene	SMZL	.	.	.	.
+IKZF1	7:50319062-50400628	TSG	ALL; DLBCL	.	.	.	.
+IL2	4:122451752-122456440	.	intestinal T-cell lymphoma	.	.	.	.
+IL21R	16:27430073-27449284	.	NHL	.	.	.	.
+IL6ST	5:55941082-55976278	.	hepatocellular carcinoma	.	.	.	.
+IL7R	5:35856978-35876486	.	ALL; ETP ALL	.	.	.	.
+ING1	.	.	.	.	.	.	Candidate driver
+INPP4A	.	.	.	.	.	.	Candidate driver
+INTS1	.	.	.	.	.	.	Candidate driver
+IRF4	6:393154-407599	oncogene/TSG	MM	.	.	.	.
+IRS2	.	.	.	.	.	.	High Confidence Driver
+ITGA6	.	.	.	.	.	.	High Confidence Driver
+ITK	5:157180978-157252678	.	peripheral T-cell lymphoma	.	.	.	.
+JAK1	1:64834562-64886264	oncogene	ALL	.	61	.	.
+JAK2	9:5021988-5126791	oncogene	ALL; AML; MPN; CML	.	32692	.	High Confidence Driver
+JAK3	19:17826743-17844417	oncogene	acute megakaryocytic leukaemia; ETP ALL	.	89	.	.
+JAZF1	7:27832800-28180577	.	endometrial stromal tumour	.	.	.	.
+JMJD1C	.	.	.	.	.	.	Candidate driver
+JUN	1:58782075-58783070	.	sarcoma	.	.	.	.
+KALRN	.	.	.	.	.	.	High Confidence Driver
+KAT6A	8:-	.	AML	.	.	.	.
+KAT6B	10:74842858-75031046	.	AML	.	.	.	.
+KCNJ5	11:128911274-128916731	.	adrenal adenoma	.	.	.	.
+KDM5A	12:285456-389091	.	AML	.	.	.	.
+KDM5C	X:53192967-53224889	TSG	clear cell renal carcinoma	.	26	KIRC	High Confidence Driver
+KDM6A	X:44873552-45111411	TSG	renal cell carcinoma; bladder carcinoma; oesophageal SCC; MM; medulloblastoma; T-ALL; other tumour types	.	66	BLCA	High Confidence Driver
+KDM6B	.	.	.	.	.	.	Candidate driver
+KDR	4:55079941-55125293	.	NSCLC; angiosarcoma	.	.	.	.
+KDSR	18:63331782-63367118	.	B-NHL	.	.	.	.
+KEAP1	19:10486652-10500033	TSG	NSCLC; breast carcinoma	.	.	LUAD	High Confidence Driver
+KIAA0947	.	.	.	.	.	.	Candidate driver
+KIAA1109	.	.	.	.	.	.	High Confidence Driver
+KIAA1549	7:138837906-138919418	.	pilocytic astrocytoma	.	.	.	.
+KIAA1598	10:116886555-117005079	.	Spitzoid tumour	.	.	.	.
+KIF20B	.	.	.	.	.	.	Candidate driver
+KIF5B	10:32009010-32055973	.	NSCLC; Spitzoid tumour	.	.	.	.
+KIFC3	.	.	.	.	.	.	High Confidence Driver
+KIT	4:54658015-54738557	oncogene	GIST; AML; TGCT; mastocytosis; mucosal melanoma	GIST; epithelioma	4720	.	High Confidence Driver
+KLF4	9:107485751-107489172	oncogene/TSG	meningioma	.	61	.	.
+KLF6	10:3779539-3785014	.	prostate; glioma	.	.	.	.
+KLK2	19:50873474-50878559	.	prostate	.	.	.	.
+KMT2A	11:118436513-118522172	oncogene	AML; ALL	.	.	.	.
+KMT2C	7:152136832-152435786	.	medulloblastoma	.	.	.	.
+KMT2D	12:49021780-49055324	.	medulloblastoma; renal	.	.	.	.
+KRAS	12:25209795-25245384	oncogene	pancreatic; colorectal; lung; thyroid; AML; other tumour types	.	23261	UCEC,COAD/READ,LUAD,BRCA	High Confidence Driver
+KTN1	14:55612050-55680691	.	papillary thyroid	.	.	.	.
+LASP1	17:38870190-38918778	.	AML	.	.	.	.
+LCK	1:32274330-32285716	.	T-ALL	.	.	.	.
+LCP1	13:46127591-46159662	.	NHL	.	.	.	High Confidence Driver
+LEF1	4:108063629-108167767	oncogene/TSG	B-ALL; T-ALL; eyelid sebaceous carcinoma; AML; lymphomas	.	.	.	.
+LEPR	.	.	.	.	.	.	High Confidence Driver
+LHFP	13:39343936-39601216	.	lipoma	.	.	.	.
+LIFR	5:38481595-38530647	.	salivary adenoma	.	.	COAD/READ	High Confidence Driver
+LMNA	1:156114919-156139106	.	Spitzoid tumour	.	.	.	.
+LMO1	11:8224616-8268634	.	T-ALL; neuroblastoma	neuroblastoma	.	.	.
+LMO2	11:33859356-33869386	.	T-ALL	.	.	.	.
+LPP	3:188406122-188874480	.	lipoma; leukaemia	.	.	.	High Confidence Driver
+LRIG3	12:58872572-58920235	.	NSCLC	.	.	.	.
+LRP1B	2:140233186-142130729	TSG	CLL; ovarian cancer; oesophageal squamous cell carcinoma; urothelial cancer	.	.	.	.
+LRRK2	.	.	.	.	.	HNSC,LUSC	High Confidence Driver
+LSM14A	19:34172643-34227388	.	Spitzoid tumour	.	.	.	.
+LTBP1	.	.	.	.	.	.	Candidate driver
+LUC7L2	.	.	.	.	.	.	Candidate driver
+LUM	.	.	.	.	.	.	High Confidence Driver
+LYL1	19:13099319-13101171	.	T-ALL	.	.	.	.
+LYN	.	.	.	.	.	.	High Confidence Driver
+LZTR1	22:20982372-20997348	TSG	glioblastoma	glioblastoma; schwannoma	.	.	High Confidence Driver
+MACF1	.	.	.	.	.	.	Candidate driver
+MAF	16:79594460-79599902	.	MM	.	.	.	.
+MAFB	20:40687879-40688850	.	MM	.	.	.	.
+MALAT1	11:65502644-65502817	.	renal cell carcinoma (childhood epithelioid); lung	.	.	.	High Confidence Driver
+MALT1	18:58671645-58747843	.	MALT	.	.	.	.
+MAML2	11:95978948-96341895	.	salivary gland mucoepidermoid	.	.	.	.
+MAP1A	.	.	.	.	.	.	Candidate driver
+MAP1B	.	.	.	.	.	.	Candidate driver
+MAP2K1	15:66387348-66490615	oncogene	NSCLC; melanoma; colorectal	.	13	.	.
+MAP2K2	19:4090598-4123875	oncogene	NSCLC; melanoma	.	.	.	.
+MAP2K4	17:12020887-12141260	.	pancreatic; breast; colorectal	.	.	.	High Confidence Driver
+MAP3K1	5:56152434-56189507	TSG	luminal A breast	.	11	BRCA	High Confidence Driver
+MAP3K13	3:185428582-185482456	.	breast	.	.	.	.
+MAP3K3	.	.	.	.	.	.	High Confidence Driver
+MAP3K4	.	.	.	.	.	.	High Confidence Driver
+MAP4	.	.	.	.	.	.	Candidate driver
+MAPK1	22:21769204-21867440	oncogene	CLL; ovarian mixed germ cell tumour; cervical carcinoma	.	.	.	.
+MAPK8IP1	.	.	.	.	.	.	High Confidence Driver
+MARCKSL1	.	.	.	.	.	.	Candidate driver
+MAST2	.	.	.	.	.	.	High Confidence Driver
+MATK	.	.	.	.	.	.	High Confidence Driver
+MAX	14:65076476-65102339	.	pheochromocytoma; endometrioid carcinoma; colon carcinoma	pheochromocytoma	.	.	High Confidence Driver
+MCM7	.	.	.	.	.	.	Candidate driver
+MDC1	.	.	.	.	.	.	High Confidence Driver
+MDM2	12:68808478-68839849	oncogene	sarcoma; glioma; colorectal; other tumour types	.	.	.	.
+MDM4	1:204525519-204549682	oncogene	glioblastoma; bladder; retinoblastoma	.	.	.	.
+MDN1	.	.	.	.	.	.	Candidate driver
+MDS2	1:23629556-23640550	.	MDS	.	.	.	.
+MECOM	3:169084909-169131477	oncogene	AML; CML; MDS	.	.	.	High Confidence Driver
+MED12	X:71118755-71142218	oncogene	uterine leiomyoma; fibroadenoma; phyllodes tumour	.	337	.	High Confidence Driver
+MED13	.	.	.	.	.	.	High Confidence Driver
+MED17	.	.	.	.	.	.	High Confidence Driver
+MEF2A	.	.	.	.	.	.	High Confidence Driver
+MEGF6	.	.	.	.	.	.	Candidate driver
+MEN1	11:64804334-64810109	TSG	parathyroid tumours; pancreatic neuroendocrine tumour	parathyroid adenoma; pituitary adenoma; pancreatic islet cell; carcinoid	290	.	.
+MET	7:116699085-116796124	oncogene	papillary renal; head-neck squamous cell	papillary renal	159	.	.
+METTL14	.	.	.	.	.	.	High Confidence Driver
+MGA	.	.	.	.	.	.	Candidate driver
+MICAL1	.	.	.	.	.	.	Candidate driver
+MITF	3:69936723-69965248	.	melanoma	.	.	.	.
+MKI67	.	.	.	.	.	.	Candidate driver
+MKL1	22:40411390-40463227	.	acute megakaryocytic leukaemia	.	.	.	.
+MLF1	3:158571302-158605203	.	AML	.	.	.	.
+MLH1	3:36993548-37050653	TSG	colorectal; endometrial; ovarian; CNS tumours	colorectal; endometrial; ovarian; CNS	61	.	.
+MLL	.	.	.	.	.	.	High Confidence Driver
+MLL2	.	TSG	.	.	165	LUSC	High Confidence Driver
+MLL3	.	TSG	.	.	111	BRCA	High Confidence Driver
+MLL4	.	.	.	.	.	UCEC,HNSC	.
+MLLT1	19:6213042-6279784	oncogene	AL	.	.	.	.
+MLLT10	10:21534646-21740235	.	AL	.	.	.	High Confidence Driver
+MLLT11	1:151039702-151040970	.	ALL	.	.	.	.
+MLLT3	9:20346443-20622256	oncogene	ALL	.	.	.	High Confidence Driver
+MLLT4	6:167827134-167952263	.	AL	.	.	.	High Confidence Driver
+MLLT6	17:36861887-36881852	.	AL	.	.	.	.
+MME	.	.	.	.	.	.	Candidate driver
+MMP2	.	.	.	.	.	.	High Confidence Driver
+MN1	22:27750915-27800543	.	AML; meningioma	.	.	.	High Confidence Driver
+MNX1	7:157005520-157010350	.	AML	.	.	.	.
+MPL	1:43337849-43352772	oncogene	MPN	MPN	531	.	.
+MSH2	2:47403192-47482949	TSG	colorectal; endometrial; ovarian	colorectal; endometrial; ovarian	37	.	.
+MSH6	2:47783234-47806860	TSG	colorectal	colorectal; endometrial; ovarian	135	.	.
+MSI2	17:57257049-57631832	.	CML	.	.	.	.
+MSN	X:65667842-65739893	.	ALCL	.	.	.	High Confidence Driver
+MST1	.	.	.	.	.	.	High Confidence Driver
+MTCP1	X:155061843-155064023	.	T cell prolymphocytic leukaemia	.	.	.	.
+MTM1	.	.	.	.	.	.	Candidate driver
+MTOR	1:11107485-11259409	oncogene	endometrial carcinoma; head and neck; clear cell renal cell carcinoma; anaplastic thyroid cancer; urothelial cell carcinoma; central nervous system tumours; testicular germ cell tumours and other tumour types	.	.	KIRC	High Confidence Driver
+MUC1	1:155186135-155192843	.	B-NHL	.	.	.	.
+MUTYH	1:45329306-45340254	.	.	colorectal	.	.	.
+MYB	6:135181514-135217980	.	adenoid cystic carcinoma	.	.	.	High Confidence Driver
+MYC	8:127738263-127740958	oncogene	Burkitt lymphoma; amplified in other cancers; B-CLL	.	.	.	.
+MYCBP2	.	.	.	.	.	.	Candidate driver
+MYCL	1:39900814-39901434	.	small cell lung carcinoma	.	.	.	.
+MYCN	2:15942065-15946097	oncogene	neuroblastoma	.	.	.	.
+MYD88	3:38138662-38141286	oncogene	ABC-DLBCL	.	134	.	.
+MYH11	16:15708811-15838252	.	AML	.	.	.	.
+MYH9	22:36282668-36349236	.	ALCL	.	.	.	High Confidence Driver
+MYO1D	.	.	.	.	.	.	Candidate driver
+MYO5A	15:52313696-52528806	.	Spitzoid tumour	.	.	.	.
+MYOD1	11:17719783-17721508	.	embryonal rhabdomyosarcoma	.	.	.	.
+NAA15	.	.	.	.	.	.	Candidate driver
+NAB2	12:57089272-57094721	oncogene	solitary fibrous tumour; meningeal haemangiopericytoma	.	.	.	.
+NACA	12:56712538-56724521	.	NHL	.	.	.	.
+NAV1	.	.	.	.	.	.	Candidate driver
+NAV3	.	.	.	.	.	LUAD,LUSC,HNSC	High Confidence Driver
+NBEA	.	.	.	.	.	.	Candidate driver
+NBN	8:89935582-89984561	.	.	NHL; glioma; medulloblastoma; rhabdomyosarcoma	.	.	.
+NBPF10	.	.	.	.	.	.	High Confidence Driver
+NCKIPSD	3:48674544-48685807	.	ALL	.	.	.	.
+NCOA1	2:24658678-24768391	.	alveolar rhabdomyosarcoma	.	.	.	.
+NCOA2	8:70113632-70216745	.	AML; chondrosarcoma; rhabdomyosarcoma	.	.	.	.
+NCOA3	.	.	.	.	.	.	High Confidence Driver
+NCOA4	10:51579142-51586417	.	papillary thyroid	.	.	.	High Confidence Driver
+NCOR1	17:16032296-16194569	TSG	breast	.	35	BRCA	High Confidence Driver
+NCOR2	12:124325402-124495251	TSG	prostate	.	.	.	High Confidence Driver
+NDRG1	8:133238878-133284311	.	prostate	.	.	.	.
+NEB	.	.	.	.	.	.	High Confidence Driver
+NEDD4L	.	.	.	.	.	.	High Confidence Driver
+NEK1	.	.	.	.	.	.	Candidate driver
+NEK8	.	.	.	.	.	.	Candidate driver
+NF1	17:31095310-31374155	TSG	neurofibroma; glioma	neurofibroma; glioma	362	LUAD,BRCA	High Confidence Driver
+NF2	22:29603999-29694802	TSG	meningioma; acoustic neuroma; renal	meningioma; acoustic neuroma	609	.	.
+NFATC2	20:51391396-51542499	.	Ewing sarcoma	.	.	.	.
+NFE2L2	2:177230785-177264576	oncogene	NSCLC; HNSCC	.	102	UCEC,HNSC,BLCA,LUSC	High Confidence Driver
+NFE2L3	.	.	.	.	.	BRCA	.
+NFIB	9:14088309-14313511	.	adenoid cystic carcinoma; lipoma	.	.	.	.
+NFKB2	10:102395960-102402376	oncogene	B-NHL	.	.	.	.
+NFKBIE	6:44259219-44265763	.	CLL; desmoplastic melanoma	.	.	.	.
+NIN	14:50725872-50822056	.	MPN	.	.	.	High Confidence Driver
+NIPBL	.	.	.	.	.	.	Candidate driver
+NKX2-1	14:36517278-36519357	.	NSCLC	.	.	.	.
+NLRP3	.	.	.	.	.	.	High Confidence Driver
+NMT2	.	.	.	.	.	.	Candidate driver
+NONO	X:71290638-71300076	.	papillary renal	.	.	.	High Confidence Driver
+NOTCH1	9:136496071-136545786	oncogene/TSG	T-ALL; breast; bladder; skin SCC; lung SCC; head and neck SCC	.	661	LUSC,HNSC	High Confidence Driver
+NOTCH2	1:119915306-120069406	oncogene/TSG	marginal zone lymphoma; DLBCL; bladder	.	51	.	.
+NPM1	5:171387949-171410565	TSG	NHL; APL; AML	.	2471	LAML	High Confidence Driver
+NR1H2	.	.	.	.	.	.	High Confidence Driver
+NR4A2	.	.	.	.	.	.	High Confidence Driver
+NR4A3	9:99828041-99863867	.	extraskeletal myxoid chondrosarcoma	.	.	.	.
+NRAS	1:114708535-114716160	oncogene	melanoma; MM; AML; thyroid	.	2738	COAD/READ,UCEC	High Confidence Driver
+NRG1	8:32548727-32764402	.	NSCLC	.	.	.	.
+NSD1	5:177135104-177295459	.	AML	.	.	HNSC	High Confidence Driver
+NT5C2	10:103089672-103174958	.	relapse ALL	.	.	.	.
+NTRK1	1:156860935-156881642	.	papillary thyroid; Spitzoid tumour	.	.	.	.
+NTRK3	15:87876935-88256153	.	congenital fibrosarcoma; secretory breast	.	.	.	.
+NUMA1	11:72003527-72035943	.	APL	.	.	.	High Confidence Driver
+NUP214	9:131125705-131233487	.	AML; T-ALL	.	.	.	High Confidence Driver
+NUP93	.	.	.	.	.	.	High Confidence Driver
+NUP98	11:3676159-3782117	.	AML	.	.	.	High Confidence Driver
+NUTM1	15:34346021-34357492	oncogene	lethal midline carcinoma	.	.	.	.
+NUTM2A	10:87358266-87367372	.	endometrial stromal sarcoma	.	.	.	.
+NUTM2B	10:79703610-79712485	.	endometrial stromal sarcoma	.	.	.	.
+OLIG2	21:33026863-33027834	.	T-ALL	.	.	.	.
+OMD	9:92415152-92417558	.	aneurysmal bone cyst	.	.	.	.
+P2RY8	X; Y:1465479-1466558	.	B-ALL; Down syndrome associated ALL	.	.	.	.
+P4HB	.	.	.	.	.	.	Candidate driver
+PABPC1	.	.	.	.	.	.	High Confidence Driver
+PABPC4	.	.	.	.	.	.	Candidate driver
+PAFAH1B2	11:117152449-117167700	.	MLCLS	.	.	.	.
+PALB2	16:23603459-23641157	TSG	.	Wilms tumour; medulloblastoma; AML ; breast	.	.	.
+PAX3	2:222201174-222298615	.	alveolar rhabdomyosarcoma	.	.	.	.
+PAX5	9:36840560-37034031	TSG	NHL; ALL; B-ALL	.	49	.	.
+PAX7	1:18631604-18736039	.	alveolar rhabdomyosarcoma	.	.	.	.
+PAX8	2:113218533-113278394	.	follicular thyroid	.	.	.	.
+PBRM1	3:52548063-52679711	TSG	clear cell renal carcinoma; breast	.	171	KIRC	High Confidence Driver
+PBX1	1:164559824-164846677	.	pre B-ALL; myoepithelioma	.	.	.	.
+PCBP1	.	.	.	.	.	COAD/READ	High Confidence Driver
+PCM1	8:17935611-18027662	.	papillary thyroid; CML; MPN	.	.	.	High Confidence Driver
+PCSK7	11:117205997-117229844	.	MLCLS	.	.	.	.
+PDCD1LG2	9:5522547-5569959	.	PMBL; Hodgkin lymphoma	.	.	.	.
+PDE4DIP	1:148889754-149031985	.	MPN	.	.	.	.
+PDGFB	22:39225723-39243963	oncogene	DFSP	.	.	.	.
+PDGFRA	4:54258769-54295272	oncogene	GIST; idiopathic hypereosinophilic syndrome; paediatric glioblastoma	GIST	653	GBM	High Confidence Driver
+PDGFRB	5:150115763-150137047	.	MPN; AML; CMML; CML	.	.	.	.
+PDS5A	.	.	.	.	.	.	Candidate driver
+PER1	17:8141068-8150706	.	AML; CMML	.	.	.	.
+PHF6	X:134377618-134425330	TSG	ETP ALL	.	57	LAML	High Confidence Driver
+PHLDA1	.	.	.	.	.	.	High Confidence Driver
+PHOX2B	4:41745807-41748610	.	neuroblastoma	neuroblastoma	.	.	.
+PICALM	11:85959046-86068780	.	T-ALL; AML	.	.	.	.
+PIK3CA	3:179198826-179234364	oncogene	colorectal; gastric; glioblastoma; breast	.	4560	GBM,KIRC,BRCA,LUSC,COAD/READ,HNSC,UCEC,BLCA	High Confidence Driver
+PIK3CB	.	.	.	.	.	.	High Confidence Driver
+PIK3CG	.	.	.	.	.	LUSC	High Confidence Driver
+PIK3R1	5:68226676-68297601	TSG	glioblastoma; ovarian; colorectal	.	88	UCEC	High Confidence Driver
+PIM1	6:37170576-37174091	.	NHL	.	.	.	.
+PIP5K1A	.	.	.	.	.	.	High Confidence Driver
+PLAG1	8:56166243-56168269	oncogene	salivary adenoma; lipoblastoma	.	.	.	.
+PLCG1	20:41137642-41174509	.	angiosarcoma	.	.	.	High Confidence Driver
+PLEC	.	.	.	.	.	.	High Confidence Driver
+PML	15:73994813-74045008	TSG	APL; ALL	.	.	.	.
+PMS1	2:189791810-189877436	.	.	colorectal; endometrial; ovarian	.	.	.
+PMS2	7:5973399-6009019	.	.	colorectal; endometrial; ovarian; medulloblastoma; glioma	.	.	.
+POLE	12:132624697-132687315	.	colorectal carcinoma; endometrioid carcinoma; stomach carcinoma; skin cancer	colorectal cancer susceptibility	.	.	Candidate driver
+POT1	7:124823962-124897173	.	CLL	.	.	.	.
+POTEF	.	.	.	.	.	.	High Confidence Driver
+POU2AF1	11:111354261-111379177	.	NHL	.	.	.	.
+POU5F1	6:31164601-31170620	.	sarcoma	.	.	.	.
+PPARG	3:12351593-12434145	.	follicular thyroid	.	.	.	.
+PPFIA4	.	.	.	.	.	.	Candidate driver
+PPFIBP1	12:27633397-27692882	.	Spitzoid tumour; inflammatory myofibroblastic tumour	.	.	.	.
+PPM1D	17:60600415-60663552	oncogene	glioma; ovarian cancer; breast cancer	.	.	.	.
+PPP2R1A	19:52190097-52225981	oncogene	clear cell ovarian carcinoma	.	86	UCEC	High Confidence Driver
+PPP6C	9:125149673-125189718	.	melanoma	.	.	.	.
+PRCC	1:156767772-156800460	.	papillary renal	.	.	.	.
+PRDM1	6:106088267-106107486	TSG	DLBCL	.	46	.	.
+PRDM16	1:3069260-3433811	.	MDS; AML	.	.	.	.
+PRDM2	.	.	.	.	.	.	Candidate driver
+PREX2	8:67952395-68231378	oncogene	melanoma; pancreatic ductal adenocarcinoma	.	.	.	.
+PRF1	10:70598053-70600902	.	.	various leukaemia; lymphoma	.	.	.
+PRKACA	19:14093112-14117547	oncogene	fibrolamellar hepatocellular carcinoma; cortisol secreting adrenal adenoma	.	.	.	.
+PRKAR1A	17:68515400-68530449	.	papillary thyroid	myxoma; endocrine; papillary thyroid	.	.	High Confidence Driver
+PRKCD	.	.	.	.	.	.	High Confidence Driver
+PRPF8	.	.	.	.	.	.	High Confidence Driver
+PRRC2A	.	.	.	.	.	.	Candidate driver
+PRRX1	1:170664220-170730332	.	AML	.	.	.	.
+PRX	.	.	.	.	.	BLCA	Candidate driver
+PSEN1	.	.	.	.	.	.	High Confidence Driver
+PSIP1	9:15471207-15510188	.	AML	.	.	.	.
+PSMD11	.	.	.	.	.	.	Candidate driver
+PSME3	.	.	.	.	.	.	Candidate driver
+PTCH1	9:95446912-95508361	TSG	skin basal cell; medulloblastoma	skin basal cell; medulloblastoma	318	.	.
+PTEN	10:87864470-87965472	TSG	glioma; prostate; endometrial	harmartoma; glioma; prostate; endometrial	1719	UCEC,GBM,LUSC,KIRC,BRCA	High Confidence Driver
+PTK6	20:63529536-63537314	oncogene/TSG	renal; gastric; head and neck; ovarian; others	.	.	.	.
+PTPN11	12:112419112-112504764	oncogene	JMML; AML; MDS	.	410	GBM,LAML	High Confidence Driver
+PTPN13	4:86635257-86814551	TSG	lung; NSCLC; gastric; peritoneal carcinomatosis	hepatocellular	.	.	Candidate driver
+PTPRB	12:70521489-70609814	.	angiosarcoma	.	.	.	.
+PTPRC	1:198639275-198756181	.	T-ALL	.	.	.	.
+PTPRK	6:127970227-128520358	.	colorectal	.	.	.	.
+PTPRT	20:42080879-43189733	TSG	HNSCC; colorectal cancer; gastric cancer; lung cancer; melanoma	.	.	.	.
+PWP1	.	.	.	.	.	.	Candidate driver
+PWWP2A	5:160078155-160119388	.	Spitzoid tumour	.	.	.	.
+QKI	6:163415194-163570710	oncogene/TSG	angiocentric glioma; colorectal cancer	.	.	.	Candidate driver
+RAB11FIP5	.	.	.	.	.	.	Candidate driver
+RABEP1	17:5282488-5383224	.	CMML	.	.	.	.
+RAC1	7:6374736-6402446	oncogene	melanoma; carcinoma	.	.	.	High Confidence Driver
+RAD21	8:116847500-116866729	.	AML; endometrium; colorectal; lung	.	.	.	High Confidence Driver
+RAD51B	14:67823544-68594603	.	lipoma; uterine leiomyoma	.	.	.	.
+RAF1	3:12584514-12618721	.	pilocytic astrocytoma; prostate	.	.	.	.
+RAG1	.	.	.	.	.	.	Candidate driver
+RALGAPA1	.	.	.	.	.	.	Candidate driver
+RALGDS	9:133098587-133121154	.	PMBL; Hodgkin lymphoma;	.	.	.	.
+RANBP17	5:170862034-171298858	.	ALL	.	.	.	.
+RANBP2	2:108719607-108783901	.	inflammatory myofibroblastic tumour	.	.	.	High Confidence Driver
+RANBP3	.	.	.	.	.	.	High Confidence Driver
+RANGAP1	.	.	.	.	.	.	Candidate driver
+RAP1GDS1	4:98261566-98442117	.	T-ALL	.	.	.	.
+RARA	17:40331219-40356226	oncogene	APL	.	.	.	.
+RASA1	.	.	.	.	.	.	High Confidence Driver
+RB1	13:48303913-48480071	TSG	retinoblastoma; sarcoma; breast; small cell lung carcinoma	retinoblastoma; sarcoma; breast; small cell lung carcinoma	208	BLCA,BRCA,LUAD,LUSC	High Confidence Driver
+RBFOX2	.	.	.	.	.	.	Candidate driver
+RBM10	X:47147482-47186599	TSG	lung adenocarcinoma	.	.	.	Candidate driver
+RBM15	1:110339407-110345610	.	acute megakaryocytic leukaemia	.	.	.	.
+RBMX	.	.	.	.	.	.	High Confidence Driver
+RECQL4	8:144511431-144517784	.	.	osteosarcoma; skin basal cell; skin sqamous cell	.	.	.
+REL	2:60881841-60922535	oncogene	Hodgkin lymphoma	.	.	.	.
+RET	10:43077259-43128269	oncogene	medullary thyroid; papillary thyroid; pheochromocytoma; NSCLC; Spitzoid tumour	medullary thyroid; papillary thyroid; pheochromocytoma	500	.	.
+RHEB	.	.	.	.	.	.	High Confidence Driver
+RHOA	3:49360209-49375589	.	diffuse gastric; T cell lymphomas; paediatric Burkitt lymphoma	.	.	.	High Confidence Driver
+RHOH	4:40243387-40243962	.	NHL	.	.	.	.
+RIF1	.	.	.	.	.	.	Candidate driver
+RMI2	16:11345472-11350790	.	PMBL; Hodgkin lymphoma	.	.	.	.
+RNF111	.	.	.	.	.	.	Candidate driver
+RNF213	17:80340149-80393498	.	ALCL	.	.	.	High Confidence Driver
+RNF217-AS1	6:-	.	B-ALL	.	.	.	.
+RNF43	17:58354943-58415577	TSG	cholangiocarcinoma; ovary; pancreas	.	27	.	High Confidence Driver
+ROS1	6:117288492-117425656	oncogene	glioblastoma; NSCLC; Spitzoid tumour; cholangiocarcinoma; borderline ovarian	.	.	.	.
+RPGR	.	.	.	.	.	.	High Confidence Driver
+RPL10	X:154398520-154400854	.	T-ALL	.	.	.	.
+RPL22	1:6186672-6199573	.	AML; CML	.	.	UCEC	High Confidence Driver
+RPL5	1:92832115-92841865	.	T-ALL	.	.	GBM	High Confidence Driver
+RPN1	3:128620411-128650800	.	AML	.	.	.	.
+RPP38	.	.	.	.	.	.	Candidate driver
+RPSAP58	.	.	.	.	.	.	High Confidence Driver
+RSPO2	8:107901075-108082638	.	colorectal	.	.	.	.
+RSPO3	6:127119193-127196007	.	colorectal	.	.	.	.
+RSRC1	.	.	.	.	.	.	Candidate driver
+RUNDC2A	16:11976807-12052226	.	PMBL; Hodgkin lymphoma	.	.	.	.
+RUNX1	21:34792135-35048899	oncogene/TSG	AML; pre B-ALL; T-ALL	.	304	LAML,BRCA	High Confidence Driver
+RUNX1T1	8:91960242-92017340	oncogene	AML	.	.	.	.
+RXRA	.	.	.	.	.	.	High Confidence Driver
+SBDS	7:66988371-66995417	.	.	AML; MDS	.	.	.
+SDC4	20:45327264-45348384	.	NSCLC	.	.	.	.
+SDHA	5:218356-256420	TSG	GIST; paraganglioma	paraganglioma	.	.	.
+SDHAF2	11:61430147-61446071	.	.	paraganglioma	.	.	.
+SDHB	1:17018881-17054019	.	.	paraganglioma; pheochromocytoma	.	.	.
+SDHC	1:161314406-161362433	.	.	paraganglioma; pheochromocytoma	.	.	.
+SDHD	11:112086908-112094970	.	.	paraganglioma; pheochromocytoma	.	.	.
+SEC23B	.	.	.	.	.	.	Candidate driver
+SEPT5	22:19714590-19722485	.	AML	.	.	.	.
+SEPT6	X:119618762-119693105	.	AML	.	.	.	.
+SEPT9	17:77320327-77498658	.	AML*	.	.	.	.
+SET	9:128689583-128694664	.	AML	.	.	.	.
+SETBP1	18:44701347-45063698	oncogene	aCML; sAML; MDS/MPN-U; CMML; JMML	neuroepithelial tumours	95	LUAD	.
+SETD2	3:47017093-47123126	TSG	clear cell renal carcinoma	.	47	KIRC	High Confidence Driver
+SETX	.	.	.	.	.	.	Candidate driver
+SF3B1	2:197392303-197434999	oncogene	myelodysplastic syndrome	.	516	.	High Confidence Driver
+SFPQ	1:35184456-35193049	.	papillary renal	.	.	.	.
+SGK1	.	.	.	.	.	.	High Confidence Driver
+SH2B3	12:111418146-111448302	TSG	MPN; sAML; erythrocytosis; B-ALL	.	.	.	.
+SH3GL1	19:4361600-4400368	.	AL	.	.	.	.
+SH3PXD2A	.	.	.	.	.	.	Candidate driver
+SIN3A	.	.	.	.	.	UCEC	High Confidence Driver
+SLC25A10	.	.	.	.	.	.	Candidate driver
+SLC34A2	4:25662501-25676749	.	NSCLC	.	.	.	.
+SLC3A2	.	.	.	.	.	.	Candidate driver
+SLC45A3	1:205659234-205664656	.	prostate	.	.	.	.
+SMAD2	18:47841827-47896756	TSG	colorectal carcinoma; hepatocellular carcinoma	.	16	COAD/READ	High Confidence Driver
+SMAD3	15:67066155-67190536	TSG	colorectal; hepatocellular carcinoma; oral squamous cell carcinoma	.	.	.	.
+SMAD4	18:51047047-51078467	TSG	colorectal; pancreatic; small intestine	gastrointestinal polyp	207	COAD/READ	High Confidence Driver
+SMARCA4	19:10984152-11061816	TSG	NSCLC; SCCOHT	.	68	.	High Confidence Driver
+SMARCAD1	.	.	.	.	.	.	Candidate driver
+SMARCB1	22:23787170-23834180	TSG	malignant rhabdoid	malignant rhabdoid	247	.	.
+SMARCD1	12:50085487-50099000	.	breast	.	.	.	.
+SMARCE1	17:40628785-40645626	.	.	meningioma	.	.	.
+SMC1A	.	.	.	.	.	LAML	High Confidence Driver
+SMC3	.	.	.	.	.	.	High Confidence Driver
+SMC4	.	.	.	.	.	.	Candidate driver
+SMCHD1	.	.	.	.	.	.	Candidate driver
+SMO	7:129189152-129212451	oncogene	skin basal cell	.	34	.	.
+SMYD4	.	.	.	.	.	.	Candidate driver
+SND1	7:127652374-128092058	.	pancreas acinar carcinoma	.	.	.	.
+SOCS1	16:11254843-11255478	TSG	Hodgkin lymphoma; PMBL	.	41	.	.
+SOS1	.	.	.	.	.	.	High Confidence Driver
+SOX17	.	.	.	.	.	UCEC	High Confidence Driver
+SOX2	3:181712361-181713314	.	NSCLC; oesophageal squamous carcinoma	.	.	.	.
+SOX9	.	TSG	.	.	9	COAD/READ	Candidate driver
+SPATA6	.	.	.	.	.	.	High Confidence Driver
+SPECC1	17:20096653-20314066	.	JMML	.	.	.	.
+SPEG	.	.	.	.	.	.	Candidate driver
+SPEN	1:15848068-15939427	.	SMZL; adenoid cystic carcinoma; DLBCL	.	.	.	High Confidence Driver
+SPOP	17:49600378-49622810	oncogene	prostate; endometrial	prostate cancer	35	.	High Confidence Driver
+SPTAN1	.	.	.	.	.	.	Candidate driver
+SRCAP	.	.	.	.	.	.	Candidate driver
+SRGAP3	3:8985519-9248951	.	pilocytic astrocytoma	.	.	.	.
+SRRM2	.	.	.	.	.	.	Candidate driver
+SRSF2	17:76736161-76737160	oncogene	MDS; CLL	.	273	.	.
+SRSF3	6:36596763-36601989	.	follicular lymphoma	.	.	.	.
+SS18	18:26018354-26090569	.	synovial sarcoma	.	.	.	.
+SS18L1	20:62143822-62179209	.	synovial sarcoma	.	.	.	.
+SSX1	X:48257242-48266387	.	synovial sarcoma	.	.	.	.
+SSX2	X:52752681-52789480	.	synovial sarcoma	.	.	.	.
+SSX2IP	.	.	.	.	.	.	Candidate driver
+SSX4	X:48391869-48411372	.	synovial sarcoma	.	.	.	.
+STAG2	X:124022628-124100597	TSG	bladder carcinoma; glioblastoma; melanoma; Ewing's sarcoma; myeloid neoplasms	.	21	GBM,BLCA,LAML	High Confidence Driver
+STAT3	17:42315745-42348516	oncogene	T-cell large granular lymphocytic leukaemia	paediatric large granular lymphocytic leukaemia	.	.	High Confidence Driver
+STAT5B	17:42201738-42232127	.	large granular lymphocytic leukaemia; skin basal cell; APL	.	.	.	.
+STAT6	12:57096572-57108278	.	solitary fibrous tumour; meningeal haemangiopericytoma	.	.	.	.
+STIL	1:47251136-47310319	.	T-ALL	.	.	.	.
+STIP1	.	.	.	.	.	.	Candidate driver
+STK11	19:1206914-1226647	TSG	NSCLC; pancreatic	jejunal hamartoma; ovarian; testicular; pancreatic	220	LUSC,LUAD	High Confidence Driver
+STRN	2:36849456-36966463	.	anaplastic thyroid; papillary thyroid; lung	.	.	.	.
+SUFU	10:102504153-102630155	.	medulloblastoma	medulloblastoma	.	.	.
+SUZ12	17:31937247-31999003	.	endometrial stromal tumour	.	.	.	High Confidence Driver
+SVIL	.	.	.	.	.	.	Candidate driver
+SYK	9:90843899-90895600	oncogene	MDS; peripheral T-cell lymphoma	.	.	.	.
+SYNE1	.	.	.	.	.	.	High Confidence Driver
+TAF1	.	.	.	.	.	UCEC	High Confidence Driver
+TAF15	17:35809571-35846946	.	extraskeletal myxoid chondrosarcoma; ALL	.	.	.	.
+TAL1	1:47219720-47225888	.	lymphoblastic leukaemia/biphasic	.	.	.	.
+TAL2	9:108424779-108425393	.	T-ALL	.	.	.	.
+TANC2	.	.	.	.	.	.	Candidate driver
+TBL1XR1	3:177025498-177064977	.	splenic marginal zone lymphoma; primary central nervous system lymphoma; colorectal carcinoma; gallbladder carcinoma	.	.	BRCA	High Confidence Driver
+TBX3	12:114671841-114683200	oncogene/TSG	breast; large intestine; skin	.	.	LUAD,BRCA	High Confidence Driver
+TCEA1	8:53970288-53984488	.	salivary adenoma	.	.	.	.
+TCF12	15:56919914-57288514	.	extraskeletal myxoid chondrosarcoma	.	.	.	High Confidence Driver
+TCF3	19:1611707-1650248	.	pre B-ALL	.	.	.	.
+TCF7	.	.	.	.	.	.	High Confidence Driver
+TCF7L2	10:112950757-113165972	.	colorectal	.	.	.	High Confidence Driver
+TCL1A	14:95711755-95714066	.	T-CLL	.	.	.	.
+TCL6	14:95665061-95671429	.	T-ALL	.	.	.	.
+TERT	5:1253728-1294989	.	melanoma; glioblastoma; hepatocellular carcinoma; bladder; skin basal cell; skin squamous cell; mesothelioma; medulloblastoma; other tumour types	melanoma	.	.	.
+TET1	10:68572340-68691815	oncogene/TSG	AML	.	.	.	.
+TET2	4:105233943-105276519	TSG	MDS	.	864	LAML	High Confidence Driver
+TFDP1	.	.	.	.	.	.	High Confidence Driver
+TFE3	X:49030158-49043226	.	papillary renal; alveolar soft part sarcoma; renal	.	.	.	.
+TFEB	6:41684599-41691213	.	renal cell carcinoma (childhood epithelioid)	.	.	.	.
+TFG	3:100713687-100748532	.	papillary thyroid; ALCL; NSCLC; extraskeletal myxoid chondrosarcoma	.	.	.	.
+TFPT	19:54107050-54115269	.	pre-B ALL	.	.	.	.
+TFRC	3:196051942-196077099	.	NHL	.	.	.	.
+TGFBR2	3:30606884-30691599	TSG	head and neck; colorectal	colorectal	.	HNSC	High Confidence Driver
+TGIF1	.	.	.	.	.	.	High Confidence Driver
+TGOLN2	.	.	.	.	.	.	Candidate driver
+THRAP3	1:36282564-36304017	.	aneurysmal bone cyst	.	.	.	.
+TICAM1	.	.	.	.	.	.	Candidate driver
+TJP2	.	.	.	.	.	.	High Confidence Driver
+TLR4	.	.	.	.	.	LUAD	Candidate driver
+TLX1	10:101131543-101136914	.	T-ALL	.	.	.	.
+TLX3	5:171309367-171311600	.	T-ALL	.	.	.	.
+TMPRSS2	21:41466142-41498133	.	prostate	.	.	.	.
+TNFAIP3	6:137871228-137881319	TSG	marginal zone B-cell lymphomas; Hodgkin lymphoma; PMBL	.	136	.	.
+TNFRSF10C	.	.	.	.	.	.	High Confidence Driver
+TNFRSF14	1:2556665-2563273	.	follicular lymphoma	.	.	.	.
+TNFRSF17	16:11965325-11967847	.	intestinal T-cell lymphoma	.	.	.	.
+TNKS1BP1	.	.	.	.	.	.	Candidate driver
+TNPO1	.	.	.	.	.	.	Candidate driver
+TOM1	.	.	.	.	.	.	High Confidence Driver
+TOP1	20:41029068-41123297	.	AML*	.	.	.	.
+TOP3A	.	.	.	.	.	.	High Confidence Driver
+TP53	17:7669609-7676594	oncogene/TSG	breast; colorectal; lung; sarcoma; adrenocortical; glioma; Spitzoid tumour; multiple other tumour types	breast; sarcoma; adrenocortical carcinoma; glioma; multiple other tumour types	14438	BRCA,UCEC,LUAD,HNSC,LAML,COAD/READ,BLCA,LUSC,OV,KIRC,GBM	High Confidence Driver
+TP53BP1	.	.	.	.	.	.	High Confidence Driver
+TP63	3:189631516-189894502	oncogene/TSG	HNSCC; DLBCL	NSCLC	.	.	.
+TPM1	.	.	.	.	.	.	Candidate driver
+TPM3	1:154157639-154183119	TSG	papillary thyroid; ALCL; NSCLC; Spitzoid tumour	.	.	.	.
+TPM4	19:16076567-16101347	.	ALCL	.	.	.	.
+TPR	1:186313971-186375028	.	papillary thyroid; NSCLC	.	.	.	High Confidence Driver
+TRA	14:-	.	T-ALL	.	.	.	.
+TRAF7	16:2163921-2176574	TSG	meningioma	.	123	.	.
+TRB	7:-	.	T-ALL	.	.	.	.
+TRD	14:-	.	T-cell leukaemia	.	.	.	.
+TRIM24	7:138460549-138584951	oncogene	APL	.	.	.	.
+TRIM27	6:28904070-28923632	.	papillary thyroid	.	.	.	.
+TRIM33	1:114397648-114511076	.	papillary thyroid	.	.	.	.
+TRIM7	.	.	.	.	.	.	High Confidence Driver
+TRIO	.	.	.	.	.	.	High Confidence Driver
+TRIP11	14:91969673-92039685	.	AML	.	.	.	High Confidence Driver
+TRRAP	7:98881151-99012355	oncogene	melanoma	.	.	.	.
+TSC1	9:132896235-132928872	TSG	renal cell carcinoma; bladder carcinoma	hamartoma; renal cell carcinoma; tuberous sclerosis tuber	20	.	.
+TSC2	16:2048616-2088610	TSG	pulmonary lymphangioleiomyomatosis (LAM); renal angiomyolipoma; HNSCC	hamartoma; renal cell carcinoma; tuberous sclerosis tuber	.	.	High Confidence Driver
+TSHR	14:80955681-81144353	oncogene	toxic thyroid adenoma	thyroid adenoma	301	.	.
+TSHZ2	.	.	.	.	.	LUAD,COAD/READ,GBM	.
+TSHZ3	.	.	.	.	.	LUAD,LUSC,COAD/READ	.
+TTK	.	.	.	.	.	.	Candidate driver
+TTL	2:112482346-112528796	.	ALL	.	.	.	.
+TUBA1A	.	.	.	.	.	.	High Confidence Driver
+TXNIP	.	.	.	.	.	.	High Confidence Driver
+U2AF1	21:43093102-43107494	oncogene	CLL; MDS	.	96	LAML,LUAD	High Confidence Driver
+UBE2Z	.	.	.	.	.	.	Candidate driver
+UBE4A	.	.	.	.	.	.	Candidate driver
+UBR5	8:102254302-102412234	.	mantle cell lymphoma; gastric; colorectal	.	.	.	.
+UHRF1BP1L	.	.	.	.	.	.	High Confidence Driver
+USP28	.	.	.	.	.	.	Candidate driver
+USP6	17:5130368-5148597	.	aneurysmal bone cyst	.	.	.	.
+USP8	15:50439074-50499088	oncogene	corticotroph adenoma	.	.	.	.
+USP9X	.	.	.	.	.	UCEC	Candidate driver
+UTP14A	.	.	.	.	.	.	Candidate driver
+VEZT	.	.	.	.	.	.	Candidate driver
+VHL	3:10141848-10149965	TSG	renal; haemangioma; pheochromocytoma	renal; haemangioma; pheochromocytoma	1287	KIRC	High Confidence Driver
+VTI1A	10:112447374-112815383	.	colorectal	.	.	.	.
+WAS	X:48683854-48691162	oncogene	.	lymphoma	.	.	.
+WHSC1	4:1900655-1978909	.	MM	.	.	.	High Confidence Driver
+WHSC1L1	8:38317956-38348171	.	AML	.	.	.	High Confidence Driver
+WIF1	12:65051349-65121191	.	pleomorphic salivary gland adenoma	.	.	.	.
+WRN	8:31058448-31173102	.	.	osteosarcoma; meningioma; other tumour types	.	.	High Confidence Driver
+WT1	11:32389058-32435141	TSG	Wilms tumour; desmoplastic small round cell tumour	Wilms tumour	312	LAML	High Confidence Driver
+WWTR1	3:149520805-149657306	oncogene	epithelioid haemangioendothelioma	.	.	.	.
+XPA	9:97675439-97697292	TSG	.	skin basal cell; skin squamous cell; melanoma	.	.	.
+XPC	3:14145941-14178568	TSG	.	skin basal cell; skin squamous cell; melanoma	.	.	.
+XPO1	2:61478820-61533897	oncogene	CLL	.	.	.	.
+YWHAE	17:1345447-1400110	.	endometrial stromal sarcoma	.	.	.	.
+ZBTB16	11:114063302-114250556	.	APL	.	.	.	.
+ZCCHC8	12:122473497-122500840	.	Spitzoid tumour	.	.	.	.
+ZEB2	.	.	.	.	.	.	Candidate driver
+ZFHX3	16:72787164-72960145	TSG	endometrial; gastric; prostate	.	.	.	High Confidence Driver
+ZFP36L1	.	.	.	.	.	.	High Confidence Driver
+ZFP36L2	.	.	.	.	.	.	High Confidence Driver
+ZMYM2	.	.	.	.	.	.	High Confidence Driver
+ZMYM4	.	.	.	.	.	.	Candidate driver
+ZMYND8	.	.	.	.	.	.	Candidate driver
+ZNF132	.	.	.	.	.	.	High Confidence Driver
+ZNF198	13:19993073-20086014	.	MPN; NHL	.	.	.	.
+ZNF278	22:31326891-31345602	.	Ewing sarcoma	.	.	.	.
+ZNF300	.	.	.	.	.	.	High Confidence Driver
+ZNF331	19:53569378-53577953	.	follicular thyroid adenoma	.	.	.	.
+ZNF384	12:6667714-6679520	.	ALL	.	.	.	.
+ZNF451	.	.	.	.	.	.	Candidate driver
+ZNF521	18:25062712-25350946	.	ALL	.	.	.	.
+ZNF703	.	.	.	.	.	.	Candidate driver
+ZNF814	.	.	.	.	.	.	High Confidence Driver
+ZNF844	.	.	.	.	.	.	High Confidence Driver
+ZNF91	.	.	.	.	.	.	High Confidence Driver
+ZRSR2	X:15790496-15823242	.	MDS; CLL	.	.	.	.

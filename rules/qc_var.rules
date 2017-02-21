@@ -1,0 +1,135 @@
+# !NOT fully developed
+# @szj^16Apr05
+# @szj^16Jul25
+# @szj^16Sep14
+
+# including:
+# vcf-stats
+# bcftools stats && plot-vcfstats
+# vt peek
+# vcf-validator
+
+configfile: "project_config.json"
+
+fa = config['ref']['fa']
+qc_var = config['biosoft']['qc_var']
+vt = config['biosoft']['vt']
+vcf_validator = config['biosoft']['vcf-validator']
+
+thread = config["threads"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_qc_var:
+    input:
+        expand('qc/var/{germline}.var.bcftools_stats.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.bcftools_stats.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.bcftools_stats.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.bcftools_stats.txt', somatic = config['somatic']),
+        expand('qc/var/{trio}.var.bcftools_stats.txt', trio = config['trio']),
+        expand('qc/var/{trio}.sv.bcftools_stats.txt', trio = config['trio']),
+        expand('qc/var/{germline}.var.vt_peek.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.vt_peek.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.vt_peek.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.vt_peek.txt', somatic = config['somatic']),
+        expand('qc/var/{germline}.var.valid_dup.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.valid_dup.txt', germline = config['germline']),
+        expand('qc/var/{germline}.var.valid_uniq.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.valid_uniq.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.valid_dup.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.valid_dup.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.var.valid_uniq.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.valid_uniq.txt', somatic = config['somatic']),
+
+rule qc_var:
+    input:
+        'var/{prefix}.vcf'
+    output:
+        'qc/var/{prefix}.bcftools_stats.txt'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 900,
+        qsub_p = 1
+    shell:
+        """
+        {qc_var} {input} 'qc/var/' {fa}
+        """
+
+rule vt_peek:
+    input:
+        'var/{prefix}.vcf'
+    output:
+        txt = 'qc/var/{prefix}.vt_peek.txt',
+    params:
+        pdf = 'qc/var/{prefix}.vt_peek.pdf',
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1
+    shell:
+        """
+        {vt} peek -r {fa} -y {params.pdf} {input} 2> {output.txt}
+        """
+
+rule vcf_validator:
+    input:
+        'var/{prefix}.vcf'
+    output:
+        dup = 'qc/var/{prefix}.valid_dup.txt',
+        uniq = 'qc/var/{prefix}.valid_uniq.txt',
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1
+    shell:
+        """
+        {vcf_validator} -d {input} >&2 2> {output.dup}
+        {vcf_validator} -d -u {input} >&2 2> {output.uniq}
+        """
+
+#rule bcftools_stats_sv:
+    #input:
+        #'var/{prefix}.sv.vcf'
+    #output:
+        #'qc/var/{prefix}.sv.bcftools_stats.txt'
+    #shell:
+        #"""
+        #{bcftools} stats -F {fa} {input} > {output}
+        #"""
+
+#rule bcftools_plot_stats_var:
+    #input:
+        #'qc/var/{prefix}.var.bcftools_stats.txt'
+    #output:
+        #"qc/var/{prefix}.var.bcftools_stats.plot-summary.pdf"
+    #shell:
+        #"""
+        #{plot_vcfstats} -p {prefix}.var {input}
+        #"""
+
+#rule bcftools_plot_stats_sv:
+    #input:
+        #'qc/var/{prefix}.sv.bcftools_stats.txt'
+    #output:
+        #"qc/var/{prefix}.sv.bcftools_stats.plot-summary.pdf"
+    #shell:
+        #"""
+        #{plot_vcfstats} -p {prefix}.sv {input}
+        #"""
+
+#rule vcftools_stats:
+    #input:
+        #vcf
+    #output:
+        #sample.vcftools_stats.counts
+    #params:
+        #prefix = vcftools_stats
+    #shell:
+        #"""
+        #{vcf_stats} {input} -p {params.prefix}
+        #"""

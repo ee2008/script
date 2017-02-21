@@ -1,0 +1,33 @@
+# generate report
+# @szj^16Dec12
+
+configfile: "project_config.json"
+
+include: "./all_var.rules"
+
+python = config['biosoft']['python']
+report_chemo = config['biosoft']['report_chemo']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_report:
+    input:
+        expand('report/{germline}.docx', germline = config['germline']),
+
+rule report_chemo:
+    input:
+        'var_intevar/{germline}.var.panel.tsv'
+    output:
+        'report/{germline}.docx'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 10,
+        qsub_p = 1
+    shell:
+        """
+        {python} {report_chemo} -i {input} -o report/{wildcards.germline} || touch {output}
+        """

@@ -25,6 +25,14 @@ if (length(argv) < 1) {
 file_add <- as.character(argv[1])
 out_dir <- as.character(argv[2])
 n_sigs <- as.numeric(argv[3])
+#file_add <- "/p299/user/og04/wangxian/CA-PM/CA-PM-20161108_v5/signature/gbm_mutation_signature.maf"
+#file_add <- "/p299/user/og04/wangxian/CA-PM/CA-PM-20161108_v5/signature/aaa_mutation_signature.maf"
+#file_add <- "/p299/user/og04/wangxian/CA-PM/CA-PM-20161108_v5/signature/aa_mutation_signature.maf"
+#out_dir <- "/p299/user/og04/wangxian/CA-PM/CA-PM-20161108_v5/signature"
+#n_sigs <- 5
+
+
+
 if (!file.exists(out_dir) ) {
   stop("! no such dir: ", out_dir)
 }
@@ -78,7 +86,7 @@ sigs_nmf <- identifySignatures(sca_mm, n_sigs, nmfDecomposition)
 #sigs_nmf
 #sigs_pca
 
-n_sigs <- 2:8
+#n_sigs <- 1:2
 
 gof_nmf <- assessNumberSignatures(sca_mm, n_sigs, nReplicates = 5)
 

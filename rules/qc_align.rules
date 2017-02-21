@@ -1,0 +1,251 @@
+# qsub suggest resource: vf=3G,p=1
+# from bam to stat
+# using:
+# fastqc
+# multiqc
+# itools Xamtools stat
+# samstat: sam, sam.gz, bam => *.samstat.html
+# ~~bamstats: html~~
+# samtools stat
+# samtools depth
+# plot-bamstats
+# bedtools genomecov
+# @szj^16Feb03
+# @szj^16Feb18
+
+include: "./qc_covmap.rules"
+include: "./align_speedseq.rules"
+configfile: './project_config.json'
+localrules: plot_bamstats, samtools_stats_bam_dups, dups_summary
+
+java = config['biosoft']['java']
+fastqc = config['biosoft']['fastqc']
+multiqc = config['biosoft']['multiqc']
+itools = config['biosoft']['itools']
+samtools = config['biosoft']['samtools']
+plot_bamstats = config['biosoft']['plot-bamstats']
+samstat = config['biosoft']['samstat']
+qualimap = config['biosoft']['qualimap']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+fa = config["ref"]["fa"]
+panel_bed = config["ref"]["panel_bed"]
+thread = config['threads']
+
+rule all_qc_align:
+    input:
+        expand("qc/align/{sample}.fastqc.html", sample = config['sample']),
+        "qc/align/multiqc_report.html",
+        expand("qc/align/{sample}.itools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.itools_depth.gz", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_dups.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_depth.txt.gz", sample = config['sample']),
+        expand("qc/align/{sample}.plot_bamstats/", sample = config['sample']),
+        expand("qc/align/{sample}.bedtools_genomecov.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samstat.html", sample = config['sample']),
+        expand("qc/align/{sample}.qualimap/qualimapReport.html", sample = config['sample']),
+        expand("qc/align/{sample}.qualimap_panel/qualimapReport.html", sample = config['sample']),
+        "qc/align/dups_summary.txt",
+        "qc/covmap/covmap_summary.txt",
+
+rule fastqc_bam:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/align/{sample}.fastqc.html"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = thread,
+    shell:
+        """
+        {fastqc} -t {thread} -j {java} {input} -o qc/align && mv qc/align/{wildcards.sample}_fastqc.html {output}
+        """
+
+rule multiqc_bam:
+    input:
+        expand("qc/align/{sample}.fastqc.html", sample = config['sample'])
+    output:
+        "qc/align/multiqc_report.html"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        """
+        cd qc/align
+        {multiqc} -f .
+        """
+
+rule itools_stat_bam:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        stat = "qc/align/{sample}.itools_stat.txt",
+        gz = "qc/align/{sample}.itools_depth.gz",
+#depth = "qc/align/{sample}.itools_depth.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        """
+        {itools} Xamtools stat -InFile {input} -Bam -OutStat {output.stat} -Ref {fa} -SiteD 3 || echo 'itools stat done'
+        mv -v {output.stat}.depth.gz {output.gz}
+        """
+#gunzip {output.stat}.depth.gz
+
+rule samtools_stats_bam:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/align/{sample}.samtools_stat.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        "{samtools} stats {input} > {output}"
+
+rule samtools_stats_bam_dups:
+    input:
+        "qc/align/{sample}.samtools_stat.txt"
+    output:
+        "qc/align/{sample}.samtools_dups.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        total_reads=$(grep '^SN\sraw total sequences' {input} | cut -f 3)
+        dup_reads=$(grep '^SN\sreads duplicated' {input} | cut -f 3)
+        echo $(perl -e "print substr ($dup_reads / $total_reads, 0, 6)") > {output}
+        """
+
+rule samtools_depth_all_bam:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/align/{sample}.samtools_depth.txt.gz"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        """
+        {samtools} depth {input} | gzip > {output}
+        """
+
+rule plot_bamstats:
+    input:
+        rules.samtools_stats_bam.output
+    output:
+        "qc/align/{sample}.plot_bamstats/"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 99,
+        qsub_p = 1,
+    shell:
+        """
+        {plot_bamstats} -p {output} {input}
+        """
+
+rule bedtools_genomecov_bam:
+    input:
+        bam = "align/{sample}.bam",
+        # aka. rules.sort_bam.output
+        index = rules.extract_cov_index.output
+    output:
+        "qc/align/{sample}.bedtools_genomecov.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 2500,
+        qsub_p = 1,
+    shell:
+        """
+        {bedtools} genomecov -bga -split -ibam {input.bam} -g {input.index} > {output}
+        """
+#{bedtools} genomecov -d -split -ibam {input.bam} -g {input.index} > {output}
+
+rule samstat:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/align/{sample}.samstat.html"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 800,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH="/nfs2/pipe/Re/Software/miniconda/bin":$PATH
+        {samstat} {input} && mv {input}.samstat.html {output}
+        """
+
+rule dups_summary:
+    input:
+        expand("qc/align/{sample}.samtools_dups.txt", sample = config['sample']),
+    output:
+        "qc/align/dups_summary.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1,
+        qsub_p = 1,
+    shell:
+        """
+        echo -e "#sample\tsamtools_dups\tinsert_size" > qc/align/dups_summary.txt
+        for i in qc/align/*.samtools_dups.txt; do
+            sample=$(basename $i .samtools_dups.txt)
+            dups=$(cat $i)
+            insert_size=$(grep 'insert size average' qc/align/$sample.samtools_stat.txt | cut -f3)
+            echo -e "$sample\t$dups\t$insert_size" >> qc/align/dups_summary.txt
+        done
+        """
+
+rule qualimap:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/align/{sample}.qualimap/qualimapReport.html",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 5900,
+        qsub_p = 8,
+    shell:
+        """
+        {qualimap} {input} qc/align/{wildcards.sample}.qualimap
+        """
+
+rule qualimap_panel:
+    input:
+        lambda wildcards: config['align'][wildcards.sample]
+    output:
+        "qc/align/{sample}.qualimap_panel/qualimapReport.html",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 5900,
+        qsub_p = 8,
+    shell:
+        """
+        [[ ! -f ref/panel.bed.6col ]] && awk 'OFS="\t"{{print $1, $2, $3, "TRANSCRIPT", "0", "+"}}' {panel_bed} > ref/panel.bed.6col && sleep 5
+        {qualimap} {input} qc/align/{wildcards.sample}.qualimap_panel ref/panel.bed.6col
+        """
+

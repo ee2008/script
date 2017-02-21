@@ -1,0 +1,99 @@
+# !DEPRECATED
+# Snakefile: mapping_bwa_mem.rules
+# rule for Snakemake
+# @szj^15Nov20
+# @szj^15Dec18
+
+# need a project config file, including:
+# references: genome
+# samples:
+# reads:
+
+# usage: snakemake -s <rules>
+# and modify config:
+configfile: "project_config.json"
+onsuccess: shell("echo $(date) | mail -s 'ALL DONE: align_bwa_mem' $(whoami)@1gene.com.cn")
+
+bwa = config["biosoft"]["bwa"]
+samtools = config["biosoft"]["samtools"]
+
+thread = config.get("threads", "")
+fa = config["ref"]["fa"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_align_bwa:
+    input:
+        expand("align/{sample}.bam", sample=config["sample"]),
+
+rule bwa_index:
+    input:
+        {fa}
+    output:
+        expand("{fa}.amb", fa = {fa}),
+        expand("{fa}.ann", fa = {fa}),
+        expand("{fa}.bwt", fa = {fa}),
+        expand("{fa}.pac", fa = {fa}),
+        expand("{fa}.sa", fa = {fa}),
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = qsub_mem_d,
+        qsub_p = qsub_t_d,
+    shell:
+        "{bwa} index {input}"
+
+rule bwa_mem_map:
+    input:
+        rules.bwa_index.output,
+        fa = {fa},
+        fq = lambda wildcards: config["clean"][wildcards.sample]
+    output:
+        #protected("align/{sample}.sam.gz")
+        "align/{sample}.sam.gz"
+    params:
+        custom=config.get("params_bwa_mem_custom", "")
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = qsub_mem_d,
+        qsub_p = qsub_t_d,
+    shell:
+        """
+        {bwa} mem -t {thread} {params.custom} {input.fa} {input.fq} | gzip > {output}
+        """
+
+rule sam_to_bam:
+    input:
+        rules.bwa_mem_map.output
+    output:
+        temp("align/{sample}.bam.tmp")
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = qsub_mem_d,
+        qsub_p = qsub_t_d,
+    shell:
+        """
+        {samtools} view -@ {thread} -Sb {input} > {output}
+        """
+
+rule sort_bam:
+    input:
+        "align/{sample}.bam.tmp"
+    output:
+        #protected("align/{sample}.bam")
+        "align/{sample}.bam"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = qsub_mem_d,
+        qsub_p = qsub_t_d,
+    shell:
+        """
+        {samtools} sort -@ {thread} -T align/{wildcards.sample} -O bam {input} > {output}
+        """
+

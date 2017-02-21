@@ -1,0 +1,96 @@
+# integrate rules to call mutations
+# including: var (snp + indel), sv (fusion), cnv
+# @szj^16Apr11
+
+configfile: "project_config.json"
+
+# onsuccess: shell("echo $(date) | mail -s 'ALL DONE: all_var' $(whoami)@1gene.com.cn")
+
+include: './var_germline_speedseq.rules'
+include: './var_somatic_speedseq.rules'
+include: './var_trio_speedseq.rules'
+
+include: "./var_germline_varscan.rules"
+include: "./var_somatic_varscan.rules"
+include: "./var_trio_varscan.rules"
+include: 'prepare_mpileup.rules'
+
+include: "./var_somatic_mutect.rules"
+
+include: './var_cnv.rules'
+include: './var_sv.rules'
+
+include: './var_corr_cosmic.rules'
+include: './var_intevar.rules'
+
+rule all_var_all:
+    input:
+#rule all_var_speedseq_all:
+    #input:
+        expand("var/{germline}.var.vcf", germline = config['germline']),
+        expand("var/{germline}.sv.vcf", germline = config['germline']),
+        expand("var/{somatic}.var.vcf", somatic = config["somatic"]),
+        expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+        expand("var/{trio}.var.vcf", trio = config["trio"]),
+        expand("var/{trio}.denovo.vcf", trio = config["trio"]),
+        expand("var/{trio}.sv.vcf", trio = config['trio']),
+
+#rule all_var_varscan_all:
+    #input:
+        expand("var_varscan/{germline}.snp.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.filter.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.filter.txt", germline = config['germline']),
+        #expand("var_varscan/{germline}.cns.txt", germline = config['germline']),
+
+        expand("var_varscan/{somatic}.snv.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.txt.Somatic.hc", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt.Somatic.hc", somatic = config['somatic']),
+
+        expand("var_varscan/{trio}.snp.vcf", trio = config['trio']),
+        expand("var_varscan/{trio}.indel.vcf", trio = config['trio']),
+
+        #expand("align/{sample}.mpileup.gz", sample = config['sample']),
+
+#rule all_var_mutect_all:
+    #input:
+        expand("var_mutect/{somatic}.snv.mutect.vcf", somatic = config['somatic']),
+
+#rule all_var_cnv:
+        expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+        'cnv/heatmap.pdf',
+        'cnv/trusted_gene.tsv',
+        'cnv/metrics.tsv',
+
+#rule all_var_sv:
+        expand('sv/{germline}.fusion.factera.log', germline = config['germline']),
+        expand('sv/{germline}.fusion.panel.tsv', germline = config['germline']),
+        expand('sv/{somatic}.fusion.panel.tsv', somatic = config['somatic']),
+
+#rule all_var_corr_cosmic:
+        expand("var_corr/{somatic}.indel2cosmic.hit", somatic = config['somatic']),
+        expand("var_corr/{somatic}.sv2cosmic.hit", somatic = config['somatic']),
+        expand("var_corr/{germline}.sv2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{trio}.indel2cosmic.hit", trio = config['trio']),
+        expand("var_corr/{trio}.sv2cosmic.hit", trio = config['trio']),
+
+#rule all_var_intevar:
+        #expand('var_intevar/{germline}.snp.tsv', germline = config['germline']),
+        #expand('var_intevar/{germline}.indel.tsv', germline = config['germline']),
+        #expand('var_intevar/{somatic}.snv.tsv', somatic = config['somatic']),
+        #expand('var_intevar/{somatic}.sindel.tsv', somatic = config['somatic']),
+        expand("var_intevar/{germline}.var.tsv", germline = config['germline']),
+        expand("var_intevar/{germline}.var.panel.tsv", germline = config['germline']),
+        expand("var_intevar/{somatic}.svar.tsv", somatic = config['somatic']),
+        expand("var_intevar/{somatic}.svar.panel.tsv", somatic = config['somatic']),
+

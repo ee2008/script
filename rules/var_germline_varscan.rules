@@ -1,0 +1,168 @@
+# call germline snp, indel, cns
+# @szj^16Mar01
+
+configfile: "./project_config.json"
+include: "./prepare_mpileup.rules"
+include: "./align_speedseq.rules"
+
+varscan = config['biosoft']['varscan']
+fa = config['ref']['fa']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+par_min_dp = config["params"]["var_caller_germline"]["min_dp"]
+par_min_alt_dp = config["params"]["var_caller_germline"]["min_alt_dp"]
+par_min_var_freq = config["params"]["var_caller_germline"]["min_var_freq"]
+par_p_value = config["params"]["var_caller_germline"]["p_value"]
+
+rule all_var_germline_varscan:
+    input:
+        expand("var_varscan/{germline}.snp.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.filter.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.filter.txt", germline = config['germline']),
+        #expand("var_varscan/{germline}.cns.txt.gz", germline = config['germline']),
+
+rule varscan_germline_snp_vcf:
+    input:
+        "align/{germline}.mpileup"
+    output:
+        "var_varscan/{germline}.snp.vcf",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} mpileup2snp {input} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-vcf 1 > {output}
+        """
+
+rule varscan_germline_indel_vcf:
+    input:
+        "align/{germline}.mpileup"
+    output:
+        "var_varscan/{germline}.indel.vcf",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} mpileup2indel {input} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-vcf 1 > {output}
+        """
+
+rule varscan_germline_snp:
+    input:
+        "align/{germline}.mpileup"
+    output:
+        "var_varscan/{germline}.snp.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} pileup2snp {input} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} > {output}
+        """
+
+rule varscan_germline_indel:
+    input:
+        "align/{germline}.mpileup"
+    output:
+        "var_varscan/{germline}.indel.txt",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4000,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} pileup2indel {input} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} > {output}
+        """
+
+rule varscan_germline_cns:
+    input:
+        "align/{germline}.mpileup"
+    output:
+        "var_varscan/{germline}.cns.txt.gz",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3500,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        echo ">> min_dp: {par_min_dp}, min_alt_dp: {par_min_alt_dp}, min_var_freq: {par_min_var_freq}, p_value: {par_p_value}"
+        {varscan} pileup2cns {input} --min-coverage {par_min_dp} --min-reads2 {par_min_alt_dp} --min-var-freq {par_min_var_freq} --p-value {par_p_value} | gzip > {output}
+        """
+
+rule varscan_filter_snp:
+    input:
+        snp = "var_varscan/{prefix}.snp.txt",
+        indel = "var_varscan/{prefix}.indel.txt",
+    output:
+        "var_varscan/{prefix}.snp.filter.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4300,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} filter {input.snp} --indel-file {input.indel} --output-file {output}
+        """
+#{varscan} filter {input.snp} --indel-file {input.indel} --min-coverage {par_min_cov} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-file {output}
+
+rule varscan_filter_indel:
+    input:
+        indel = "var_varscan/{prefix}.indel.txt",
+    output:
+        "var_varscan/{prefix}.indel.filter.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 4300,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} filter {input.indel} --output-file {output}
+        """
+#{varscan} filter {input.indel} --min-coverage {par_min_cov} --min-var-freq {par_min_var_freq} --p-value {par_p_value} --output-file {output}
+
+# not used
+rule varscan_fpfilter:
+    input:
+        rc = "var_varscan/{prefix}.readcounts.txt",
+        var = "var_varscan/{prefix}.snp.txt",
+    output:
+        "var_varscan/{prefix}.snp.fpfilter.txt"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        export PATH=/nfs2/pipe/Re/Software/miniconda/bin:$PATH
+        {varscan} fpfilter {input.var} {input.rc} --output-file {output}
+        """
+

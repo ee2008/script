@@ -1,0 +1,315 @@
+# qsub suggest resource: vf=8G,p=8
+# from raw
+# to anno via:
+# snpEff, AnnoDB, AnnoVar, Oncotator, (GEMINI), (VEP)
+# @szj^16Jan28
+
+configfile: "project_config.json"
+# onsuccess: shell("echo $(date) | mail -s 'ALL DONE: anno_human' $(whoami)@1gene.com.cn")
+
+include: './all_var.rules'
+localrules: anno_unzip_vcf
+
+snpeff = config["biosoft"]["snpeff"]
+anno_snpeff = config["biosoft"]["anno_snpeff"]
+anno_annodb = config["biosoft"]["anno_annodb"]
+anno_annovar = config["biosoft"]["anno_annovar"]
+anno_oncotator = config["biosoft"]["anno_oncotator"]
+anno_gemini = config["biosoft"]["anno_gemini"]
+anno_vep = config["biosoft"]["anno_vep"]
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_anno_human:
+    input:
+        expand("anno/{germline}.var.snpeff.log", germline = config["germline"]),
+        expand("anno/{germline}.var.snpeff.csv", germline = config["germline"]),
+        expand("anno/{germline}.sv.snpeff.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.snpeff.csv", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.log", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.indel.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.snp.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.sv.annodb.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.annodb.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.var.annovar.log", germline = config["germline"]),
+        expand("anno/{germline}.var.annovar.hg19_multianno.txt", germline = config["germline"]),
+        expand("anno/{germline}.sv.annovar.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.annovar.hg19_multianno.txt", germline = config["germline"]),
+        expand("anno/{germline}.var.oncotator.log", germline = config["germline"]),
+        expand("anno/{germline}.var.oncotator.tsv", germline = config["germline"]),
+        expand("anno/{germline}.var.gemini.log", germline = config["germline"]),
+        expand("anno/{germline}.var.gemini.query.txt", germline = config["germline"]),
+        expand("anno/{germline}.sv.gemini.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.gemini.query.txt", germline = config["germline"]),
+        expand("anno/{germline}.var.vep.log", germline = config["germline"]),
+        expand("anno/{germline}.var.vep.txt", germline = config["germline"]),
+        expand("anno/{germline}.sv.vep.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.vep.txt", germline = config["germline"]),
+
+        expand("anno/{somatic}.var.snpeff.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.snpeff.csv", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.snpeff.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.snpeff.csv", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.indel.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.snp.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annodb.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annodb.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annovar.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annovar.hg19_multianno.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annovar.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annovar.hg19_multianno.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.oncotator.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.oncotator.tsv", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.gemini.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.gemini.query.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.gemini.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.gemini.query.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.vep.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.vep.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.vep.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.vep.txt", somatic = config["somatic"]),
+
+        expand("anno/{trio}.var.snpeff.log", trio = config["trio"]),
+        expand("anno/{trio}.var.snpeff.csv", trio = config["trio"]),
+        expand("anno/{trio}.sv.snpeff.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.snpeff.csv", trio = config["trio"]),
+        expand("anno/{trio}.denovo.snpeff.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.snpeff.csv", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.log", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.indel.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.snp.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.sv.annodb.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.annodb.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annodb.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annodb.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.var.annovar.log", trio = config["trio"]),
+        expand("anno/{trio}.var.annovar.hg19_multianno.txt", trio = config["trio"]),
+        expand("anno/{trio}.sv.annovar.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.annovar.hg19_multianno.txt", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annovar.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annovar.hg19_multianno.txt", trio = config["trio"]),
+        expand("anno/{trio}.var.oncotator.log", trio = config["trio"]),
+        expand("anno/{trio}.var.oncotator.tsv", trio = config["trio"]),
+        expand("anno/{trio}.denovo.oncotator.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.oncotator.tsv", trio = config["trio"]),
+        expand("anno/{trio}.var.gemini.log", trio = config["trio"]),
+        expand("anno/{trio}.var.gemini.query.txt", trio = config["trio"]),
+        expand("anno/{trio}.sv.gemini.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.gemini.query.txt", trio = config["trio"]),
+        expand("anno/{trio}.var.vep.log", trio = config["trio"]),
+        expand("anno/{trio}.var.vep.txt", trio = config["trio"]),
+        expand("anno/{trio}.sv.vep.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.vep.txt", trio = config["trio"]),
+
+rule anno_unzip_vcf:
+    input:
+        "var_speedseq/{prefix}.vcf.gz",
+    output:
+        temp("var_speedseq/{prefix}.vcf"),
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 330,
+        qsub_p = 1,
+    shell:
+        """
+        gunzip -c {input} > {output}
+        touch {output}
+        """
+
+rule anno_snpeff:
+    input:
+        "var/{prefix}.vcf"
+    output:
+        "anno/{prefix}.snpeff.csv",
+        "anno/{prefix}.snpeff.genes.txt",
+        "anno/{prefix}.snpeff.html",
+        "anno/{prefix}.snpeff.vcf",
+        log_file = "anno/{prefix}.snpeff.log",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 12000,
+        qsub_p = 8,
+    shell:
+        """
+        {anno_snpeff} -i {input} -o anno/ && echo "DONE $(date)" > {output.log_file}
+        """
+
+rule anno_annodb_var:
+    input:
+        "var/{prefix}.var.vcf"
+    output:
+        "anno/{prefix}.var.annodb.indel.exome_summary.xls",
+        "anno/{prefix}.var.annodb.indel.genome_summary.xls",
+        "anno/{prefix}.var.annodb.indel.genes.txt",
+        "anno/{prefix}.var.annodb.indel.html",
+        "anno/{prefix}.var.annodb.snp.exome_summary.xls",
+        "anno/{prefix}.var.annodb.snp.genome_summary.xls",
+        "anno/{prefix}.var.annodb.snp.genes.txt",
+        "anno/{prefix}.var.annodb.snp.html",
+        "anno/{prefix}.var.annodb.genome_summary.xls",
+        log_file = "anno/{prefix}.var.annodb.log",
+    params:
+        qsub_q = qsub_q_big_d
+    resources:
+        qsub_vf = 20000,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_annodb} var {input} anno/{wildcards.prefix}.var.annodb
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! not exit 0 for annodb_var of {wildcards.prefix}' $(date) >> {output.log_file}
+        """
+
+rule anno_annodb_sv:
+    input:
+        "anno/{prefix}.sv.annovar.avinput",
+    output:
+        "anno/{prefix}.sv.annodb.exome_summary.xls",
+        "anno/{prefix}.sv.annodb.genome_summary.xls",
+        "anno/{prefix}.sv.annodb.genes.txt",
+        "anno/{prefix}.sv.annodb.html",
+        log_file = "anno/{prefix}.sv.annodb.log"
+    params:
+        qsub_q = qsub_q_big_d
+    resources:
+        qsub_vf = 8500,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_annodb} sv {input} anno/{wildcards.prefix}.sv.annodb
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! not exit 0 for annodb_sv of {wildcards.prefix}' $(date) >> {output.log_file}
+        """
+
+rule anno_annodb_denovo:
+    input:
+        "var/{prefix}.denovo.vcf"
+    output:
+        "anno/{prefix}.denovo.annodb.genome_summary.xls",
+        log_file = "anno/{prefix}.denovo.annodb.log",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 20000,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_annodb} var {input} anno/{wildcards.prefix}.denovo.annodb
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! not exit 0 for annodb_denovo of {wildcards.prefix}' $(date) >> {output.log_file}
+        """
+
+rule anno_annovar:
+    input:
+        "var/{prefix}.vcf"
+    output:
+        "anno/{prefix}.annovar.hg19_multianno.txt",
+        "anno/{prefix}.annovar.hg19_multianno.vcf",
+        log_file = "anno/{prefix}.annovar.log",
+        avinput = "anno/{prefix}.annovar.avinput",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_annovar} basic {input} anno/{wildcards.prefix}.annovar
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! no annovar for {wildcards.prefix}' $(date) >> {output.log_file}
+        rm -v anno/{wildcards.prefix}.annovar*_filtered || echo '-> no filtered annovar file for {wildcards.prefix}'
+        find anno -name '{wildcards.prefix}.annovar*' -size 0 | xargs rm -v || echo '-> no zero-size annovar file for {wildcards.prefix}'
+        """
+
+rule anno_oncotator_var:
+    input:
+        "var_speedseq/{prefix}.var.vcf"
+    output:
+        out = "anno/{prefix}.var.oncotator.tsv",
+        log_file = "anno/{prefix}.var.oncotator.log"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 5500,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_oncotator} {input} {output.out}
+        """
+
+rule anno_oncotator_denovo:
+    input:
+        "var_speedseq/{prefix}.denovo.vcf"
+    output:
+        out = "anno/{prefix}.denovo.oncotator.tsv",
+        log_file = "anno/{prefix}.denovo.oncotator.log"
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = qsub_mem_d,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_oncotator} {input} {output.out}
+        """
+
+rule anno_gemini:
+    input:
+        "var_speedseq/{prefix}.vcf.gz"
+    output:
+        "anno/{prefix}.gemini.query.txt",
+        log_file = "anno/{prefix}.gemini.log",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 20000,
+        qsub_p = 8,
+    shell:
+        """
+        {anno_gemini} -i {input} -m query -o anno
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! not exit 0 for gemini of {wildcards.prefix}' $(date) >> {output.log_file}
+        """
+
+rule anno_vep_var:
+    input:
+        "var_speedseq/{prefix}.var.vcf.gz"
+    output:
+        "anno/{prefix}.var.vep.txt",
+        "anno/{prefix}.var.vep.txt.html",
+        "anno/{prefix}.var.vep.txt_summary.html",
+        log_file = "anno/{prefix}.var.vep.log",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_vep} {input} anno
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! not exit 0 for vep of {wildcards.prefix}' $(date) >> {output.log_file}
+        """
+
+rule anno_vep_sv:
+    input:
+        "var/{prefix}.sv.vcf"
+    output:
+        "anno/{prefix}.sv.vep.txt",
+        "anno/{prefix}.sv.vep.txt.html",
+        "anno/{prefix}.sv.vep.txt_summary.html",
+        log_file = "anno/{prefix}.sv.vep.log",
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 3000,
+        qsub_p = 1,
+    shell:
+        """
+        {anno_vep} {input} anno
+        [[ $? -eq 0 ]] && echo 'done' $(date) >> {output.log_file} || echo '! not exit 0 for vep of {wildcards.prefix}' $(date) >> {output.log_file}
+        """
+

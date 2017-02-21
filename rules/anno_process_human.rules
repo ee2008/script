@@ -1,0 +1,197 @@
+# from anno/ to extract and join into one file per sample
+# @szj^16Sep14
+
+configfile: "project_config.json"
+
+include: './anno_human.rules'
+
+panel_bed = config['ref']['panel_bed']
+extract_anno = config["biosoft"]['extract_anno']
+join_anno = config["biosoft"]['join_anno']
+panel_freq = config["biosoft"]['panel_freq']
+bedtools = config['biosoft']['bedtools']
+
+qsub_mem_d = config["resources"]["qsub_mem"]
+qsub_t_d = config["resources"]["qsub_t"]
+qsub_q_d = config["params"]["qsub_q"]
+qsub_q_big_d = config["params"]["qsub_q_big"]
+
+rule all_anno_process_human:
+    input:
+        expand('anno_process/{germline}.var.extract.annodb.tsv_', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.annodb.tsv_', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.annovar.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.annovar.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.gemini.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.gemini.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.oncotator.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.vep.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.vep.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.join.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.join.tsv', germline = config['germline']),
+
+        expand('anno_process/{somatic}.var.extract.annodb.tsv_', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.annodb.tsv_', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.annovar.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.annovar.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.gemini.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.gemini.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.oncotator.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.vep.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.vep.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.join.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.join.tsv', somatic = config['somatic']),
+
+        expand('anno_process/{germline}.var.join.freq.panel.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.join.freq.panel.tsv', germline = config['germline']),
+        expand('anno_process/{somatic}.var.join.freq.panel.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.join.freq.panel.tsv', somatic = config['somatic']),
+
+rule extract_annodb:
+    input:
+        'anno/{prefix}.annodb.genome_summary.xls',
+    output:
+        'anno_process/{prefix}.extract.annodb.tsv_'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {extract_anno} -i {input} > {output}
+        """
+
+rule extract_annovar:
+    input:
+        'anno/{prefix}.annovar.hg19_multianno.txt'
+    output:
+        'anno_process/{prefix}.extract.annovar.tsv'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {extract_anno} -i {input} > {output}
+        """
+
+rule extract_gemini:
+    input:
+        'anno/{prefix}.gemini.query.txt'
+    output:
+        'anno_process/{prefix}.extract.gemini.tsv'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {extract_anno} -i {input} > {output}
+        """
+
+rule extract_oncotator:
+    input:
+        'anno/{prefix}.oncotator.tsv'
+    output:
+        'anno_process/{prefix}.extract.oncotator.tsv'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {extract_anno} -i {input} > {output}
+        """
+
+rule extract_vep:
+    input:
+        'anno/{prefix}.vep.txt'
+    output:
+        'anno_process/{prefix}.extract.vep.tsv'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {extract_anno} -i {input} > {output}
+        """
+
+rule join_anno_var:
+    input:
+        #'anno_process/{prefix}.var.extract.annodb.tsv',
+        'anno_process/{prefix}.var.extract.annovar.tsv',
+        'anno_process/{prefix}.var.extract.gemini.tsv',
+        'anno_process/{prefix}.var.extract.oncotator.tsv',
+        'anno_process/{prefix}.var.extract.vep.tsv',
+    output:
+        'anno_process/{prefix}.var.join.tsv'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {join_anno} anno_process/{wildcards.prefix}.var
+        """
+
+rule join_anno_sv:
+    input:
+        #'anno_process/{prefix}.sv.extract.annodb.tsv',
+        'anno_process/{prefix}.sv.extract.annovar.tsv',
+        'anno_process/{prefix}.sv.extract.gemini.tsv',
+        'anno_process/{prefix}.sv.extract.vep.tsv',
+    output:
+        'anno_process/{prefix}.sv.join.tsv'
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        {join_anno} anno_process/{wildcards.prefix}.sv
+        """
+
+rule anno_process_freq:
+    input:
+        'anno_process/{prefix}.join.tsv'
+    output:
+        'anno_process/{prefix}.join.freq.tsv',
+        #'anno_process/{prefix}.join.freq.panel.tsv',
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 1000,
+        qsub_p = 2,
+    shell:
+        """
+        sh {panel_freq} -i . -s {input} -f -o anno_process -pf join.freq.tsv
+        #sh {panel_freq} -i . -s {input} -f -p -o anno_process -pf join.freq.panel.tsv
+        """
+
+rule anno_process_freq_panel:
+    input:
+        'anno_process/{prefix}.join.freq.tsv',
+    output:
+        'anno_process/{prefix}.join.freq.panel.tsv',
+    params:
+        qsub_q = qsub_q_d
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        [[ ! -f anno_process/panel_bed_info.header ]] && head -1 ref/panel.bed.info > anno_process/panel_bed_info.header
+        #[[ ! -f anno_process/{wildcards.prefix}.header ]] && head -1 {input} > anno_process/{wildcards.prefix}.header
+        head -1 {input} > anno_process/{wildcards.prefix}.header
+        paste anno_process/panel_bed_info.header anno_process/{wildcards.prefix}.header > {output}
+        {bedtools} intersect -a ref/panel.bed.info -b {input} -wa -wb >> {output}
+        """
+

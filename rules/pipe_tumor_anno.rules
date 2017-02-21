@@ -1,0 +1,304 @@
+# snakemake rules
+# to combine seperate steps
+# for human tumor
+# @szj^16Mar28
+# @szj^16Oct09
+
+configfile: "project_config.json"
+
+csvlook = config['biosoft']['csvlook']
+onsuccess: shell("""
+        user=$(whoami)
+        [[ $user == 'shenzhongji2' ]] && user='shenzhongji'
+        cat $(pwd)/project.done | mail -s "DONE: snakejob under $(basename $(pwd)) in $(date +%Y%m%d%H%M%S) for rule: pipe_tumor" $user@1gene.com.cn
+        {csvlook} -t qc/qc_summary_brief.txt | sed '1d;$d;' | sed -e 's/^|//g' -e 's/|$//g' -e 's/^\ *//g' | sed '2s/\+/|/g' | sed -e 's/^#//g' | less -iS | mailx -a qc/qc_summary_brief.txt -s "QC DONE: snakejob under $(basename $(pwd)) in $(date +%Y%m%d%H%M%S)" $user@1gene.com.cn
+        $(pwd)/bin/fin && echo "fin done" || echo "fin fail"
+        """)
+onerror: shell("""
+        user=$(whoami)
+        [[ $user == 'shenzhongji2' ]] && user='shenzhongji'
+        cat $(pwd)/snakejob.*.log | grep 'Error executing rule' | sed -e 's/^.*\/snakejob/snakejob/g' -e 's/sh.*$/sh/g' | mail -s "FAIL: snakejob under $(basename $(pwd)) in $(date +%Y%m%d%H%M%S) for rule: pipe_tumor" $user@1gene.com.cn
+        $(pwd)/bin/fin && echo "fin done" || echo "fin fail"
+        """)
+
+sample = config["sample"]
+panel_bed = config["ref"]["panel_bed"]
+outbox = config["path"]["outbox"]
+
+#sm = "/nfs2/pipe/Re/Software/bin/snakemake"
+
+include: "./all_qc.rules"
+include: "./all_var.rules"
+include: "./anno_human.rules"
+include: "anno_process_human.rules"
+include: "./analysis_human.rules"
+include: "./advance_purity.rules"
+include: 'prepare_mpileup.rules'
+include: 'report.rules'
+
+#localrules: cp_output, project_done
+#localrules: project_done
+
+rule all_pipe_tumor:
+    input:
+        'project.done',
+# ==== cp_output:
+        expand("output/{germline}.log", germline = config['germline']),
+        expand("output/{somatic}.log", somatic = config['somatic']),
+
+## qc_align
+        expand("qc/align/{sample}.fastqc.html", sample = config['sample']),
+        "qc/align/multiqc_report.html",
+        expand("qc/align/{sample}.itools_stat.txt", sample = config['sample']),
+        #expand("qc/align/{sample}.itools_depth.gz", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_dups.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_depth.txt.gz", sample = config['sample']),
+        expand("qc/align/{sample}.plot_bamstats/", sample = config['sample']),
+        #expand("qc/align/{sample}.bedtools_genomecov.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samstat.html", sample = config['sample']),
+        #"qc/covmap/covmap_summary.txt",
+
+##qc_filter
+        #"qc/filter/filterstat_summary.txt",
+        ##"qc/clean/rqc_report.html",
+        expand("qc/clean/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/clean/multiqc_report.html",
+        #expand("qc/clean/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        #expand("qc/clean/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        #"qc/clean/fqstat_summary.txt",
+
+##qc_covmap
+        #"qc/covmap/covmap_summary.txt",
+
+##qc_panel
+        #"qc/panel/capture_stat_summary.txt",
+        #"qc/panel/panel_bed_stat.txt",
+        expand("qc/panel/{sample}.samtools_depth_bed.txt", sample = config['sample']),
+        #expand("qc/panel/{sample}.bedtools_coverage_hist.txt", sample = config['sample']),
+        #expand("qc/panel/{sample}.bedtools_intersect.txt", sample = config['sample']),
+        #expand("qc/panel/{sample}.bedtools_intersect_stat.txt", sample = config['sample']),
+        #expand("qc/panel/{sample}.bedtools_genomecov_stat.txt", sample = config['sample']),
+        #expand("qc/panel/{sample}.capture_stat.txt", sample = config['sample']),
+        #expand("qc/panel/{sample}.bedtools_intersect_uncov.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.panel_depth.png", sample = config['sample']),
+        expand("qc/panel/{sample}.panel_depth_samtools.png", sample = config['sample']),
+        expand("qc/panel/{sample}.boxplot_panel_depth.png", sample = config['sample']),
+        expand("qc/panel/{sample}.boxplot_panel_depth_samtools.png", sample = config['sample']),
+        #"qc/covmap/covmap_summary.txt",
+
+##qc_clean
+        ##"qc/raw/rqc_report.html",
+        expand("qc/raw/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/raw/multiqc_report.html",
+        #expand("qc/raw/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        #expand("qc/raw/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        #"qc/raw/fqstat_summary.txt",
+
+##rule all_qc_var:↓
+    ##input:↓
+        #expand('qc/var/{germline}.var.bcftools_stats.txt', germline = config['germline']),
+        #expand('qc/var/{germline}.sv.bcftools_stats.txt', germline = config['germline']),
+        #expand('qc/var/{somatic}.var.bcftools_stats.txt', somatic = config['somatic']),
+        #expand('qc/var/{somatic}.sv.bcftools_stats.txt', somatic = config['somatic']),
+        ##expand('qc/var/{trio}.var.bcftools_stats.txt', trio = config['trio']),
+        ##expand('qc/var/{trio}.sv.bcftools_stats.txt', trio = config['trio']),
+        #expand('qc/var/{germline}.var.vt_peek.txt', germline = config['germline']),
+        #expand('qc/var/{germline}.sv.vt_peek.txt', germline = config['germline']),
+        #expand('qc/var/{somatic}.var.vt_peek.txt', somatic = config['somatic']),
+        #expand('qc/var/{somatic}.sv.vt_peek.txt', somatic = config['somatic']),
+        ##expand('qc/var/{germline}.var.valid_dup.txt', germline = config['germline']),
+        ##expand('qc/var/{germline}.sv.valid_dup.txt', germline = config['germline']),
+        ##expand('qc/var/{germline}.var.valid_uniq.txt', germline = config['germline']),
+        ##expand('qc/var/{germline}.sv.valid_uniq.txt', germline = config['germline']),
+        ##expand('qc/var/{somatic}.var.valid_dup.txt', somatic = config['somatic']),
+        ##expand('qc/var/{somatic}.sv.valid_dup.txt', somatic = config['somatic']),
+        ##expand('qc/var/{somatic}.var.valid_uniq.txt', somatic = config['somatic']),
+        ##expand('qc/var/{somatic}.sv.valid_uniq.txt', somatic = config['somatic']),
+
+##rule join_qc_summary:
+        ##"qc/qc_summary.txt",
+
+##rule all_var_speedseq_all:
+        #expand("var/{germline}.var.vcf", germline = config['germline']),
+        #expand("var/{germline}.sv.vcf", germline = config['germline']),
+        #expand("var/{somatic}.var.vcf", somatic = config["somatic"]),
+        #expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+        #expand("var/{trio}.var.vcf", trio = config["trio"]),
+        #expand("var/{trio}.denovo.vcf", trio = config["trio"]),
+        #expand("var/{trio}.sv.vcf", trio = config['trio']),
+
+##rule all_var_varscan_all:
+        #expand("var_varscan/{germline}.snp.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.filter.txt", germline = config['germline']),
+        #expand("var_varscan/{germline}.indel.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.filter.txt", germline = config['germline']),
+        ##expand("var_varscan/{germline}.cns.txt", germline = config['germline']),
+
+        #expand("var_varscan/{somatic}.snv.txt", somatic = config['somatic']),
+        #expand("var_varscan/{somatic}.sindel.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.vcf", somatic = config['somatic']),
+        #expand("var_varscan/{somatic}.copynumber.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.txt.Somatic.hc", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt.Somatic.hc", somatic = config['somatic']),
+
+        #expand("var_varscan/{trio}.snp.vcf", trio = config['trio']),
+        #expand("var_varscan/{trio}.indel.vcf", trio = config['trio']),
+
+        ##expand("align/{sample}.mpileup.gz", sample = config['sample']),
+
+##rule all_var_mutect_all:
+        #expand("var_mutect/{somatic}.snv.mutect.vcf", somatic = config['somatic']),
+
+##rule all_var_cnv:
+        #expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        #expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+        #'cnv/heatmap.pdf',
+        #'cnv/trusted_gene.tsv',
+        #'cnv/metrics.tsv',
+
+##rule all_var_corr_cosmic:
+        #expand("var_corr/{germline}.indel2cosmic.hit", germline = config['germline']),
+        #expand("var_corr/{germline}.sv2cosmic.hit", germline = config['germline']),
+        #expand("var_corr/{somatic}.sindel2cosmic.hit", somatic = config['somatic']),
+        #expand("var_corr/{somatic}.sv2cosmic.hit", somatic = config['somatic']),
+        ##expand("var_corr/{trio}.indel2cosmic.hit", trio = config['trio']),
+        ##expand("var_corr/{trio}.sv2cosmic.hit", trio = config['trio']),
+
+##rule all_var_intevar:
+        #expand('var_intevar/{germline}.snp.tsv', germline = config['germline']),
+        #expand('var_intevar/{germline}.indel.tsv', germline = config['germline']),
+        #expand('var_intevar/{somatic}.snv.tsv', somatic = config['somatic']),
+        #expand('var_intevar/{somatic}.sindel.tsv', somatic = config['somatic']),
+
+##rule all_anno_human:
+        #expand("anno/{germline}.var.snpeff.log", germline = config["germline"]),
+        #expand("anno/{germline}.var.snpeff.csv", germline = config["germline"]),
+        #expand("anno/{germline}.sv.snpeff.log", germline = config["germline"]),
+        #expand("anno/{germline}.sv.snpeff.csv", germline = config["germline"]),
+
+        #expand("anno/{somatic}.var.snpeff.log", somatic = config["somatic"]),
+        #expand("anno/{somatic}.var.snpeff.csv", somatic = config["somatic"]),
+        #expand("anno/{somatic}.sv.snpeff.log", somatic = config["somatic"]),
+        #expand("anno/{somatic}.sv.snpeff.csv", somatic = config["somatic"]),
+
+##rule all_anno_process_human:
+    ##input:
+        #expand('anno_process/{germline}.var.extract.annodb.tsv_', germline = config['germline']),
+        #expand('anno_process/{germline}.sv.extract.annodb.tsv_', germline = config['germline']),
+        #expand('anno_process/{germline}.var.join.tsv', germline = config['germline']),
+        #expand('anno_process/{germline}.sv.join.tsv', germline = config['germline']),
+
+        #expand('anno_process/{somatic}.var.extract.annodb.tsv_', somatic = config['somatic']),
+        #expand('anno_process/{somatic}.sv.extract.annodb.tsv_', somatic = config['somatic']),
+        #expand('anno_process/{somatic}.var.join.tsv', somatic = config['somatic']),
+        #expand('anno_process/{somatic}.sv.join.tsv', somatic = config['somatic']),
+
+##rule all_analysis_human:
+        ##expand("analysis/{somatic}.var.oncotator.maf.log", somatic = config["somatic"]),
+        ##expand("analysis/analysis.sig_genes.txt"),
+
+##rule all_advance_purity:
+        #expand("advance/purity/{somatic}.pdf", somatic = config['somatic']),
+        #expand("advance/purity/{somatic}.txt", somatic = config['somatic']),
+        #'advance/purity_summary.txt',
+
+rule cp_output:
+    input:
+        # qc
+        "qc/qc_summary.txt",
+        # var_intevar
+        expand('var_intevar/{germline}.var.panel.tsv', germline = config['germline']),
+        expand('var_intevar/{somatic}.svar.panel.tsv', somatic = config['somatic']),
+        # var_corr
+        expand("var_corr/{germline}.indel2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{germline}.sv2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{somatic}.sindel2cosmic.hit", somatic = config['somatic']),
+        expand("var_corr/{somatic}.sv2cosmic.hit", somatic = config['somatic']),
+        # anno_process
+        expand('anno_process/{germline}.var.join.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.join.tsv', germline = config['germline']),
+        expand('anno_process/{somatic}.var.join.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.join.tsv', somatic = config['somatic']),
+        #expand('anno_process/{germline}.var.join.freq.panel.tsv', germline = config['germline']),
+        #expand('anno_process/{germline}.sv.join.freq.panel.tsv', germline = config['germline']),
+        #expand('anno_process/{somatic}.var.join.freq.panel.tsv', somatic = config['somatic']),
+        #expand('anno_process/{somatic}.sv.join.freq.panel.tsv', somatic = config['somatic']),
+        # cnvkit
+        expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+        #var_sv:
+        expand('sv/{germline}.fusion.factera.log', germline = config['germline']),
+        expand('sv/{germline}.fusion.panel.tsv', germline = config['germline']),
+        expand('sv/{somatic}.fusion.panel.tsv', somatic = config['somatic']),
+        expand('sv/{germline}.sv.panel.tsv', germline = config['germline']),
+        expand('sv/{somatic}.sv.panel.tsv', somatic = config['somatic']),
+        # purity
+        #'advance/purity_summary.txt',
+        # report
+        expand('report/{germline}.docx', germline = config['germline']),
+    output:
+        logs = "output/{prefix}.log",
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 500,
+        qsub_p = 1,
+    shell:
+        """
+        echo "START cp @$(date)" > {output.logs}
+        cp -vf project_info.txt output >> {output.logs} || echo ""
+        echo "> qc" >> {output.logs}
+        cp -vf qc/qc_summary*.txt output >> {output.logs} || echo ""
+        echo "> var" >> {output.logs}
+        cp -vf var_intevar/*var.*tsv output >> {output.logs} || echo ""
+        echo "> sv" >> {output.logs}
+        cp -vf sv/*.sv.*tsv output >> {output.logs} || echo ""
+        echo "> fusion" >> {output.logs}
+        cp -vf sv/*.fusion.*tsv output >> {output.logs} || echo ""
+        echo "> cnv" >> {output.logs}
+        find cnv -name '*.cnv.tsv' | xargs -I {{}} cp -vf {{}} output >> {output.logs} || echo ""
+        echo "> anno_process" >> {output.logs}
+        cp -vf anno_process/*.join.tsv output >> {output.logs} || echo ""
+        echo "> report" >> {output.logs}
+        cp -vf report/*.docx output >> {output.logs} || echo ""
+        find output -name '*.docx' -size 0 | xargs rm -v >> {output.logs} || echo "no empty report" >> {output.logs}
+        echo "> rm" >> {output.logs}
+        find output -name '*factera*' -size 0 | xargs rm -v >> {output.logs} || echo "no empty factera" >> {output.logs}
+        echo "DONE cp @$(date)" >> {output.logs}
+        """
+        #echo "> var_corr" >> {output}
+        #cp -vf var_corr/*.hit output >> {output}
+        #cp -vf anno_process/*.sv.join.freq.*tsv output >> {output.logs}
+
+rule project_done:
+    input:
+        expand('output/{germline}.log', germline = config['germline']),
+        expand('output/{somatic}.log', somatic = config['somatic']),
+    output:
+        'project.done',
+    params:
+        qsub_q = qsub_q_d,
+    resources:
+        qsub_vf = 100,
+        qsub_p = 1,
+    shell:
+        """
+        prj_id=$(basename $(pwd))
+        time_stamp=$(date +%Y%m%d%H%M%S)
+        echo -e "#project: $prj_id\n#run by: $(whoami)\n#finish @$time_stamp" > {output}
+        echo "#raw path: $(readlink -e $(pwd))" >> {output}
+        echo "[[ -d {outbox}/$prj_id.$time_stamp ]] && mv {outbox}/$prj_id.$time_stamp {outbox}/$prj_id.$time_stamp.\$(date +%Y%m%d%H%M%S)" >> {output}
+        echo "cp -r $(pwd)/output {outbox}/$prj_id.$time_stamp" >> {output}
+        echo "cp $(pwd)/{output} {outbox}/$prj_id.$time_stamp/" >> {output}
+        echo "echo {outbox}/$prj_id.$time_stamp" >> {output}
+        """
+

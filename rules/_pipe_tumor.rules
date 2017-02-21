@@ -1,0 +1,316 @@
+# snakemake rules
+# to combine seperate steps
+# for human tumor
+# @szj^16Mar28
+
+configfile: "project_config.json"
+onsuccess: shell("echo $(date) | mail -s 'ALL DONE: pipe_tumor' $(whoami)@1gene.com.cn")
+
+sample = config["sample"]
+panel_bed = config["ref"]["panel_bed"]
+
+#sm = "/nfs2/pipe/Re/Software/bin/snakemake"
+
+include: "./all_qc.rules"
+include: "./all_var.rules"
+include: "./anno_human.rules"
+include: "anno_process_human.rules"
+include: "./analysis_human.rules"
+include: "./advance_purity.rules"
+include: 'prepare_mpileup.rules'
+
+localrules: cp_output_cnv
+
+rule all_pipe_tumor:
+    input:
+# qc_align
+        expand("qc/align/{sample}.fastqc.html", sample = config['sample']),
+        "qc/align/multiqc_report.html",
+        expand("qc/align/{sample}.itools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.itools_depth.gz", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_stat.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_dups.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samtools_depth.txt.gz", sample = config['sample']),
+        expand("qc/align/{sample}.plot_bamstats/", sample = config['sample']),
+        expand("qc/align/{sample}.bedtools_genomecov.txt", sample = config['sample']),
+        expand("qc/align/{sample}.samstat.html", sample = config['sample']),
+        "qc/covmap/covmap_summary.txt",
+
+#qc_filter
+        "qc/filter/filterstat_summary.txt",
+        #"qc/clean/rqc_report.html",
+        expand("qc/clean/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/clean/multiqc_report.html",
+        expand("qc/clean/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/clean/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/clean/fqstat_summary.txt",
+
+#qc_covmap
+        "qc/covmap/covmap_summary.txt",
+
+#qc_panel
+        "qc/panel/capture_stat_summary.txt",
+        "qc/panel/panel_bed_stat.txt",
+        expand("qc/panel/{sample}.samtools_depth_bed.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_coverage_hist.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_genomecov_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.capture_stat.txt", sample = config['sample']),
+        expand("qc/panel/{sample}.bedtools_intersect_uncov.txt", sample = config['sample']),
+        "qc/covmap/covmap_summary.txt",
+
+#qc_clean
+        #"qc/raw/rqc_report.html",
+        expand("qc/raw/{sample}_R1_fastqc.html", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fastqc.html", sample = config["sample"]),
+        "qc/raw/multiqc_report.html",
+        expand("qc/raw/{sample}_R1_fqstat.txt", sample = config["sample"]),
+        expand("qc/raw/{sample}_R2_fqstat.txt", sample = config["sample"]),
+        "qc/raw/fqstat_summary.txt",
+
+#rule all_qc_var:↓
+    #input:↓
+        expand('qc/var/{germline}.var.bcftools_stats.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.bcftools_stats.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.bcftools_stats.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.bcftools_stats.txt', somatic = config['somatic']),
+        expand('qc/var/{trio}.var.bcftools_stats.txt', trio = config['trio']),
+        expand('qc/var/{trio}.sv.bcftools_stats.txt', trio = config['trio']),
+        expand('qc/var/{germline}.var.vt_peek.txt', germline = config['germline']),
+        expand('qc/var/{germline}.sv.vt_peek.txt', germline = config['germline']),
+        expand('qc/var/{somatic}.var.vt_peek.txt', somatic = config['somatic']),
+        expand('qc/var/{somatic}.sv.vt_peek.txt', somatic = config['somatic']),
+        #expand('qc/var/{germline}.var.valid_dup.txt', germline = config['germline']),
+        #expand('qc/var/{germline}.sv.valid_dup.txt', germline = config['germline']),
+        #expand('qc/var/{germline}.var.valid_uniq.txt', germline = config['germline']),
+        #expand('qc/var/{germline}.sv.valid_uniq.txt', germline = config['germline']),
+        #expand('qc/var/{somatic}.var.valid_dup.txt', somatic = config['somatic']),
+        #expand('qc/var/{somatic}.sv.valid_dup.txt', somatic = config['somatic']),
+        #expand('qc/var/{somatic}.var.valid_uniq.txt', somatic = config['somatic']),
+        #expand('qc/var/{somatic}.sv.valid_uniq.txt', somatic = config['somatic']),
+
+#rule join_qc_summary:
+        "qc/qc_summary.txt",
+
+#rule all_var_speedseq_all:
+        expand("var/{germline}.var.vcf", germline = config['germline']),
+        expand("var/{germline}.sv.vcf", germline = config['germline']),
+        expand("var/{somatic}.var.vcf", somatic = config["somatic"]),
+        expand("var/{somatic}.sv.vcf", somatic = config['somatic']),
+        expand("var/{trio}.var.vcf", trio = config["trio"]),
+        expand("var/{trio}.denovo.vcf", trio = config["trio"]),
+        expand("var/{trio}.sv.vcf", trio = config['trio']),
+
+#rule all_var_varscan_all:
+        expand("var_varscan/{germline}.snp.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.snp.filter.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.txt", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.vcf", germline = config['germline']),
+        expand("var_varscan/{germline}.indel.filter.txt", germline = config['germline']),
+        #expand("var_varscan/{germline}.cns.txt", germline = config['germline']),
+
+        expand("var_varscan/{somatic}.snv.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.vcf", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.copynumber.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.snv.txt.Somatic.hc", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.filter.txt", somatic = config['somatic']),
+        expand("var_varscan/{somatic}.sindel.txt.Somatic.hc", somatic = config['somatic']),
+
+        expand("var_varscan/{trio}.snp.vcf", trio = config['trio']),
+        expand("var_varscan/{trio}.indel.vcf", trio = config['trio']),
+
+        #expand("align/{sample}.mpileup.gz", sample = config['sample']),
+
+#rule all_var_mutect_all:
+        expand("var_mutect/{somatic}.snv.mutect.vcf", somatic = config['somatic']),
+
+#rule all_var_cnv:
+        expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+        'cnv/heatmap.pdf',
+        'cnv/trusted_gene.tsv',
+        'cnv/metrics.tsv',
+
+#rule all_var_corr_cosmic:
+        expand("var_corr/{germline}.indel2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{germline}.sv2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{somatic}.sindel2cosmic.hit", somatic = config['somatic']),
+        expand("var_corr/{somatic}.sv2cosmic.hit", somatic = config['somatic']),
+        #expand("var_corr/{trio}.indel2cosmic.hit", trio = config['trio']),
+        #expand("var_corr/{trio}.sv2cosmic.hit", trio = config['trio']),
+
+#rule all_var_intevar:
+        expand('var_intevar/{germline}.snp.tsv', germline = config['germline']),
+        expand('var_intevar/{germline}.indel.tsv', germline = config['germline']),
+        expand('var_intevar/{somatic}.snv.tsv', somatic = config['somatic']),
+        expand('var_intevar/{somatic}.sindel.tsv', somatic = config['somatic']),
+
+#rule all_anno_human:
+        expand("anno/{germline}.var.snpeff.log", germline = config["germline"]),
+        expand("anno/{germline}.var.snpeff.csv", germline = config["germline"]),
+        expand("anno/{germline}.sv.snpeff.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.snpeff.csv", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.log", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.indel.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.snp.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.var.annodb.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.sv.annodb.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.annodb.genome_summary.xls", germline = config["germline"]),
+        expand("anno/{germline}.var.annovar.log", germline = config["germline"]),
+        expand("anno/{germline}.var.annovar.hg19_multianno.txt", germline = config["germline"]),
+        expand("anno/{germline}.sv.annovar.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.annovar.hg19_multianno.txt", germline = config["germline"]),
+        expand("anno/{germline}.var.oncotator.log", germline = config["germline"]),
+        expand("anno/{germline}.var.oncotator.tsv", germline = config["germline"]),
+        expand("anno/{germline}.var.gemini.log", germline = config["germline"]),
+        expand("anno/{germline}.var.gemini.query.txt", germline = config["germline"]),
+        expand("anno/{germline}.sv.gemini.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.gemini.query.txt", germline = config["germline"]),
+        expand("anno/{germline}.var.vep.log", germline = config["germline"]),
+        expand("anno/{germline}.var.vep.txt", germline = config["germline"]),
+        expand("anno/{germline}.sv.vep.log", germline = config["germline"]),
+        expand("anno/{germline}.sv.vep.txt", germline = config["germline"]),
+
+        expand("anno/{somatic}.var.snpeff.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.snpeff.csv", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.snpeff.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.snpeff.csv", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.indel.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.snp.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annodb.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annodb.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annodb.genome_summary.xls", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annovar.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.annovar.hg19_multianno.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annovar.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.annovar.hg19_multianno.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.oncotator.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.oncotator.tsv", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.gemini.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.gemini.query.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.gemini.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.gemini.query.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.vep.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.var.vep.txt", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.vep.log", somatic = config["somatic"]),
+        expand("anno/{somatic}.sv.vep.txt", somatic = config["somatic"]),
+
+        expand("anno/{trio}.var.snpeff.log", trio = config["trio"]),
+        expand("anno/{trio}.var.snpeff.csv", trio = config["trio"]),
+        expand("anno/{trio}.sv.snpeff.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.snpeff.csv", trio = config["trio"]),
+        expand("anno/{trio}.denovo.snpeff.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.snpeff.csv", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.log", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.indel.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.snp.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.var.annodb.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.sv.annodb.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.annodb.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annodb.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annodb.genome_summary.xls", trio = config["trio"]),
+        expand("anno/{trio}.var.annovar.log", trio = config["trio"]),
+        expand("anno/{trio}.var.annovar.hg19_multianno.txt", trio = config["trio"]),
+        expand("anno/{trio}.sv.annovar.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.annovar.hg19_multianno.txt", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annovar.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.annovar.hg19_multianno.txt", trio = config["trio"]),
+        expand("anno/{trio}.var.oncotator.log", trio = config["trio"]),
+        expand("anno/{trio}.var.oncotator.tsv", trio = config["trio"]),
+        expand("anno/{trio}.denovo.oncotator.log", trio = config["trio"]),
+        expand("anno/{trio}.denovo.oncotator.tsv", trio = config["trio"]),
+        expand("anno/{trio}.var.gemini.log", trio = config["trio"]),
+        expand("anno/{trio}.var.gemini.query.txt", trio = config["trio"]),
+        expand("anno/{trio}.sv.gemini.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.gemini.query.txt", trio = config["trio"]),
+        expand("anno/{trio}.var.vep.log", trio = config["trio"]),
+        expand("anno/{trio}.var.vep.txt", trio = config["trio"]),
+        expand("anno/{trio}.sv.vep.log", trio = config["trio"]),
+        expand("anno/{trio}.sv.vep.txt", trio = config["trio"]),
+
+#rule all_anno_process_human:
+    #input:
+        expand('anno_process/{germline}.var.extract.annodb.tsv_', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.annodb.tsv_', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.annovar.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.annovar.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.gemini.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.gemini.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.oncotator.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.extract.vep.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.extract.vep.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.var.join.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.join.tsv', germline = config['germline']),
+
+        expand('anno_process/{somatic}.var.extract.annodb.tsv_', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.annodb.tsv_', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.annovar.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.annovar.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.gemini.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.gemini.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.oncotator.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.extract.vep.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.extract.vep.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.var.join.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.join.tsv', somatic = config['somatic']),
+
+#rule all_analysis_human:
+        #expand("analysis/{somatic}.var.oncotator.maf.log", somatic = config["somatic"]),
+        #expand("analysis/analysis.sig_genes.txt"),
+
+#rule all_advance_purity:
+        expand("advance/purity/{somatic}.pdf", somatic = config['somatic']),
+        expand("advance/purity/{somatic}.txt", somatic = config['somatic']),
+        'advance/purity_summary.txt',
+
+# ==== cp_output:
+        expand("output/{germline}.log", germline = config['germline']),
+        expand("output/{somatic}.log", somatic = config['somatic']),
+
+rule cp_output:
+    input:
+        # qc
+        "qc/qc_summary.txt",
+        # var_intevar
+        expand('var_intevar/{germline}.snp.tsv', germline = config['germline']),
+        expand('var_intevar/{germline}.indel.tsv', germline = config['germline']),
+        expand('var_intevar/{somatic}.snv.tsv', somatic = config['somatic']),
+        expand('var_intevar/{somatic}.sindel.tsv', somatic = config['somatic']),
+        # var_corr
+        expand("var_corr/{germline}.indel2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{germline}.sv2cosmic.hit", germline = config['germline']),
+        expand("var_corr/{somatic}.sindel2cosmic.hit", somatic = config['somatic']),
+        expand("var_corr/{somatic}.sv2cosmic.hit", somatic = config['somatic']),
+        # anno_process
+        expand('anno_process/{germline}.var.join.tsv', germline = config['germline']),
+        expand('anno_process/{germline}.sv.join.tsv', germline = config['germline']),
+        expand('anno_process/{somatic}.var.join.tsv', somatic = config['somatic']),
+        expand('anno_process/{somatic}.sv.join.tsv', somatic = config['somatic']),
+        # cnvkit
+        expand('cnv/{somatic}/{somatic}.cns', somatic = config['somatic']),
+        expand('cnv/{germline}/{germline}.cns', germline = config['germline']),
+    output:
+        "output/{prefix}.log",
+    shell:
+        """
+        echo "START cp @$(date)" > {output}
+        cp -v project_info.txt output >> {output}
+        echo "> qc" >> {output}
+        cp -v qc/qc_summary*.txt output >> {output}
+        echo "> var_intevar" >> {output}
+        cp -v var_intevar/*.tsv output >> {output}
+        echo "> var_corr" >> {output}
+        cp -v var_corr/*.hit output >> {output}
+        echo "> anno_process" >> {output}
+        cp -v anno_process/*.join.tsv output >> {output}
+        find cnv -name '*gainloss*' | xargs -I {{}} cp {{}} output >> {output}
+        echo "DONE cp @$(date)" >> {output}
+        """
