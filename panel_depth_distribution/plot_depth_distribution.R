@@ -86,14 +86,14 @@ abnormal_out <- paste0(out_dir, "/", sample,".panel_abnormal_",tools,".bed")
 write.table(abnormal_out_data,abnormal_out,col.names = FALSE, row.names = FALSE,quote=F,sep="\t")
  
 if (length(argv) == 5) {
-  p=ggplot(data, aes(NO, DEPTH)) + geom_line(colour = data$PANEL, size = 0.5) + ylab("Depth") + xlab("")  + ggtitle(paste0("Depth_Distribution_",depth,"_",tools," (", sample, ")")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$CHR~.) 
+  p=ggplot(data, aes(NO, DEPTH)) + geom_line(colour = data$PANEL, size = 0.5) + ylab("Depth") + xlab("")  + ggtitle(paste0("Depth_Distribution_",depth,"_",tools," (", sample, ")\n[red:in_panel; blue:out_panel; green: abnormal_out_panel]")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$CHR~.) 
 } else if (length(argv) == 6) {
   if (data[2,1] == data[2,3]) {
   	po1=v_line1
   } else {
   	po1=data[v_line1,3]
   }
-  p=ggplot(data, aes(NO, DEPTH)) + geom_line(colour = data$PANEL, size = 0.5) + ylab("Depth") + xlab("")  + ggtitle(paste0("Depth_Distribution_",depth,"_",tools," (", sample, ") : ",po1)) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$CHR~.) + geom_vline(xintercept = rep(v_line1,nrow(data)), linetype = 1, colour = "black", size =0.6) 
+  p=ggplot(data, aes(NO, DEPTH)) + geom_line(colour = data$PANEL, size = 0.5) + ylab("Depth") + xlab("")  + ggtitle(paste0("Depth_Distribution_",depth,"_",tools," (", sample, ") : ",po1,"\n[red:in_panel; blue:out_panel; green: abnormal_out_panel]")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$CHR~.) + geom_vline(xintercept = rep(v_line1,nrow(data)), linetype = 1, colour = "black", size =0.6) 
 } else {
   if (data[2,1] == data[2,3]) {
   	po1=v_line1
@@ -102,7 +102,7 @@ if (length(argv) == 5) {
     po1=data[v_line1,3]
     po2=data[v_line2,3]
   }
-  p=ggplot(data, aes(NO, DEPTH)) + geom_line(colour = data$PANEL, size = 0.5) + ylab("Depth") + xlab("")  + ggtitle(paste0("Depth_Distribution_",depth,"_",tools," (", sample, ") : ",po1,"-",po2)) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$CHR~.) + geom_vline(xintercept = rep(v_line1,nrow(data)), linetype = 1, colour = "black", size =0.6) + geom_vline(xintercept = rep(v_line2,nrow(data)), linetype = 1, colour = "black", size =0.6)
+  p=ggplot(data, aes(NO, DEPTH)) + geom_line(colour = data$PANEL, size = 0.5) + ylab("Depth") + xlab("")  + ggtitle(paste0("Depth_Distribution_",depth,"_",tools," (", sample, ") : ",po1,"-",po2,"\n[red:in_panel; blue:out_panel; green: abnormal_out_panel]")) + theme(axis.title.y=element_text(family="myFont2",face="bold",size=15),title=element_text(family="myFont2",face="bold",size=20)) + facet_grid(data$CHR~.) + geom_vline(xintercept = rep(v_line1,nrow(data)), linetype = 1, colour = "black", size =0.6) + geom_vline(xintercept = rep(v_line2,nrow(data)), linetype = 1, colour = "black", size =0.6)
 }
 
 if (type_plot == "png") {

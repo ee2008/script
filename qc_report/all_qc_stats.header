@@ -1,0 +1,1 @@
+#prj/sample	#sample	size_Gb	%(G+C)	%N	%Q20	%Q30	low_qual_filter(%)	adapter_filter(%)	undersize_ins_filter(%)	duplicated_filter(%)	size_Gb	%(G+C)	%N	%Q20	%Q30	coverage	mapping_rate	coverage_cent	specificity_cent	uniformity_cent	capture_depth_1X	samtools_dups	insert_size	seq_depth	trim_adapter	mut_dep

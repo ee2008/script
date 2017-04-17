@@ -232,6 +232,7 @@ if ((($v_line2) && ($v_line2 == 0)) || (!$v_line2)) {
 print ">> PLOTTING $mon $day $ht $year\n";
 print ">  OUTPUT: $out_dir/$name.$type\n";
 
+#print "$plot_base_distribution $out $out_dir $name $type $depth $v_line1 $v_line2";
 system("$plot_base_distribution $out $out_dir $name $type $depth $v_line1 $v_line2"); 
 
 #unlink $out;

@@ -66,15 +66,71 @@ if (tools == "bedtools") {
 } else {
   print (paste0(">  PANEL: ",in_panel))
 	print (">  DATA from samtools")
+	chr_name <- c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y")
 	data=read.table(in_data,sep="\t")
 	colnames(data)=c("CHR","PO","DEPTH")
 	data$CHR=ordered(data$CHR,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
-	panel=read.table(in_panel,sep="\t")[,1:3]
+	panel <- read.table(in_panel,sep="\t")[,1:3]
 	colnames(panel) = c("chr","start","end")
 	panel$chr=ordered(panel$chr,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
+	panel <- panel[order(panel$chr,panel$start),]
+	check_panel <- sapply(chr_name, function(x) {
+	  panel_chr <- subset(panel,chr==x)
+	  index_po <- c(panel_chr$start,panel_chr$end)
+	  rank_index_po <- order(index_po)-nrow(panel_chr)
+	  rank_index_po <- data.frame(rank_index_po)
+	  rank_index_end <- subset(rank_index_po,rank_index_po>0)
+	  rank_end <- as.numeric(row.names(rank_index_end))-2*rank_index_end
+	  if (nrow(panel_chr) == 0) {
+	    sum_rank_end <- 0
+	  } else {
+	    sum_rank_end <- sum(rank_end)
+	  }
+	})
+	if (sum(check_panel) != 0){
+	  print ("! warning: overlap in panel.bed, will merge them now!")
+	  out_panel <- paste0(output,"_new_panel.bed")
+	  print (paste0("new panel: ",out_panel))
+	  panel_bed <- sapply(chr_name, function(x) {
+	    panel_chr <- subset(panel,chr==x)
+	    if (nrow(panel_chr) == 0) {
+	      new_panel <- c()
+	    } else {
+	      index_end <- panel_chr[1,3]
+	      index_start <- panel_chr[1,2]
+	      panel_start <- c()
+	      panel_end <- c()
+	      for (i in 1:nrow(panel_chr)) {
+	        if (panel_chr[i,2] > index_end) {
+	          panel_start <- c(panel_start,index_start)
+	          panel_end <- c(panel_end,index_end)
+	          index_start <- panel_chr[i,2] 
+	          index_end <- panel_chr[i,3]
+	        } else {
+	          if (panel_chr[i,3] > index_end) {
+	            index_end <- panel_chr[i,3]
+	          } 
+	        }
+	        
+	      }
+	      panel_start <- c(panel_start,index_start)
+	      panel_end <- c(panel_end,index_end)
+	      panel_chr <- rep(x,length(panel_start))
+	      new_panel <- data.frame(panel_chr,panel_start,panel_end)
+	    }
+	    return(new_panel)
+	  })
+	  new_panel <- data.frame()
+	  for (i in chr_name) {
+	    new_panel <- rbind(new_panel,panel_bed[[i]])
+	  } 
+	  panel <- new_panel
+	  colnames(panel) = c("chr","start","end")
+	  panel$chr=ordered(panel$chr,levels=c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y"))
+	  write.table(panel,out_panel,col.names = FALSE, row.names = FALSE,quote=F,sep="\t")
+	}
 	chr_in_panel <- table(panel$chr)
 	if (pic_chr == "all") {
-	  chr_name <- c("1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","X","Y")
 	  no_chr <- sapply (chr_name, function(x) {
 	    panel_chr <- subset(panel,chr==x)
 	    range <- c(panel_chr$start,panel_chr$end)[order(c(panel_chr$start,panel_chr$end))]
@@ -89,7 +145,6 @@ if (tools == "bedtools") {
 	      nu_no_all <- c(nu_no_all, no_chr[[i]],0) 
 	    }
 	  }
-	 # nu_no_all2 <- c(no_chr[[1]],0,no_chr[[2]],0,no_chr[[3]],0,no_chr[[4]],0,no_chr[[5]],0,no_chr[[6]],0,no_chr[[7]],0,no_chr[[8]],0,no_chr[[9]],0,no_chr[[10]],0,no_chr[[11]],0,no_chr[[12]],0,no_chr[[13]],0,no_chr[[14]],0,no_chr[[15]],0,no_chr[[16]],0,no_chr[[17]],0,no_chr[[18]],0,no_chr[[19]],0,no_chr[[20]],0,no_chr[[21]],0,no_chr[[22]],0,no_chr[[23]],0,no_chr[[24]],0)
 	} else {
 	  range <- c(panel$start,panel$end)[order(c(panel$start,panel$end))]
 	  no_chr <- as.vector(table(cut (data$PO,range)))

@@ -1,0 +1,375 @@
+---
+title: "CN500 EDA"
+output:
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_float:
+        collapsed: false
+author: Shen Zhongji
+date: 2016-12-19
+---
+
+
+```{r, eval=FALSE, include=FALSE}
+# @szj^16Dec08
+# @szj^16Dec14
+```
+
+> generated in `r format(Sys.time(), "%Y-%m-%d %H:%M:%S")`
+
+本文件汇总了现有 CN500 测序仪肿瘤样本测序数据的结果, 并从以下角度和步骤进行总结
+
+关键指标:
+
+- `seq_dep`: 下机数据量 / panel 大小, 即得到的预期深度
+- `panel_dep`: 捕获到的 panel 内深度
+- `eff_seq`: `panel_dep/seq_dep`, 即实验环节的数据利用率
+- `mut_dep`: 分析时得到的突变位点的平均深度
+- `eff_mut`: `mut_dep/panel_dep`, 即分析环节的数据利用率
+
+各环节关注的质控因素:
+
+- 实验: eff_seq, GC, dups, specificity
+- 分析: eff_mut, dups
+- 稳定性: 样本间, 批次间
+
+
+
+```{r prepare, include=FALSE}
+library(ggplot2)
+
+panel1_GC <- 48.52
+panel12_GC <- (panel1_GC + 46.85)/2
+# panel1_size <- 44380
+# panel12_size <- 84659
+
+# ==== func ====
+sample_type <- function(string) {
+    if (grepl(pattern = "CF", x = string, fixed = T)) {
+        return("CF")
+    } else if (grepl(pattern = "LEU", x = string, fixed = T)) {
+        return("LEU")
+    } else if (grepl(pattern = "FFPE", x = string, fixed = T)) {
+        return("FFPE")
+    } else {
+        return("OTHER")
+    }
+}
+panel_type <- function(string) {
+    panel_split <- strsplit(x = string, split = '_')[[1]]
+    panel <- panel_split[length(panel_split)]
+    if (grepl(pattern = 'P2', x = panel, fixed = T)) {
+        return('P1P2')
+    } else if (grepl(pattern = 'moregene', x = panel, fixed = T)) {
+        return('BRCA')
+    } else {
+        return('P1')
+    }
+}
+extract_date <- function(string) {
+    prj <- strsplit(x = string, split = '/')[[1]][1]
+    date <- strsplit(strsplit(x = prj, split = '_')[[1]][1], '-')[[1]][3]
+    return(date)
+}
+group_as_two <- function(cc) {
+    bit <- 1
+    prev <- cc[1]
+    out <- rep(NULL, length(cc))
+    for (i in seq_along(cc)) {
+        if (cc[i] != prev) {
+            bit <- bit * -1
+            prev <- cc[i]
+        }
+        out[i] <- bit
+    }
+    return(out)
+}
+first_index <- function(cc) {
+    lvl <- levels(factor(cc))
+    out <- rep(NULL, length(lvl))
+    for (i in seq_along(lvl)) {
+        out[i] <- which(cc == lvl[i])[1]
+    }
+    return(sort(out))
+}
+
+# ==== load data ====
+#dd <- read.delim("/p299/project/og04/shenzhongji2/CA-PM/all_qc_stats/all_qc_stats.tsv", as.is = T, na.strings = 'NA', header = F)
+dd <- read.delim(input_path, as.is = T, na.strings = 'NA', header = T)
+colnames(dd) <- c("prj_sample", "sample", "size_Gb", "GC", "N", "Q20", "Q30", "low_qual_filter", "adapter_filter", "undersize_ins_filter", "duplicated_filter", "clean_size_Gb", "clean_GC", "clean_N", "clean_Q20", "clean_Q30", "coverage", "mapping_rate", "coverage_cent", "specificity_cent", "uniformity_cent", "panel_dep", "samtools_dups", "insert_size", "seq_dep", "trim_adapter", "mut_dep")
+# add sample type
+dd$sample_type <- c(unlist(sapply(dd$sample, sample_type)))
+dd$panel_type <- c(unlist(sapply(dd$prj_sample, panel_type)))
+dd$date <- c(unlist(sapply(dd$prj_sample, extract_date)))
+dd_date <- levels(factor(dd$date))
+latest10 <- tail(dd_date,n=10)
+dd <- subset(dd, date %in% latest10)
+# add eff
+dd$eff_seq <- dd$panel_dep / dd$seq_dep
+dd$eff_mut <- dd$mut_dep / dd$panel_dep
+#dd$adapter <- dd$adapter_filter/100 + dd$trim_adapter
+```
+
+# 基本信息
+
+总计 `r nrow(dd)` 个样本
+
+质控指标 `r length(colnames(dd))` 个:
+
+`r colnames(dd)`
+
+按样本类型, panel 类型, 日期批次进行计数
+
+```{r basic}
+table(dd$sample_type)
+table(dd$panel_type)
+table(dd$date)
+```
+
+## 数据量过少的样本
+
+```{r clean}
+thre_low <- 0.01
+date_index <- first_index(dd$date)
+ggplot(dd) + geom_point(aes(x = seq(nrow(dd)), y = log10(size_Gb * 1000), color = group_as_two(date))) + geom_hline(yintercept = log10(thre_low * 1000), color = 'red') + geom_text(aes(x = nrow(dd) / 2, label = paste("threshold:", thre_low, "Gb"), y = log10(thre_low * 1000) - 0.1)) + labs(title = 'low data size') + annotate("text", x = date_index, y = rep(thre_low, length(date_index)), label = dd$date[date_index], angle = 90, alpha = 0.5) + theme(legend.position = "none")
+dd[which(dd$size_Gb < thre_low), c('prj_sample', 'size_Gb')]
+dd <- dd[which(dd$size_Gb > thre_low), ]
+```
+
+> 去除低数据量样本 (下机数据量低于 `r thre_low` Gb) 后得到 `r nrow(dd)` 个样本
+
+去除低数据量样本后的分类统计:
+
+```{r cleaned}
+table(dd$sample_type)
+table(dd$panel_type)
+table(dd$date)
+```
+
+```{r dd_sub, include=FALSE}
+sum(is.na(dd$mut_dep))
+dd_sub <- dd[, c(1:25, 27:31)]
+head(dd_sub, 1)
+dim(dd_sub)
+#ggplot(dd) + geom_boxplot(aes(sample_type, log10(size_Gb * 1000)), alpha = 0.3) + geom_violin(aes(sample_type, log10(size_Gb * 1000)), alpha = 0.6) + geom_jitter(aes(sample_type,  log10(size_Gb * 1000))) + labs(title = 'data size by date') + theme(legend.position = "none") + facet_wrap(~date, scales = 'free_x')
+```
+
+## 数据量
+
+```{r dd_sub_size_Gb}
+ggplot(dd) + geom_boxplot(aes(sample_type, size_Gb), alpha = 0.3) + geom_violin(aes(sample_type, size_Gb), alpha = 0.6) + geom_jitter(aes(sample_type,  size_Gb)) + labs(title = 'data size by date') + theme(legend.position = "none") + facet_wrap(~date, scales = 'free')
+```
+
+> 下机数据量的批次间稳定性
+
+# 实验环节
+
+## 测序数据有效利用率
+
+```{r eff_seq}
+thre_eff_seq <- 0.33
+ggplot(dd) + geom_boxplot(aes(sample_type, eff_seq), alpha = 0.3) + geom_violin(aes(sample_type, eff_seq), alpha = 0.6) + geom_jitter(aes(sample_type,  eff_seq)) + geom_hline(yintercept = thre_eff_seq, color = 'red') + labs(title = 'panel_dep/seq_dep by sample_type')
+ggplot(dd) + geom_boxplot(aes(sample_type, eff_seq), alpha = 0.3) + geom_violin(aes(sample_type, eff_seq), alpha = 0.6) + geom_jitter(aes(sample_type,  eff_seq)) + geom_hline(yintercept = thre_eff_seq, color = 'red') + labs(title = 'panel_dep/seq_dep by sample_type by date') + facet_wrap(~date, scales = 'free_y')
+```
+
+> 下机数据量利用率的稳定性: mean: `r mean(dd[, 'eff_seq'], na.rm = T)`, SD: `r sd(dd[, 'eff_seq'], na.rm = T)`; 其中 CFDNA 的 mean: `r mean(dd[which(dd$sample_type == 'CF'), 'eff_seq'], na.rm = T)`, SD: `r sd(dd[which(dd$sample_type == 'CF'), 'eff_seq'], na.rm = T)`
+
+## 测序深度与测序数据利用率之间的关系
+
+```{r eff_seq~seq_dep}
+ggplot(dd) + geom_point(aes(seq_dep, panel_dep)) + geom_smooth(aes(seq_dep, panel_dep)) + facet_wrap(~sample_type, scales = 'free_x') + labs(title = 'seq eff')
+ggplot(dd) + geom_point(aes(seq_dep, eff_seq, color = sample_type)) + geom_smooth(aes(seq_dep, eff_seq)) + labs(title = 'seq_eff along with seq_dep') + facet_wrap(~sample_type, scales = c('free'))
+```
+
+> 深度大则有效数据量多, 但利用率无明显线性相关性, 因为波动幅度较大 (且饱和极限深度为 10000X)
+
+## GC
+
+```{r GC, warning=FALSE}
+ggplot(dd) + geom_point(aes(GC, eff_seq, color = date, size = panel_type, shape = sample_type), alpha = 0.6) + stat_smooth(aes(GC, eff_seq)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + labs(title = 'eff_seq ~ GC') + geom_vline(xintercept = c(panel12_GC - 2, panel12_GC + 2), color = "grey")
+ggplot(dd) + geom_point(aes(GC, eff_seq, color = sample_type), alpha = 0.6) + stat_smooth(aes(GC, eff_seq)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + labs(title = 'eff_seq ~ GC by sample') + facet_wrap(~sample_type, scales = "free_x") + geom_vline(xintercept = c(panel12_GC - 2, panel12_GC + 2), color = "grey")
+ggplot(dd) + geom_point(aes(GC, eff_seq, color = sample_type), alpha = 0.6) + stat_smooth(aes(GC, eff_seq)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + labs(title = 'eff_seq ~ GC by sample by date') + facet_wrap(~date, ncol = 3, scales = "free") + geom_vline(xintercept = c(panel12_GC - 2, panel12_GC + 2), color = "grey")
+```
+```{r GC.old, eval=FALSE, include=FALSE}
+#ggplot(dd_sub) + geom_point(aes(GC, panel_dep, size = eff_seq, color = sample_type), alpha = 0.6) + stat_smooth(aes(GC, panel_dep)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + labs(title = 'efficiency of all TR samples data usage')
+#ggplot(dd_sub) + geom_point(aes(GC, eff_seq, size = (Q30 - 90) ^ 2, color = sample_type, shape = unlist(sapply(Q30, function(x) {if (x > 90) {return('>90')} else {return('<90')} }))), alpha = 0.6) + stat_smooth(aes(GC, eff_seq)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + labs(title = 'eff_seq ~ GC by sample considering Q30') + facet_wrap(~sample_type, scales = 'free_x')
+#ggplot(dd) + geom_point(aes(GC, mut_dep, size = eff_seq, color = sample_type), alpha = 0.6) + stat_smooth(aes(GC, mut_dep)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + labs(title = 'efficiency of all TR samples data usage') + facet_wrap(~sample_type)
+```
+
+> GC 含量影响数据利用率, 合理范围为预期 GC% +- 2% (如 NIPT), 对应范围为 `r panel12_GC - 2` 至 `r panel12_GC + 2`
+
+## Q30
+
+```{r Q30}
+thre_q30 <- 0.8
+ggplot(dd) + geom_boxplot(aes(sample_type, Q30), alpha = 0.3) + geom_violin(aes(sample_type, Q30), alpha = 0.6) + geom_jitter(aes(sample_type,  Q30), size = 0.2) + geom_hline(yintercept = 80, color = 'red') + labs(title = ' Q30 by date') + facet_wrap(~date, scales = c('free'))
+```
+
+> Q30 阈值: `r thre_q30`
+
+## 探针捕获特异性
+
+```{r specificity}
+ggplot(dd_sub) + geom_boxplot(aes(sample_type, specificity_cent), alpha = 0.3) + geom_violin(aes(sample_type, specificity_cent), alpha = 0.6) + geom_jitter(aes(sample_type,  specificity_cent)) + labs(title = 'specificity_cent by sample_type by date') + facet_wrap(~date, scales = 'free_y') + geom_hline(yintercept = 0.6, color = "red")
+```
+
+> 基本正常
+
+## 接头污染比例
+
+```{r adapter}
+thre_adapter <- 0.2
+ggplot(dd) + geom_boxplot(aes(sample_type, trim_adapter), alpha = 0.3) + geom_violin(aes(sample_type, trim_adapter), alpha = 0.6) + geom_jitter(aes(sample_type, trim_adapter)) + labs(title = 'trim_adapter by sample_type by date') + facet_wrap(~date, scales = 'free_y') + geom_hline(yintercept = thre_adapter, color = "red")
+```
+
+> 正常
+
+# 信息分析环节
+
+## 分析数据有效利用率
+
+```{r eff_mut, warning=FALSE}
+thre_eff_mut <- 0.2
+ggplot(dd) + geom_boxplot(aes(sample_type, eff_mut), alpha = 0.3) + geom_violin(aes(sample_type, eff_mut), alpha = 0.6) + geom_jitter(aes(sample_type,  eff_mut), size = 0.2) + geom_hline(yintercept = thre_eff_mut, color = 'red') + labs(title = 'mut_dep/panel_dep by sample_type')
+ggplot(dd) + geom_boxplot(aes(sample_type, eff_mut), alpha = 0.3) + geom_violin(aes(sample_type, eff_mut), alpha = 0.6) + geom_jitter(aes(sample_type,  eff_mut), size = 0.2) + geom_hline(yintercept = thre_eff_mut, color = 'red') + labs(title = 'mut_dep/panel_dep by sample_type by date') + facet_wrap(~date, ncol = 3, scales = 'free_y')
+```
+
+> 分析环节数据量利用率的稳定性: mean: `r mean(dd[, 'eff_mut'], na.rm = T)`, SD: `r sd(dd[, 'eff_mut'], na.rm = T)`; 其中CFDNA 的 mean: `r mean(dd[which(dd$sample_type == 'CF'), 'eff_mut'], na.rm = T)`, SD: `r sd(dd[which(dd$sample_type == 'CF'), 'eff_mut'], na.rm = T)`
+
+## dups
+
+```{r dups, warning=FALSE}
+thre_dups <- 0.6
+ggplot(dd) + geom_point(aes(samtools_dups, eff_mut, color = sample_type, size = eff_seq)) + geom_smooth(aes(samtools_dups, eff_mut)) + labs(title = 'seq_mut along with samtools_dups') + facet_wrap(~sample_type, scales = c('free'))
+ggplot(dd) + geom_boxplot(aes(sample_type, samtools_dups), alpha = 0.3) + geom_violin(aes(sample_type, samtools_dups), alpha = 0.6) + geom_jitter(aes(sample_type,  samtools_dups), size = 0.2) + geom_hline(yintercept = thre_dups, color = 'red') + labs(title = 'samtools_dups by date') + facet_wrap(~date, scales = c('free'))
+```
+
+> dups 会影响分析利用率
+
+```{r eff_seq~eff_mut, eval=FALSE, include=FALSE}
+#ggplot(dd) + geom_point(aes(eff_seq, mut_dep)) + geom_smooth(aes(eff_seq, mut_dep)) + facet_wrap(~sample_type)
+#ggplot(dd) + geom_point(aes(seq_dep, mut_dep)) + geom_smooth(aes(seq_dep, mut_dep)) + facet_wrap(~sample_type, scales = 'free')
+#ggplot(dd) + geom_point(aes(log10(seq_dep), log10(mut_dep))) + geom_smooth(aes(log10(seq_dep), log10(mut_dep))) + facet_wrap(~sample_type, scales = 'free')
+#ggplot(dd) + geom_point(aes(eff_seq, eff_mut, size = seq_dep)) + geom_smooth(aes(eff_seq, eff_mut)) + facet_wrap(~sample_type, scales = 'free_y')
+```
+
+# 最近5批数据质控指标
+
+```{r latest5, echo=FALSE, warning=FALSE}
+dd_date <- levels(factor(dd$date))
+latest5 <- tail(dd_date,n=5)
+latest5_name <- paste(latest5[1:5],collapse="、")
+dd_latest5 <- subset(dd, date %in% latest5)
+```
+
+最新五批 `r latest5` 共有 `r nrow(dd_latest5)` 个样本
+
+```{r latest5_sample_type, echo=FALSE}
+table(dd_latest5$sample_type)
+```
+
+## 所有质控指标一览图
+
+```{r latest5_plot_p1, echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+dd_latest5_long <- melt(dd_latest5[, c(1:ncol(dd_latest5))])
+ggplot(dd_latest5_long) + geom_boxplot(aes(x = sample_type, y = value, color = panel_type), alpha = 0.3) + geom_violin(aes(sample_type, value, color = panel_type), alpha = 0.6) + geom_jitter(aes(sample_type,  value, color = panel_type), size = 0.2) + labs(title = paste0('boxplot of all QC for ', latest5_name)) + facet_wrap(~variable, scales = 'free_y', ncol = 3)
+```
+
+## 各指标各自展示图
+
+```{r latest5_plot_p2, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+is_outlier <- function(x) {
+  return(x < quantile(x, 0.25) - 1.5 * IQR(x) | x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+
+for (i in levels(dd_latest5_long$variable)) {
+    ddd5 <- subset(dd_latest5_long, variable == i & !is.na(value))
+    print(ggplot(ddd5) + geom_boxplot(aes(x = sample_type, y = value, color = panel_type), alpha = 0.3) + geom_violin(aes(sample_type, value, color = panel_type), alpha = 0.6) + geom_jitter(aes(sample_type,  value, color = panel_type), size = 1.0) + labs(title = paste0(latest5_name, ": ", i)))
+    # fail for proper text layout
+    # print(ddd %>% group_by(sample_type) %>% mutate(outlier = ifelse(is_outlier(value), value, as.numeric(NA))) %>% ggplot(., aes(x = factor(sample_type), y = value)) + geom_boxplot() + geom_text(aes(label = ifelse(!is.na(outlier), paste(outlier, ddd$sample[which(ddd[, 'value'] == outlier)]), NA)), na.rm = TRUE, hjust = -0.1) + facet_wrap(~sample_type) + labs(title = i))
+}
+```
+
+
+# 最新一批数据质控指标
+
+```{r latest, echo=FALSE, warning=FALSE}
+latest <- max(levels(factor(dd$date)))
+dd_latest <- subset(dd, date == latest)
+```
+
+最新一批 `r latest` 共有 `r nrow(dd_latest)` 个样本
+
+```{r latest_sample_type, echo=FALSE}
+table(dd_latest$sample_type)
+```
+
+## 所有质控指标一览图
+
+```{r latest_plot_p1, echo=FALSE, message=FALSE, warning=FALSE}
+library(reshape2)
+dd_latest_long <- melt(dd_latest[, c(1:ncol(dd_latest))])
+ggplot(dd_latest_long) + geom_boxplot(aes(x = sample_type, y = value, color = panel_type), alpha = 0.3) + geom_violin(aes(sample_type, value, color = panel_type), alpha = 0.6) + geom_jitter(aes(sample_type,  value, color = panel_type), size = 0.2) + labs(title = paste0('boxplot of all QC for ', latest)) + facet_wrap(~variable, scales = 'free_y', ncol = 3)
+```
+
+## 各指标各自展示图
+
+```{r latest_plot_p2, echo=FALSE, message=FALSE, warning=FALSE}
+library(dplyr)
+is_outlier <- function(x) {
+  return(x < quantile(x, 0.25) - 1.5 * IQR(x) | x > quantile(x, 0.75) + 1.5 * IQR(x))
+}
+
+for (i in levels(dd_latest_long$variable)) {
+    ddd <- subset(dd_latest_long, variable == i & !is.na(value))
+    print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value, color = panel_type), alpha = 0.3) + geom_violin(aes(sample_type, value, color = panel_type), alpha = 0.6) + geom_jitter(aes(sample_type,  value, color = panel_type), size = 1.0) + labs(title = paste0(latest, ": ", i)))
+    # fail for proper text layout
+    # print(ddd %>% group_by(sample_type) %>% mutate(outlier = ifelse(is_outlier(value), value, as.numeric(NA))) %>% ggplot(., aes(x = factor(sample_type), y = value)) + geom_boxplot() + geom_text(aes(label = ifelse(!is.na(outlier), paste(outlier, ddd$sample[which(ddd[, 'value'] == outlier)]), NA)), na.rm = TRUE, hjust = -0.1) + facet_wrap(~sample_type) + labs(title = i))
+}
+```
+
+## 各指标数据统计
+
+```{r latest_data, echo=FALSE, message=FALSE, warning=FALSE}
+print(dd_latest)
+```
+
+```{r old, eval=FALSE, include=FALSE}
+# ==========================
+# remove insuffecient data
+if (0) {
+dd <- dd[which(dd$Gb > 0.1), ]
+
+dd$dep <- dd$DP_panel/dd$Gb/1e3
+dd$eff <- dd$DP_analysis/dd$DP_panel
+#/dd$Gb
+
+plot(dd$GC, dd$dep, xlim = c(40, 55))
+plot(dd$dep, dd$DP_analysis/dd$Gb/1e3)
+plot(dd$DP_panel, dd$DP_analysis)
+
+loess(dd$dep ~ dd$GC)
+
+summary(dd$GC)
+dd_sub <- dd[which(dd$GC > 40 & dd$GC < 55), ]
+
+# GC ~ dep
+p1 <- ggplot(dd_sub) + geom_point(aes(GC, dep, size = eff, color = sample_type), alpha = 0.6) + stat_smooth(aes(GC, dep)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) +
+    #geom_vline(xintercept = mean(dd_sub$GC), color = "green") + geom_text(aes(x = median(dd_sub$GC), label = paste0("sample GC: ", mean(dd_sub$GC)), y = 0)) +
+    scale_y_continuous(breaks = 1:10) + labs(title = 'efficiency of all TR samples data usage')
+p1
+p1 + facet_wrap(~sample_type)
+
+# GC ~ eff
+p2 <- ggplot(dd_sub) + geom_point(aes(GC, eff, color = sample_type, alpha = 0.6)) + stat_smooth(aes(GC, eff)) + geom_vline(xintercept = panel12_GC, color = "red") + geom_text(aes(x = panel12_GC, label = paste0("panel GC: ", panel12_GC), y = 0)) + scale_y_continuous(breaks = seq(0, 1, by = 0.1)) + labs(title = 'efficiency of all TR samples data usage')
+p2
+p2 + facet_wrap(~sample_type) + geom_hline(yintercept = 0.2)
+
+# outlier
+dd[which(dd$GC > 46 & dd$GC < 50 & dd$dep < 2.5), ]
+dd[which(dd$GC < 45 & dd$dep > 13), ]
+}
+```
