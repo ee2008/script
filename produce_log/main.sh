@@ -49,10 +49,10 @@ while read line; do
     sample=$(echo $line | cut -d ' ' -f2)
     echo ">> proccessing on: $prj : $sample"
 
-    qc=$(grep $sample $DIR/$prj/qc/qc_summary_brief.txt)
-
+    qc=$(grep $sample $DIR/$prj/qc/qc_summary_brief.txt | cut -f 1-26)
+	echo $qc
     # adapt to previous result without mut_dep
-    grep -q 'mut_dep$' $DIR/$prj/qc/qc_summary_brief.txt
+    grep -q 'mut_dep' $DIR/$prj/qc/qc_summary_brief.txt
     if [[ $? -ne 0 ]]; then
 
         #mut=$DIR/$prj/output/$sample.var.panel.tsv
@@ -87,7 +87,7 @@ echo "> generated produce_log: $(readlink -e $OUTDIR/${latest}_produce_log.txt)"
 
 # ==== 4
 echo "> generating html report @$(date)"
-echo ">> COMMAND: $RSCRIPT $WD/convert_rmd.R $OUTDIR/${latest}.Rmd $OUTDIR/${latest}_qc_stats.html $OUTDIR/${latest}_qc_stats.tsv"
+echo ">> COMMAND: $RSCRIPT $WD/convert_rmd.R $OUTDIR/${latest}.Rmd $OUTDIR/${latest}_produce_log.html $OUTDIR/${latest}_qc_stats.tsv"
 
 export LD_LIBRARY_PATH=/nfs/pipe/Re/Software/miniconda/lib:$LD_LIBRARY_PATH
 #cp $WD/all_qc_stats_report.Rmd $OUTDIR/all_qc_stats_report.Rmd
@@ -95,10 +95,10 @@ head -n 20 $WD/all_qc_stats_report.Rmd > $OUTDIR/${latest}.Rmd
 cat $OUTDIR/${latest}_produce_log.txt >> $OUTDIR/${latest}.Rmd
 sed -n '21,$p' $WD/all_qc_stats_report.Rmd >> $OUTDIR/${latest}.Rmd
 
-$RSCIPRT $WD/convert_rmd.R $OUTDIR/${latest}.Rmd $OUTDIR/${latest}_qc_stats.html $OUTDIR/${latest}_qc_stats.tsv
+$RSCIPRT $WD/convert_rmd.R $OUTDIR/${latest}.Rmd $OUTDIR/${latest}_produce_log.html $OUTDIR/${latest}_qc_stats.tsv
 [[ $? -ne 0 ]] && echo "! fail to generate report" && exit 1
 
-echo ">> generated report: $(readlink -e $OUTDIR/${latest}_qc_stats.html)"
+echo ">> generated report: $(readlink -e $OUTDIR/${latest}_produce_log.html)"
 rm -v $OUTDIR/all_qc_stats.tsv
 #ln -s $OUTDIR/${latest}_qc_stats.tsv $OUTDIR/all_qc_stats.tsv
 #ln -s $OUTDIR/${latest}_qc_stats.html $OUTDIR/all_qc_stats.html

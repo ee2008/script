@@ -7,7 +7,7 @@ output:
     toc_float:
         collapsed: false
 author: Wang Xian
-date: 2017-04-12
+date: 2017-04-24
 ---
 
 ```{r, eval=FALSE, include=FALSE}
@@ -105,7 +105,7 @@ expect_size <- function(string) {
 }
 
 # ==== load data ====
-#dd <- read.delim("/lustre/project/og04/wangxian/CA-PM/example2/CA-PM-20170408_p1p2p4_qc_stats.tsv", as.is = T, na.strings = 'NA', header = T)
+#dd <- read.delim("/lustre/project/og04/wangxian/pipeline_script/produce_log/aa/CA-PM-20170418_p1p4_qc_stats.tsv", as.is = T, na.strings = 'NA', header = T)
 dd <- read.delim(input_path, as.is = T, na.strings = 'NA', header = T)
 colnames(dd) <- c("prj_sample", "sample", "size_Gb", "GC", "N", "Q20", "Q30", "low_qual_filter", "adapter_filter", "undersize_ins_filter", "duplicated_filter", "clean_size_Gb", "clean_GC", "clean_N", "clean_Q20", "clean_Q30", "coverage", "mapping_rate", "coverage_cent", "specificity_cent", "uniformity_cent", "panel_dep", "samtools_dups", "insert_size", "seq_dep", "trim_adapter", "mut_dep")
 # add sample type
@@ -187,12 +187,24 @@ for (i in levels(dd_latest_long$variable)) {
     ddd <- subset(dd_latest_long, variable == i & !is.na(value))
     if (i == "size_Gb") {
       ddd$expect_size <- c(unlist(sapply(ddd$sample_type, expect_size)))
-      print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value, color = as.factor(sample)), size = 1.0) + geom_hline(aes(yintercept=0.3*expect_size),color="red",alpha=0.6) + geom_hline(aes(yintercept=2*expect_size),color="red",alpha=0.6) + labs(title = paste0(latest, ": ", i)) +labs(colour = "Sample") + facet_wrap(~sample_type, scales = 'free'))
+      if (nrow(ddd) > 15) {
+        print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value), size = 1.0) + geom_hline(aes(yintercept=0.3*expect_size),color="red",alpha=0.6) + geom_hline(aes(yintercept=2*expect_size),color="red",alpha=0.6) + labs(title = paste0(latest, ": ", i))  + facet_wrap(~sample_type, scales = 'free'))
+      } else {
+        print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value, color = as.factor(sample)), size = 1.0) + geom_hline(aes(yintercept=0.3*expect_size),color="red",alpha=0.6) + geom_hline(aes(yintercept=2*expect_size),color="red",alpha=0.6) + labs(title = paste0(latest, ": ", i)) +labs(colour = "Sample") + facet_wrap(~sample_type, scales = 'free'))
+      }
     } else {
       if ( eval(parse(text=paste0(i,"_thr"))) == 0 ) {
-        print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value, color = as.factor(sample)), size = 1.0) + labs(title = paste0(latest, ": ", i)) +labs(colour = "Sample") + facet_wrap(~sample_type, scales = 'free'))
+        if (nrow(ddd) > 15 ) {
+          print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value), size = 1.0) + labs(title = paste0(latest, ": ", i))  + facet_wrap(~sample_type, scales = 'free'))
+        } else {
+          print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value, color = as.factor(sample)), size = 1.0) + labs(title = paste0(latest, ": ", i)) +labs(colour = "Sample") + facet_wrap(~sample_type, scales = 'free'))
+        }
       } else {
-        print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value, color = as.factor(sample)), size = 1.0) + geom_hline(aes(yintercept=eval(parse(text=paste0(i,"_thr")))),color="red",alpha=0.6)  + labs(title = paste0(latest, ": ", i)) +labs(colour = "Sample") + facet_wrap(~sample_type, scales = 'free'))
+        if (nrow(ddd) > 15) {
+          print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value), size = 1.0) + geom_hline(aes(yintercept=eval(parse(text=paste0(i,"_thr")))),color="red",alpha=0.6)  + labs(title = paste0(latest, ": ", i))  + facet_wrap(~sample_type, scales = 'free'))
+        } else {
+          print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value),color="blue", alpha = 0.3) + geom_violin(aes(sample_type, value), color = "black", alpha = 0.6) + geom_point(aes(sample_type,value, color = as.factor(sample)), size = 1.0) + geom_hline(aes(yintercept=eval(parse(text=paste0(i,"_thr")))),color="red",alpha=0.6)  + labs(title = paste0(latest, ": ", i)) +labs(colour = "Sample") + facet_wrap(~sample_type, scales = 'free'))
+        }
       }
     }
     #print(ggplot(ddd) + geom_boxplot(aes(x = sample_type, y = value, color = panel_type), alpha = 0.3) + geom_violin(aes(sample_type, value, color = panel_type), alpha = 0.6) + geom_jitter(aes(sample_type,  value, color = panel_type), size = 1.0) + labs(title = paste0(latest, ": ", i)))
@@ -315,7 +327,7 @@ ggplot(dd) + geom_boxplot(aes(sample_type, eff_seq), alpha = 0.3) + geom_violin(
 
 ```{r eff_seq~seq_dep}
 ggplot(dd) + geom_point(aes(seq_dep, panel_dep)) + geom_smooth(aes(seq_dep, panel_dep)) + facet_wrap(~sample_type, scales = 'free') + labs(title = 'seq eff')
-ggplot(dd) + geom_point(aes(seq_dep, eff_seq, color = sample_type)) + geom_smooth(aes(seq_dep, eff_seq)) + labs(title = 'seq_eff along with seq_dep') + facet_wrap(~sample_type, scales = c('free'))
+ggplot(dd) + geom_point(aes(seq_dep, eff_seq, color = date)) + geom_smooth(aes(seq_dep, eff_seq)) + labs(title = 'seq_eff along with seq_dep') + facet_wrap(~sample_type, scales = c('free'))
 ```
 
 > 深度大则有效数据量多, 但利用率无明显线性相关性, 因为波动幅度较大 (且饱和极限深度为 10000X)

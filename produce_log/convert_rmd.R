@@ -5,6 +5,7 @@
 .libPaths("/lustre/project/og04/pub/biosoft/R_Packages")
 options(bitmapType='cairo')
 #library(knitr)
+#library(rticles)
 #input_path="/lustre/project/og04/wangxian/all_qc_stats/all_qc_stats.tsv"
 
 
