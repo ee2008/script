@@ -109,16 +109,20 @@ if [[ -n $snakejob_log ]]; then
 		run_id=$[$run_id+1]
 	done
 fi
-analysis_start=$(grep "^#START" $DIR/project.done | cut -d " " -f 2 | cut -d "@" -f 2)
-if [[ $run_id -eq 1 ]]; then
-	analysis_round1=`date_format_ch $analysis_start`
-	analysis_round1_s=`date -d "$analysis_round1" +%s`
+#analysis_start=$(grep "^#START" $DIR/project.done | cut -d " " -f 2 | cut -d "@" -f 2)
+last_start_time=$(ls $DIR/snakejob/ | grep "^snakejob.*.log" | tail -n 1)
+if [[ -n $last_start_time ]]; then
+    analysis_start=$(basename $last_start_time | cut -d "." -f 2)
+    echo -e "- Round $run_id: `date_format_ch $analysis_start` \n" >> $OUTPUT
+    if [[ $run_id -eq 1 ]]; then
+	    analysis_round1=`date_format_ch $analysis_start`
+	    analysis_round1_s=`date -d "$analysis_round1" +%s`
+    fi
 fi
 analysis_end=$(grep "^#finish" $DIR/project.done | cut -d " " -f 2 | cut -d "@" -f 2)
 analysis_finish=`date_format_ch $analysis_end`
 analysis_finish_s=`date -d "$analysis_finish" +%s`
 analysis_long=$(awk -v k1=$analysis_round1_s -v k2=$analysis_finish_s 'BEGIN{print (k2-k1)/3600}')
-echo -e "- Round $run_id: `date_format_ch $analysis_start` \n" >> $OUTPUT
 echo -e "- Finish:  `date_format_ch $analysis_end` \n" >> $OUTPUT
 echo -e "- Time:    ${analysis_long}h \n" >> $OUTPUT   
 echo " " >> $OUTPUT

@@ -3,7 +3,8 @@
 [[ $# -eq 0 ]] && echo "sh $0  <OUT_file> [project_id | latest] " && exit 0
 
 
-IN="/p299/project/og04/shenzhongji2/CA-PM"
+#IN="/p299/project/og04/shenzhongji2/CA-PM"
+IN="/p299/user/og04/ogsmor/CA-PM"  #update at 2017June15
 OUT_file="$1"
 OUT_dir=$(/bin/readlink -e $(dirname $OUT_file))
 OUT=$OUT_dir/$(basename $OUT_file)

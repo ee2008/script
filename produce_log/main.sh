@@ -28,7 +28,8 @@ fi
 
 
 WD=$(dirname $(readlink -e $0))
-DIR='/p299/project/og04/shenzhongji2/CA-PM'
+#DIR='/p299/project/og04/shenzhongji2/CA-PM'
+DIR="/p299/user/og04/ogsmor/CA-PM" # update at 2017JUNE15
 echo "OUTDIR: $OUTDIR"
 GEN_INDEX=$WD/project_sample_index.sh
 INDEX=$OUTDIR/project_sample_index.txt

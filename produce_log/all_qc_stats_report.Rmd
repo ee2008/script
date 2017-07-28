@@ -37,6 +37,7 @@ undersize_ins_filter_thr=0
 duplicated_filter_thr=50
 clean_size_Gb_thr=0
 clean_GC_thr=0
+clean_N_thr=5
 clean_Q20_thr=95
 clean_Q30_thr=92
 coverage_thr=0
