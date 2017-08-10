@@ -1,1 +1,0 @@
-/lustre/project/og02/chenquanming/KF-BJ-E-20151117-01_36yanchao/Result/PartShell/pathway.sh
