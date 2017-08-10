@@ -1,0 +1,1 @@
+sh /lustre/project/og04/wangxian/1705wxVisual/panel_discribe/script/prepare_ref_data.sh /lustre/project/og04/wangxian/1705wxVisual/panel_discribe/ref/panel_info.txt /lustre/project/og04/wangxian/1705wxVisual/panel_discribe/ref/panel.bed /lustre/project/og04/wangxian/1705wxVisual/panel_discribe/aa
