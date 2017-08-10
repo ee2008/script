@@ -1,4 +1,0 @@
-mapping_rate	99.73
-coverage_cent	99.99
-specificity_cent	60.83
-uniformity_cent	99.99
